@@ -2,893 +2,597 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K예술영재 프로젝트 · 통합 워크숍 아카이브</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" as="style" crossorigin
-  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" />
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>2026 K예술영재 프로젝트</title>
+<meta name="description" content="문화체육관광부 주최 2026 K예술영재 프로젝트 - 음악·무용·전통예술·미술 네 분야 예술영재를 조기 발굴하고 무대까지 성장을 지원합니다.">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" />
 <style>
-/* ============================================================
-   DESIGN TOKENS — bafeko.com 벤치마킹(백/틸 #176C86, Pretendard)
-   + 4개 분야를 구분하는 필드 컬러 시스템
-   ============================================================ */
-:root{
-  --bg:#ffffff; --bg-soft:#f6f3ee;
-  --ink:#1c1d1f; --ink-soft:#5b5f66; --ink-faint:#9a9da3;
-  --line:#e7e3da;
-  --teal:#176c86; --teal-deep:#0f4a5c;
-  --dancheong:#ac3b2f; --dancheong-soft:#f3e4e0;
-  --radius:2px;
-  --font-display:'Noto Serif KR', serif;
-  --font-body:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
-  --shadow:0 8px 28px rgba(28,29,31,.08);
-  --header-h:72px;
-}
-*{box-sizing:border-box; margin:0; padding:0;}
-html,body{height:100%;}
-html{scroll-behavior:smooth;}
-body{font-family:var(--font-body); color:var(--ink); background:var(--bg); line-height:1.6; -webkit-font-smoothing:antialiased; overflow:hidden;}
-a{color:inherit; text-decoration:none;}
-img{max-width:100%; display:block;}
-button{font-family:inherit; cursor:pointer; border:none; background:none;}
-ul{list-style:none;}
-:focus-visible{outline:2px solid var(--teal); outline-offset:2px;}
-.wrap{max-width:1160px; margin:0 auto; padding:0 24px;}
+  :root{
+    --teal:#176C86; --teal-dark:#124f61; --teal-tint:#EAF3F5;
+    --ink:#212326; --ink-2:#55595e; --ink-3:#8a8f94;
+    --bg:#ffffff; --bg-soft:#F6F8F9; --line:#E5E8EA;
+    --music:#C1543A; --dance:#B1708F; --trad:#3F7D5C; --art:#3F6EA0;
+    --sans:'PretendardVariable','Pretendard-Regular','Pretendard', -apple-system, sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;word-break:keep-all;overflow:hidden;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px;width:100%;}
+  ::selection{background:var(--teal);color:#fff;}
 
-/* data source badge */
-.data-badge{
-  position:fixed; left:16px; bottom:16px; z-index:300;
-  font-size:11px; font-weight:700; padding:7px 12px; border-radius:999px;
-  background:var(--ink); color:#fff; opacity:.82; letter-spacing:.02em;
-}
-.data-badge.draft{background:var(--dancheong);}
-.data-badge.sample{background:var(--ink-soft);}
+  /* ---------- scroll-snap shell ---------- */
+  #snap{
+    height:100vh;height:100dvh;overflow-y:scroll;overflow-x:hidden;
+    scroll-snap-type:y mandatory;
+    scroll-behavior:smooth;
+  }
+  .snap-section{
+    position:relative;min-height:100vh;min-height:100dvh;
+    scroll-snap-align:start;scroll-snap-stop:always;
+    display:flex;flex-direction:column;justify-content:center;
+    overflow:hidden;
+  }
+  .snap-section .sec-scroll{
+    position:relative;z-index:2;
+    width:100%;max-height:100vh;max-height:100dvh;overflow-y:auto;
+    padding:96px 0 48px;
+  }
+  .snap-section .sec-scroll::-webkit-scrollbar{width:0;height:0;}
 
-/* ---------- Header ---------- */
-.site-header{position:fixed; top:0; left:0; right:0; z-index:100; height:var(--header-h); background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
-.site-header .wrap{display:flex; align-items:center; justify-content:space-between; height:var(--header-h);}
-.brand{display:flex; align-items:center; gap:12px; font-family:var(--font-display); font-weight:700; font-size:17px; letter-spacing:-.01em;}
-.brand .badge{width:34px; height:34px; border-radius:50%; background:var(--dancheong); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-body); font-weight:800; font-size:14px; flex:0 0 auto;}
-.brand small{display:block; font-family:var(--font-body); font-weight:500; font-size:11px; color:var(--ink-soft); letter-spacing:.02em;}
-.gnb{display:flex; gap:32px;}
-.gnb a{font-size:14.5px; font-weight:600; color:var(--ink-soft); padding:6px 2px; border-bottom:2px solid transparent; transition:.15s;}
-.gnb a:hover{color:var(--ink); border-color:var(--dancheong);}
-.hd-actions{display:flex; align-items:center; gap:14px;}
-.hd-actions .cta{font-size:13px; font-weight:700; color:#fff; background:var(--teal); padding:9px 18px; border-radius:999px;}
-.menu-toggle{display:none; font-size:22px;}
-@media (max-width:860px){ .gnb{display:none;} .menu-toggle{display:block;} }
+  /* ---------- section background layer ---------- */
+  .sec-bg{position:absolute;inset:0;z-index:0;}
+  .sec-bg .layer{position:absolute;inset:0;}
+  .sec-bg img.bgimg, .sec-bg video.bgvid{width:100%;height:100%;object-fit:cover;}
+  .sec-bg iframe.bgyt{position:absolute;top:50%;left:50%;width:177.78vh;height:56.25vw;min-width:100%;min-height:100%;transform:translate(-50%,-50%);pointer-events:none;}
+  .sec-bg .overlay{position:absolute;inset:0;background:rgba(0,0,0,0);}
+  .grad-hero{background:linear-gradient(160deg,#0b3644 0%,#12566a 42%,#176C86 75%,#1c8aa9 100%);}
+  .grad-hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 30% 20%, rgba(255,255,255,0.10), transparent 55%),radial-gradient(ellipse 60% 50% at 80% 85%, rgba(0,0,0,0.18), transparent 60%);}
 
-/* ---------- 풀페이지 스냅 스크롤 (bafeko.com 벤치마킹) ---------- */
-#home-snap{
-  position:fixed; top:var(--header-h); left:0; right:0; bottom:0;
-  overflow-y:auto; overflow-x:hidden;
-  scroll-snap-type:y mandatory;
-  scroll-behavior:smooth;
-}
-.snap-section{
-  min-height:calc(100vh - var(--header-h));
-  scroll-snap-align:start;
-  scroll-snap-stop:always;
-  display:flex; flex-direction:column; justify-content:center;
-  position:relative;
-}
-.snap-dots{
-  position:fixed; right:26px; top:50%; transform:translateY(-50%);
-  z-index:150; display:flex; flex-direction:column; gap:14px;
-}
-.snap-dots button{
-  width:9px; height:9px; border-radius:50%; background:rgba(28,29,31,.22);
-  border:none; padding:0; transition:.2s;
-}
-.snap-dots button.active{background:var(--dancheong); transform:scale(1.5);}
-.snap-dots.force-hidden{display:none !important;}
-@media (max-width:860px){ .snap-dots{display:none;} }
+  /* ---------- header / GNB ---------- */
+  header.gnb{
+    position:fixed;top:0;left:0;right:0;z-index:200;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 40px;height:72px;
+    transition:background .3s ease, box-shadow .3s ease, height .3s ease;
+    border-bottom:1px solid transparent;
+  }
+  header.gnb.solid{background:#fff;height:62px;border-bottom:1px solid var(--line);box-shadow:0 2px 12px rgba(20,30,35,0.04);}
+  header.gnb .logo{font-weight:800;font-size:19px;letter-spacing:-.01em;color:#fff;transition:color .3s ease;display:flex;align-items:center;gap:8px;}
+  header.gnb.solid .logo{color:var(--ink);}
+  header.gnb .logo .badge{background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:3px;}
+  nav.menu{display:flex;gap:36px;}
+  nav.menu a{font-size:14.5px;font-weight:600;color:rgba(255,255,255,0.92);transition:color .3s ease;cursor:pointer;}
+  header.gnb.solid nav.menu a{color:var(--ink-2);}
+  nav.menu a:hover{color:#fff;} header.gnb.solid nav.menu a:hover{color:var(--teal);}
+  .gnb-cta{background:var(--teal);color:#fff;font-size:13.5px;font-weight:700;padding:10px 20px;border-radius:3px;cursor:pointer;}
+  .gnb-cta:hover{background:var(--teal-dark);}
 
-.scroll-cue{
-  position:absolute; left:24px; bottom:28px;
-  display:flex; flex-direction:column; align-items:center; gap:8px;
-  font-size:10.5px; font-weight:700; letter-spacing:.18em; color:var(--ink-faint);
-}
-.hero.has-video .scroll-cue{color:#dfe6e8;}
-.scroll-cue span{writing-mode:vertical-rl;}
-.scroll-cue i{width:1px; height:34px; background:currentColor; opacity:.5; display:block;}
-@media (max-width:620px){ .scroll-cue{display:none;} }
+  /* ---------- dot nav ---------- */
+  .dotnav{position:fixed;right:26px;top:50%;transform:translateY(-50%);z-index:200;display:flex;flex-direction:column;gap:16px;}
+  .dotnav .dot{width:9px;height:9px;border-radius:50%;background:rgba(120,130,135,0.35);cursor:pointer;transition:all .25s;position:relative;}
+  .dotnav .dot .lbl{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:11.5px;font-weight:700;white-space:nowrap;color:var(--ink);background:#fff;padding:4px 10px;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.1);opacity:0;pointer-events:none;transition:opacity .2s;}
+  .dotnav .dot:hover .lbl{opacity:1;}
+  .dotnav .dot.active{background:var(--teal);transform:scale(1.35);}
 
-#view-detail{
-  display:none;
-  position:fixed; top:var(--header-h); left:0; right:0; bottom:0;
-  overflow-y:auto;
-}
+  /* ---------- hero content ---------- */
+  .hero .content{position:relative;z-index:2;padding:0 24px;max-width:760px;margin:0 auto;text-align:center;color:#fff;}
+  .hero .eyebrow{font-size:13px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;margin-bottom:22px;opacity:.92;}
+  .hero h1{font-size:clamp(30px,5.6vw,56px);font-weight:800;line-height:1.32;letter-spacing:-.01em;margin-bottom:22px;text-shadow:0 2px 24px rgba(0,0,0,.25);white-space:pre-line;}
+  .hero p{font-size:clamp(15px,1.7vw,17px);color:rgba(255,255,255,0.9);margin-bottom:30px;}
+  .hero-chips{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:30px;}
+  .hero-chips span{font-size:12.5px;font-weight:600;background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.35);padding:8px 16px;border-radius:100px;}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+  .btn{padding:14px 28px;font-size:14.5px;font-weight:700;border-radius:3px;transition:all .2s ease;cursor:pointer;display:inline-block;}
+  .btn-solid{background:#fff;color:var(--teal-dark);} .btn-solid:hover{background:var(--teal-tint);}
+  .btn-line{border:1.5px solid rgba(255,255,255,0.75);color:#fff;} .btn-line:hover{background:rgba(255,255,255,0.12);}
+  .scroll-ind{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,0.85);font-weight:600;}
+  .scroll-ind .dot{width:1px;height:26px;background:rgba(255,255,255,0.6);position:relative;overflow:hidden;}
+  .scroll-ind .dot::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:#fff;animation:scrolldown 1.6s ease-in-out infinite;}
+  @keyframes scrolldown{0%{top:-100%;}60%{top:100%;}100%{top:100%;}}
 
-/* ---------- Hero ---------- */
-.hero{position:relative; padding:96px 0 80px;
-  background:
-    radial-gradient(1100px 420px at 18% -10%, rgba(23,108,134,.10), transparent 60%),
-    radial-gradient(900px 400px at 100% 0%, rgba(172,59,47,.08), transparent 55%),
-    var(--bg-soft);
-  overflow:hidden; border-bottom:1px solid var(--line);
-}
-.hero::after{content:""; position:absolute; inset:0; background-image:radial-gradient(rgba(28,29,31,.05) 1px, transparent 1px); background-size:16px 16px; mask-image:linear-gradient(to bottom, black, transparent 70%); pointer-events:none;}
-.hero-inner{position:relative; z-index:2;}
+  /* ---------- generic section head ---------- */
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;flex-wrap:wrap;gap:16px;}
+  .sec-head .eyebrow{font-size:12.5px;font-weight:800;color:var(--teal);letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;}
+  .sec-head h2{font-size:clamp(22px,3vw,32px);font-weight:800;letter-spacing:-.01em;}
+  .sec-head .desc{color:var(--ink-2);font-size:14px;margin-top:8px;max-width:520px;}
+  .more-link{font-size:13.5px;font-weight:700;color:var(--ink-2);border-bottom:1.5px solid var(--ink);padding-bottom:2px;white-space:nowrap;cursor:pointer;}
+  .more-link:hover{color:var(--teal);border-color:var(--teal);}
+  .on-media .sec-head h2, .on-media .sec-head .eyebrow{color:#fff;}
+  .on-media .sec-head .desc{color:rgba(255,255,255,0.85);}
+  .on-media .more-link{color:#fff;border-color:#fff;}
 
-/* 히어로 배경 동영상 (mp4 직접재생 또는 유튜브/Vimeo 임베드) */
-.hero-video-layer{position:absolute; inset:0; z-index:0; overflow:hidden; background:var(--teal-deep);}
-.hero-video-layer video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;}
-.hero-video-layer iframe{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); border:0; pointer-events:none;}
-.hero-video-overlay{position:absolute; inset:0; background:linear-gradient(180deg, rgba(12,16,18,.58), rgba(12,16,18,.74));}
-.hero.has-video::after{display:none;}
-.hero.has-video{border-bottom-color:transparent;}
-.hero.has-video .eyebrow{color:#ffb7a8;}
-.hero.has-video .eyebrow::before{background:#ffb7a8;}
-.hero.has-video h1{color:#fff;}
-.hero.has-video h1 em{color:#7fd6ea;}
-.hero.has-video p.lead{color:#dfe6e8;}
-.hero.has-video .field-badge{background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.28); color:#fff;}
-.hero.has-video .hero-meta div{border-color:rgba(255,255,255,.3);}
-.hero.has-video .hero-meta .k{color:#b9c8cc;}
-.hero.has-video .hero-meta .v{color:#fff;}
-.eyebrow{display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:700; letter-spacing:.14em; color:var(--dancheong); text-transform:uppercase; margin-bottom:18px;}
-.eyebrow::before{content:""; width:22px; height:1px; background:var(--dancheong);}
-.hero h1{font-family:var(--font-display); font-weight:900; font-size:clamp(30px,4.6vw,50px); line-height:1.2; letter-spacing:-.01em; max-width:820px;}
-.hero h1 em{font-style:normal; color:var(--teal);}
-.hero p.lead{margin-top:20px; max-width:620px; color:var(--ink-soft); font-size:16px;}
+  /* ---------- intro ---------- */
+  .intro-quote{background:var(--teal-tint);border-radius:6px;padding:34px 38px;margin-bottom:38px;border-left:4px solid var(--teal);}
+  .intro-quote p{font-size:clamp(17px,2.1vw,22px);font-weight:700;color:var(--teal-dark);line-height:1.55;white-space:pre-line;}
+  .intro-quote span{display:block;margin-top:12px;font-size:12.5px;color:var(--ink-3);font-weight:600;}
+  .figures-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:38px;}
+  .figure{border:1px solid var(--line);border-radius:6px;padding:16px 16px;background:rgba(255,255,255,0.9);}
+  .figure .name{font-weight:800;font-size:15px;} .figure .role{font-size:11.5px;color:var(--ink-3);margin-top:3px;}
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .stat-cell{padding:22px 14px;text-align:center;border-left:1px solid var(--line);}
+  .stat-cell:first-child{border-left:none;}
+  .stat-cell .n{font-size:clamp(22px,2.4vw,30px);font-weight:800;color:var(--teal);} .stat-cell .l{font-size:12px;color:var(--ink-2);margin-top:5px;}
+  .on-media .figure{background:rgba(255,255,255,0.94);}
 
-/* 분야 뱃지 줄 */
-.field-badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:26px;}
-.field-badge{display:inline-flex; align-items:center; gap:7px; font-size:12.5px; font-weight:700; padding:7px 14px; border-radius:999px; background:#fff; border:1px solid var(--line);}
-.field-badge .dot{width:8px; height:8px; border-radius:50%;}
+  /* ---------- fields (program cards) ---------- */
+  .card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .prog-card{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;transition:box-shadow .25s ease, transform .25s ease;}
+  .prog-card:hover{box-shadow:0 12px 28px rgba(20,40,50,0.09);transform:translateY(-3px);}
+  .prog-card .band{height:6px;background:var(--accent);}
+  .prog-card .body{padding:22px 20px 20px;}
+  .prog-card .tag{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+  .prog-card h3{font-size:19px;font-weight:800;margin-bottom:2px;} .prog-card .en{font-size:11px;color:var(--ink-3);margin-bottom:14px;font-weight:600;}
+  .prog-card ul{list-style:none;margin-bottom:14px;}
+  .prog-card li{font-size:12.5px;color:var(--ink-2);padding:5px 0;border-bottom:1px dashed var(--line);}
+  .prog-card .age{font-size:11.5px;color:var(--ink-2);background:var(--bg-soft);border-radius:4px;padding:9px 11px;}
+  .prog-card .age b{color:var(--accent);display:block;font-size:12px;margin-bottom:2px;}
 
-.hero-meta{margin-top:32px; display:flex; flex-wrap:wrap; gap:28px 44px;}
-.hero-meta div{border-left:2px solid var(--line); padding-left:14px;}
-.hero-meta .k{font-size:11.5px; color:var(--ink-faint); font-weight:700; letter-spacing:.06em;}
-.hero-meta .v{font-size:15px; font-weight:700; margin-top:2px;}
+  /* ---------- journey steps ---------- */
+  .step-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .step-card{border:1px solid var(--line);border-radius:8px;padding:26px 22px;background:#fff;transition:box-shadow .25s ease;}
+  .step-card:hover{box-shadow:0 12px 28px rgba(20,40,50,0.08);}
+  .step-card .step-no{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;font-size:13px;margin-bottom:14px;}
+  .step-card .when{font-size:12px;font-weight:700;color:var(--teal);margin-bottom:6px;}
+  .step-card h3{font-size:17.5px;font-weight:800;margin-bottom:8px;} .step-card p{font-size:13px;color:var(--ink-2);margin-bottom:14px;}
+  .step-tags{display:flex;flex-wrap:wrap;gap:6px;}
+  .step-tags span{font-size:11px;background:var(--bg-soft);color:var(--ink-2);padding:4px 9px;border-radius:100px;border:1px solid var(--line);}
 
-/* ---------- Section shell ---------- */
-section{padding:72px 0;}
-.section-head{display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:26px; gap:20px; flex-wrap:wrap;}
-.section-head h2{font-family:var(--font-display); font-weight:700; font-size:26px; letter-spacing:-.01em;}
-.section-head .sub{color:var(--ink-soft); font-size:14px; margin-top:6px;}
-.section-tag{font-size:12px; font-weight:700; color:var(--teal); letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; display:block;}
+  /* ---------- board ---------- */
+  .board-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:44px;}
+  .board-list{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  .board-row{display:grid;grid-template-columns:60px 1fr 110px;gap:12px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line);font-size:13px;}
+  .board-row:last-child{border-bottom:none;}
+  .board-row.head{background:var(--bg-soft);font-weight:700;color:var(--ink-3);font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;}
+  .board-row .no{color:var(--teal);font-weight:800;} .board-row .tt{font-weight:600;}
+  .board-row .tt small{display:block;color:var(--ink-3);font-weight:400;font-size:11.5px;margin-top:2px;}
+  .board-row .dt{color:var(--ink-3);text-align:right;white-space:nowrap;}
+  .info-card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 24px;}
+  .info-card h4{font-size:15px;font-weight:800;margin-bottom:14px;}
+  .info-line{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:12.5px;}
+  .info-line:last-child{border-bottom:none;}
+  .info-line .k{color:var(--ink-3);font-weight:600;flex-shrink:0;} .info-line .v{color:var(--ink);text-align:right;}
+  .info-line a.v{color:var(--teal);font-weight:600;}
 
-/* 분야 필터 칩 */
-.filter-row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:28px;}
-.filter-chip{font-size:13px; font-weight:700; padding:8px 16px; border-radius:999px; border:1px solid var(--line); color:var(--ink-soft); display:flex; align-items:center; gap:7px;}
-.filter-chip .dot{width:7px; height:7px; border-radius:50%;}
-.filter-chip.active{background:var(--ink); color:#fff; border-color:var(--ink);}
-.filter-chip.active .dot{background:#fff !important;}
+  /* ---------- gallery ---------- */
+  .gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .gal-item{aspect-ratio:1/1;border-radius:6px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:14px;color:#fff;}
+  .gal-item .cap{position:relative;z-index:2;font-size:12px;font-weight:700;line-height:1.4;}
+  .gal-item::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.55) 100%);z-index:1;}
+  .gal-item .base{position:absolute;inset:0;}
+  .gal-item .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;}
+  .gal-item .play::after{content:'';border-left:10px solid var(--teal-dark);border-top:6px solid transparent;border-bottom:6px solid transparent;margin-left:3px;}
+  .gal-cta{text-align:center;margin-top:22px;}
 
-/* ---------- Archive grid ---------- */
-.archive-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:18px;}
-@media (max-width:980px){ .archive-grid{grid-template-columns:repeat(3,1fr);} }
-@media (max-width:620px){ .archive-grid{grid-template-columns:repeat(2,1fr);} }
-.session-card{position:relative; background:#fff; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; cursor:pointer; transition:.2s ease;}
-.session-card:hover{transform:translateY(-4px); box-shadow:var(--shadow); border-color:var(--teal);}
-.session-card.hidden{display:none;}
-.session-card .thumb{aspect-ratio:3/4; background:linear-gradient(155deg, var(--teal-deep), var(--teal) 55%, var(--dancheong) 130%); position:relative; display:flex; align-items:flex-end; padding:16px;}
-.session-card .stamp{position:absolute; top:14px; right:14px; width:40px; height:40px; border-radius:50%; border:1.5px solid rgba(255,255,255,.75); color:#fff; font-family:var(--font-display); font-weight:700; display:flex; align-items:center; justify-content:center; font-size:15px;}
-.session-card .thumb .day{color:#fff; font-family:var(--font-display); font-weight:700; font-size:19px; line-height:1.3;}
-.session-card .thumb .day small{display:block; font-family:var(--font-body); font-weight:600; font-size:11.5px; opacity:.85;}
-.session-card .meta{padding:14px 14px 16px;}
-.session-card .meta .name{font-size:13.5px; font-weight:700;}
-.session-card .meta .place{font-size:11.5px; color:var(--ink-soft); margin-top:4px;}
-.session-card .field-tags{display:flex; gap:5px; flex-wrap:wrap; margin-top:9px;}
-.session-card .field-tags span{font-size:10px; font-weight:800; color:#fff; padding:2.5px 8px; border-radius:999px;}
-.session-card .status{position:absolute; left:14px; top:14px; font-size:10.5px; font-weight:800; color:#fff; background:rgba(0,0,0,.28); padding:3px 8px; border-radius:999px; letter-spacing:.03em;}
+  /* ---------- footer ---------- */
+  footer{background:#16232a;color:#c7ced1;padding:48px 0 0;}
+  .foot-grid{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:28px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.1);}
+  .foot-brand{font-size:18px;font-weight:800;color:#fff;margin-bottom:10px;}
+  .foot-brand-desc{font-size:12px;color:#8b969b;line-height:1.7;}
+  .foot-col h5{font-size:12px;font-weight:700;color:#fff;margin-bottom:12px;letter-spacing:.04em;}
+  .foot-col a{display:block;font-size:12.5px;color:#a9b2b6;padding:5px 0;}
+  .foot-col a:hover{color:#fff;}
+  .foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:20px 0 26px;font-size:11.5px;color:#758085;}
 
-/* ---------- Quick row ---------- */
-.quick-row{display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:56px;}
-.quick-col{background:#fff; padding:26px 26px 22px;}
-.quick-col h3{font-size:14px; font-weight:800; display:flex; justify-content:space-between; align-items:center;}
-.quick-col h3 a{font-size:11.5px; color:var(--teal); font-weight:700;}
-.quick-col li{padding:11px 0; border-top:1px dashed var(--line); font-size:13.5px; color:var(--ink-soft); display:flex; justify-content:space-between; gap:10px;}
-.quick-col li:first-of-type{border-top:none; margin-top:14px;}
-.quick-col li span:last-child{color:var(--ink-faint); font-size:12px; white-space:nowrap;}
-@media (max-width:860px){ .quick-row{grid-template-columns:1fr;} }
+  .src-badge{position:fixed;left:14px;bottom:14px;z-index:300;font-size:10.5px;background:rgba(0,0,0,0.55);color:#fff;padding:5px 10px;border-radius:100px;letter-spacing:.03em;opacity:.75;}
 
-footer{background:var(--teal-deep); color:#dbe8ec; padding:52px 0 28px; margin-top:40px;}
-.footer-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:28px; font-size:13px;}
-.footer-grid h4{font-size:13px; margin-bottom:14px; color:#fff; font-weight:700;}
-.footer-grid li{padding:5px 0; color:#a9c3ca;}
-.footer-grid li a:hover{color:#fff;}
-.footer-bottom{margin-top:36px; padding-top:20px; border-top:1px solid rgba(255,255,255,.12); font-size:12px; color:#87a4ab; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;}
-@media (max-width:860px){ .footer-grid{grid-template-columns:1fr 1fr;} }
-
-/* ============================================================
-   DETAIL VIEW
-   ============================================================ */
-.detail-hero{padding:44px 0 30px; border-bottom:1px solid var(--line); background:var(--bg-soft);}
-.crumb{font-size:12.5px; color:var(--ink-soft); margin-bottom:18px;}
-.crumb a{color:var(--teal); font-weight:700;}
-.detail-hero-row{display:flex; gap:28px; align-items:flex-start; flex-wrap:wrap;}
-.detail-stamp{flex:0 0 auto; width:88px; height:88px; border-radius:50%; background:var(--dancheong); color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:700; box-shadow:0 10px 24px rgba(172,59,47,.28);}
-.detail-stamp .n{font-size:26px; line-height:1;}
-.detail-stamp .l{font-size:10.5px; font-family:var(--font-body); font-weight:700; margin-top:4px; letter-spacing:.04em;}
-.detail-title h1{font-family:var(--font-display); font-size:clamp(24px,3.4vw,34px); font-weight:700;}
-.detail-title .sub{color:var(--ink-soft); font-size:14px; margin-top:8px;}
-.detail-field-tags{display:flex; gap:6px; margin-top:12px; flex-wrap:wrap;}
-.detail-field-tags span{font-size:11px; font-weight:800; color:#fff; padding:4px 11px; border-radius:999px;}
-.detail-facts{display:flex; gap:26px; flex-wrap:wrap; margin-top:16px;}
-.detail-facts div{font-size:13px;}
-.detail-facts .k{color:var(--ink-faint); font-weight:700; margin-right:6px;}
-
-.tabbar{display:flex; gap:4px; border-bottom:1px solid var(--line); position:sticky; top:0; background:#fff; z-index:40;}
-.tabbar button{padding:16px 18px; font-size:14px; font-weight:700; color:var(--ink-faint); border-bottom:2px solid transparent; margin-bottom:-1px;}
-.tabbar button.active{color:var(--ink); border-color:var(--dancheong);}
-.tabpanel{display:none; padding:44px 0 80px;}
-.tabpanel.active{display:block;}
-
-.gallery-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px;}
-@media (max-width:860px){ .gallery-grid{grid-template-columns:repeat(3,1fr);} }
-@media (max-width:560px){ .gallery-grid{grid-template-columns:repeat(2,1fr);} }
-.gallery-item{aspect-ratio:1/1; border-radius:var(--radius); overflow:hidden; cursor:pointer; position:relative; background:var(--bg-soft);}
-.gallery-item .ph{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:700; text-align:center; padding:10px;}
-.gallery-item.video .ph::before{content:"▶"; display:block; font-size:20px; margin-bottom:6px;}
-.gallery-item:nth-child(6n+1) .ph{background:linear-gradient(140deg,#176c86,#0f4a5c);}
-.gallery-item:nth-child(6n+2) .ph{background:linear-gradient(140deg,#ac3b2f,#7a2a21);}
-.gallery-item:nth-child(6n+3) .ph{background:linear-gradient(140deg,#b08a4e,#8a6a37);}
-.gallery-item:nth-child(6n+4) .ph{background:linear-gradient(140deg,#3a4a52,#1c1d1f);}
-.gallery-item:nth-child(6n+5) .ph{background:linear-gradient(140deg,#176c86,#ac3b2f);}
-.gallery-item:nth-child(6n+6) .ph{background:linear-gradient(140deg,#5b5f66,#1c1d1f);}
-.gallery-note{margin-top:16px; font-size:12.5px; color:var(--ink-faint);}
-
-.file-list{border-top:1px solid var(--line);}
-.file-row{display:flex; align-items:center; gap:16px; padding:18px 4px; border-bottom:1px solid var(--line);}
-.file-icon{width:40px; height:40px; border-radius:8px; background:var(--bg-soft); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:var(--teal); flex:0 0 auto;}
-.file-info{flex:1;}
-.file-info .name{font-size:14.5px; font-weight:700;}
-.file-info .desc{font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
-.file-dl{font-size:12.5px; font-weight:700; color:#fff; background:var(--teal); padding:8px 16px; border-radius:999px; flex:0 0 auto;}
-.file-dl:hover{background:var(--teal-deep);}
-
-.roster-tools{display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; align-items:center; justify-content:space-between;}
-.roster-search{border:1px solid var(--line); border-radius:999px; padding:9px 16px; font-size:13px; width:240px; max-width:100%;}
-.roster-filter{display:flex; gap:6px; flex-wrap:wrap;}
-.roster-filter button{font-size:12.5px; font-weight:700; padding:7px 14px; border-radius:999px; border:1px solid var(--line); color:var(--ink-soft);}
-.roster-filter button.active{background:var(--ink); color:#fff; border-color:var(--ink);}
-table.roster{width:100%; border-collapse:collapse; font-size:13.5px;}
-table.roster th{text-align:left; font-size:11.5px; color:var(--ink-faint); font-weight:700; letter-spacing:.04em; padding:10px 12px; border-bottom:1px solid var(--line); text-transform:uppercase;}
-table.roster td{padding:13px 12px; border-bottom:1px solid var(--line);}
-table.roster tr:hover td{background:var(--bg-soft);}
-.role-pill{font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; display:inline-block; background:#eee;}
-.field-pill{font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; display:inline-block; color:#fff;}
-.empty{padding:60px 0; text-align:center; color:var(--ink-faint); font-size:13.5px;}
-
-.lightbox{position:fixed; inset:0; background:rgba(15,16,17,.92); z-index:200; display:none; align-items:center; justify-content:center; padding:24px;}
-.lightbox.open{display:flex;}
-.lightbox-inner{max-width:720px; width:100%; text-align:center; color:#fff;}
-.lightbox-close{position:absolute; top:22px; right:28px; color:#fff; font-size:26px;}
+  @media(max-width:960px){
+    nav.menu{display:none;} .dotnav{display:none;}
+    .figures-row{grid-template-columns:repeat(2,1fr);}
+    .stat-row{grid-template-columns:repeat(2,1fr);} .stat-cell:nth-child(3){border-left:none;}
+    .card-grid{grid-template-columns:1fr;} .step-grid{grid-template-columns:1fr;}
+    .board-grid{grid-template-columns:1fr;gap:30px;} .gal-grid{grid-template-columns:repeat(2,1fr);}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+    .wrap{padding:0 22px;}
+    .snap-section .sec-scroll{padding:80px 0 40px;}
+  }
 </style>
 </head>
 <body>
 
-<div class="data-badge" id="data-badge">데이터 확인 중…</div>
-
-<header class="site-header">
-  <div class="wrap">
-    <a class="brand" href="#/" id="brand-link">
-      <span class="badge" id="brand-badge">藝</span>
-      <span><span id="brand-name">K예술영재 프로젝트</span>
-        <small id="brand-sub">통합 워크숍 아카이브</small>
-      </span>
-    </a>
-    <nav class="gnb" id="gnb"></nav>
-    <div class="hd-actions">
-      <a class="cta" id="hero-cta" href="#/">최근 회차 보기</a>
-      <span class="menu-toggle">☰</span>
-    </div>
-  </div>
+<header class="gnb" id="siteHeader">
+  <a class="logo" data-nav="hero">K예술영재<span class="badge" id="hdrBadge">2026</span></a>
+  <nav class="menu">
+    <a data-nav="intro">프로젝트 소개</a>
+    <a data-nav="fields">모집분야</a>
+    <a data-nav="journey">프로그램</a>
+    <a data-nav="board">지원안내</a>
+    <a data-nav="gallery">갤러리</a>
+  </nav>
+  <a class="gnb-cta" data-nav="board">지원하기</a>
 </header>
 
-<div id="home-snap">
-<main id="view-home">
-  <section class="hero snap-section" id="hero-section">
-    <div class="hero-video-layer" id="hero-video-layer" style="display:none;"></div>
-    <div class="wrap hero-inner">
-      <span class="eyebrow" id="hero-eyebrow">2026 K-ARTS TALENT ARCHIVE</span>
-      <h1 id="hero-title"></h1>
-      <p class="lead" id="hero-lead"></p>
-      <div class="field-badges" id="field-badges"></div>
-      <div class="hero-meta" id="hero-meta"></div>
-      <div class="scroll-cue" id="scroll-cue"><span>SCROLL</span><i></i></div>
+<div class="dotnav" id="dotNav"></div>
+<div class="src-badge" id="srcBadge" style="display:none;"></div>
+
+<div id="snap">
+  <!-- HERO -->
+  <section class="snap-section hero" id="hero" data-section="hero">
+    <div class="sec-bg" id="bg-hero"></div>
+    <div class="content">
+      <div class="eyebrow" id="heroEyebrow"></div>
+      <h1 id="heroTitle"></h1>
+      <p id="heroSubtitle"></p>
+      <div class="hero-chips" id="heroChips"></div>
+      <div class="hero-ctas">
+        <a class="btn btn-solid" data-nav="board">지원 요강 보기</a>
+        <a class="btn btn-line" data-nav="journey">프로그램 살펴보기</a>
+      </div>
     </div>
+    <div class="scroll-ind"><span>SCROLL</span><span class="dot"></span></div>
   </section>
 
-  <section class="archive-section snap-section" id="archive-section">
-    <div class="wrap">
-      <div class="section-head">
+  <!-- INTRO -->
+  <section class="snap-section" id="intro" data-section="intro">
+    <div class="sec-bg" id="bg-intro"></div>
+    <div class="sec-scroll"><div class="wrap">
+      <div class="sec-head">
         <div>
-          <span class="section-tag">Archive</span>
-          <h2>회차별 워크숍 기록</h2>
-          <p class="sub">분야를 선택해 원하는 기록만 모아볼 수 있습니다. 카드를 클릭하면 상세 기록으로 이동합니다.</p>
+          <div class="eyebrow" id="introEyebrow"></div>
+          <h2 id="introHeading"></h2>
+          <p class="desc" id="introDesc"></p>
         </div>
       </div>
-
-      <div class="filter-row" id="filter-row"></div>
-      <div class="archive-grid" id="archive-grid"></div>
-    </div>
+      <div class="intro-quote"><p id="introQuote"></p><span id="introQuoteSrc"></span></div>
+      <div class="figures-row" id="figuresRow"></div>
+      <div class="stat-row" id="statRow"></div>
+    </div></div>
   </section>
-</main>
 
-<footer class="snap-section" id="site-footer">
-  <div class="wrap">
-    <div class="quick-row">
-      <div class="quick-col">
-        <h3>공지사항 <a href="#/">더보기</a></h3>
-        <ul id="notice-list"></ul>
+  <!-- FIELDS -->
+  <section class="snap-section" id="fields" data-section="fields">
+    <div class="sec-bg" id="bg-fields"></div>
+    <div class="sec-scroll"><div class="wrap">
+      <div class="sec-head">
+        <div><div class="eyebrow" id="fieldsEyebrow"></div><h2 id="fieldsHeading"></h2><p class="desc" id="fieldsDesc"></p></div>
       </div>
-      <div class="quick-col">
-        <h3>최근 업데이트 <a href="#/">더보기</a></h3>
-        <ul id="update-list"></ul>
-      </div>
-      <div class="quick-col">
-        <h3>자료실 바로가기 <a href="#/">더보기</a></h3>
-        <ul id="quicklink-list"></ul>
-      </div>
-    </div>
-    <div class="footer-grid">
-      <div>
-        <h4 id="footer-brand-name">K예술영재 프로젝트</h4>
-        <ul><li><a href="#/">프로젝트 소개</a></li><li><a href="#/">추진 배경</a></li><li><a href="#/">운영진</a></li></ul>
-      </div>
-      <div>
-        <h4>워크숍 아카이브</h4>
-        <ul><li><a href="#/">전체 일정</a></li><li><a href="#/">회차별 기록</a></li><li><a href="#/">분야별 보기</a></li></ul>
-      </div>
-      <div>
-        <h4>커뮤니티</h4>
-        <ul><li><a href="#/">공지사항</a></li><li><a href="#/">갤러리</a></li><li><a href="#/">자료실</a></li></ul>
-      </div>
-      <div>
-        <h4>오시는 길</h4>
-        <ul id="footer-address"></ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span id="footer-copy">© 2026 K예술영재 프로젝트. All Rights Reserved.</span>
-      <span>Design benchmarked from bafeko.com · <a href="admin.html" style="color:#fff; text-decoration:underline;">관리자 페이지</a></span>
-    </div>
-  </div>
-</footer>
-</div>
+      <div class="card-grid" id="cardGrid"></div>
+    </div></div>
+  </section>
 
-<nav class="snap-dots" id="snap-dots">
-  <button data-target="0" class="active" aria-label="히어로로 이동"></button>
-  <button data-target="1" aria-label="회차별 기록으로 이동"></button>
-  <button data-target="2" aria-label="하단으로 이동"></button>
-</nav>
-
-<main id="view-detail">
-  <div class="detail-hero">
-    <div class="wrap">
-      <div class="crumb"><a href="#/">아카이브 홈</a> &nbsp;›&nbsp; <span id="crumb-current">회차</span></div>
-      <div class="detail-hero-row">
-        <div class="detail-stamp"><div class="n" id="detail-stamp-n">1</div><div class="l">회차</div></div>
-        <div class="detail-title">
-          <h1 id="detail-name">-</h1>
-          <div class="sub" id="detail-sub">-</div>
-          <div class="detail-field-tags" id="detail-field-tags"></div>
-          <div class="detail-facts">
-            <div><span class="k">일시</span><span id="detail-date">-</span></div>
-            <div><span class="k">장소</span><span id="detail-place">-</span></div>
-            <div><span class="k">참가 인원</span><span id="detail-count">-</span></div>
-          </div>
-        </div>
+  <!-- JOURNEY -->
+  <section class="snap-section" id="journey" data-section="journey">
+    <div class="sec-bg" id="bg-journey"></div>
+    <div class="sec-scroll"><div class="wrap">
+      <div class="sec-head">
+        <div><div class="eyebrow" id="journeyEyebrow"></div><h2 id="journeyHeading"></h2><p class="desc" id="journeyDesc"></p></div>
       </div>
-    </div>
-    <div class="tabbar wrap">
-      <button data-tab="gallery" class="active">사진·영상 갤러리</button>
-      <button data-tab="files">자료 다운로드</button>
-      <button data-tab="roster">참가자 명단</button>
-    </div>
-  </div>
+      <div class="step-grid" id="stepGrid"></div>
+    </div></div>
+  </section>
 
-  <div class="wrap">
-    <div class="tabpanel active" id="panel-gallery">
-      <div class="gallery-grid" id="gallery-grid"></div>
-      <p class="gallery-note">※ 썸네일은 예시이며, 실제 사진·영상 파일(구글드라이브 또는 Vimeo 링크)로 교체해 사용하세요.</p>
-    </div>
-    <div class="tabpanel" id="panel-files">
-      <div class="file-list" id="file-list"></div>
-    </div>
-    <div class="tabpanel" id="panel-roster">
-      <div class="roster-tools">
-        <input class="roster-search" id="roster-search" placeholder="이름 또는 소속 검색">
-        <div class="roster-filter" id="roster-filter"></div>
+  <!-- BOARD -->
+  <section class="snap-section" id="board" data-section="board">
+    <div class="sec-bg" id="bg-board"></div>
+    <div class="sec-scroll"><div class="wrap">
+      <div class="sec-head">
+        <div><div class="eyebrow" id="boardEyebrow"></div><h2 id="boardHeading"></h2><p class="desc" id="boardDesc"></p></div>
+        <a class="more-link" id="boardMore" target="_blank" rel="noopener">공고문 전체보기 →</a>
       </div>
-      <table class="roster">
-        <thead><tr><th>구분</th><th>이름</th><th>분야</th><th>세부전공</th><th>소속</th><th>비고</th></tr></thead>
-        <tbody id="roster-body"></tbody>
-      </table>
-      <div class="empty" id="roster-empty" style="display:none;">검색 결과가 없습니다.</div>
-    </div>
-  </div>
-</main>
+      <div class="board-grid">
+        <div class="board-list" id="boardList"></div>
+        <div class="info-card" id="infoCard"></div>
+      </div>
+    </div></div>
+  </section>
 
-<div class="lightbox" id="lightbox">
-  <span class="lightbox-close" id="lightbox-close">✕</span>
-  <div class="lightbox-inner" id="lightbox-inner"></div>
+  <!-- GALLERY -->
+  <section class="snap-section" id="gallery" data-section="gallery">
+    <div class="sec-bg" id="bg-gallery"></div>
+    <div class="sec-scroll"><div class="wrap">
+      <div class="sec-head">
+        <div><div class="eyebrow" id="galleryEyebrow"></div><h2 id="galleryHeading"></h2><p class="desc" id="galleryDesc"></p></div>
+        <a class="more-link" id="galleryMore" target="_blank" rel="noopener">유튜브 채널 →</a>
+      </div>
+      <div class="gal-grid" id="galGrid"></div>
+      <div class="gal-cta"><a class="btn" id="galCta" target="_blank" rel="noopener" style="border:1.5px solid var(--line);color:var(--ink);">유튜브에서 더 보기 ↗</a></div>
+    </div></div>
+  </section>
+
+  <!-- FOOTER (last snap stop) -->
+  <section class="snap-section" id="footerSec" data-section="footerSec" style="min-height:auto;">
+    <footer style="width:100%;">
+      <div class="wrap">
+        <div class="foot-grid" id="footGrid"></div>
+        <div class="foot-bottom" id="footBottom"></div>
+      </div>
+    </footer>
+  </section>
 </div>
 
 <script>
-/* ============================================================
-   기본(샘플) 데이터 — data.json 이 없거나 로컬 초안이 없을 때 사용
-   실제 운영 데이터는 admin.html 에서 편집 후 "내보내기"로
-   data.json 을 만들어 이 파일과 같은 폴더에 올려두면 자동 반영됩니다.
-   ============================================================ */
+/* ===================== DEFAULT DATA ===================== */
 const DEFAULT_DATA = {
-  meta:{
-    brandBadge:"藝", brandName:"K예술영재 프로젝트", brandSub:"2026 통합 워크숍 아카이브",
-    ctaLabel:"최근 회차 보기", ctaHref:"#/session/1",
-    heroEyebrow:"2026 K-ARTS TALENT ARCHIVE",
-    heroTitle:"네 개의 재능,<br>다섯 번의 <em>만남</em>",
-    heroLead:"2026 K예술영재 프로젝트는 전통예술·미술·음악·무용 4개 분야에서 선발된 영재들이 함께 성장하는 통합 워크숍입니다. 회차별 진행 기록과 자료를 한자리에 모았습니다.",
-    heroMeta:[
-      {k:"주최", v:"K예술영재 프로젝트 추진단"},
-      {k:"장소", v:"한국예술종합학교 석관동 캠퍼스"},
-      {k:"분야", v:"전통예술·미술·음악·무용 (4개 분야)"},
-      {k:"회차", v:"총 5회 · 7.29 ~ 8.29"}
-    ],
-    address:["한국예술종합학교 석관동 캠퍼스","서울특별시 성북구 화랑로32길 146-37","k-arts-archive@project.kr"],
-    footerCopy:"© 2026 K예술영재 프로젝트. All Rights Reserved.",
-    heroVideo:{type:"none", url:"", dataUrl:""}
-  },
-  fields:[
-    {id:"traditional", label:"전통예술", color:"#AC3B2F"},
-    {id:"art", label:"미술", color:"#B08A4E"},
-    {id:"music", label:"음악", color:"#176C86"},
-    {id:"dance", label:"무용", color:"#5B3A8E"}
-  ],
-  menu:[
-    {label:"아카이브 홈", href:"#/"},
-    {label:"회차별 기록", href:"#/"},
-    {label:"분야별 보기", href:"#/"},
-    {label:"참가자 명단", href:"#/"}
-  ],
-  notices:[
-    {title:"개회식(1회) 참가자 사전 안내", date:"07.25"},
-    {title:"2회차 우천 시 일정 안내", date:"08.13"},
-    {title:"폐회식 발표회 좌석 배치 공지", date:"08.27"}
-  ],
-  updates:[
-    {title:"2회차 사진·영상 갤러리 업로드", date:"NEW"},
-    {title:"1회차 자료실 등록", date:"08.02"},
-    {title:"참가 학생·강사 명단 갱신", date:"08.10"}
-  ],
-  quicklinks:[
-    {title:"2026 전체 프로그램북 (PDF)", tag:"PDF"},
-    {title:"워크숍 운영 매뉴얼", tag:"PDF"},
-    {title:"참가자 안내 리플렛", tag:"HTML"}
-  ],
-  sessions:[
-    {
-      id:1, day:"7.29", weekday:"수", label:"개회식",
-      name:"1회차 · 개회식 & 오리엔테이션",
-      sub:"4개 분야 영재들이 처음 모이는 자리 — 개회식, 분야 소개, 팀 편성",
-      date:"2026.07.29(수) 10:00–17:00",
-      place:"한국예술종합학교 석관동 캠퍼스 · 대극장",
-      count:"학생 96명 · 강사 16명", status:"완료",
-      fields:["traditional","art","music","dance"],
-      gallery:[
-        {type:"photo", label:"개회식 전경"}, {type:"photo", label:"축사 및 인사말"},
-        {type:"video", label:"개회식 하이라이트 영상"}, {type:"photo", label:"분야별 오리엔테이션"},
-        {type:"photo", label:"팀 편성 활동"}, {type:"photo", label:"단체 기념촬영"}
+  meta:{ title:"2026 K예술영재 프로젝트", badge:"2026" },
+  sections:{
+    hero:{
+      bg:{type:"gradient"}, eyebrow:"문화체육관광부 주최 · 2026",
+      title:"잘하는 아이에서,\n표현하는 아티스트로",
+      subtitle:"음악·무용·전통예술·미술, 네 분야의 예술영재를 전국에서 발굴하고\n워크숍부터 겨울 캠프까지 국가가 지원하는 성장의 무대를 엽니다.",
+      chips:["모집기간 2026.5.18–6.5","대상 초4~고2","4개 분야","참가비 무료"]
+    },
+    intro:{
+      bg:{type:"gradient"}, eyebrow:"About", heading:"왜 지금, 예술영재인가",
+      desc:"세계는 이미 대한민국 젊은 예술가들의 성취에 주목하고 있습니다. 하지만 우리는 그들의 '시작'을 본 적이 없습니다.",
+      quote:"\"재능 있는 아이\"에서, 자신의 예술적 정체성을 갖고\n미래를 준비하는 \"아티스트\"로의 전환점을 제공합니다.",
+      quoteSource:"2026 K예술영재 프로젝트 사업 목적",
+      figures:[
+        {name:"전민철",role:"마린스키 발레단 수석무용수"},
+        {name:"조성진",role:"쇼팽 국제 콩쿠르 우승 피아니스트"},
+        {name:"임윤찬",role:"반 클라이번 국제 콩쿠르 우승 피아니스트"},
+        {name:"양인모",role:"파가니니 국제 콩쿠르 한국인 최초 우승자"}
       ],
-      files:[
-        {name:"1회차 프로그램북.pdf", desc:"당일 진행 순서 및 세부 일정", type:"PDF"},
-        {name:"MC 진행 스크립트.docx", desc:"개회식 사회자 대본", type:"DOC"}
-      ],
-      roster:[
-        {role:"student", field:"traditional", name:"김서연", major:"전통무용", org:"서울예술고등학교", note:"조장"},
-        {role:"student", field:"art", name:"이하람", major:"한국화", org:"예원학교", note:""},
-        {role:"student", field:"music", name:"박도현", major:"작곡", org:"예원학교", note:""},
-        {role:"student", field:"dance", name:"최유나", major:"현대무용", org:"선화예술중학교", note:""},
-        {role:"faculty", field:"traditional", name:"윤서인", major:"전통무용 지도", org:"한국예술종합학교", note:"수석강사"},
-        {role:"faculty", field:"art", name:"오세인", major:"회화 지도", org:"국립현대미술관", note:""}
+      stats:[{n:"200명",l:"전국 공모 선발 인원 (내외)"},{n:"4개",l:"모집 분야"},{n:"6박7일",l:"겨울 집중 캠프 (광주)"},{n:"무료",l:"문화체육관광부 지원"}]
+    },
+    fields:{
+      bg:{type:"gradient"}, eyebrow:"Programs", heading:"모집분야",
+      desc:"1인 1개 전공만 지원 가능하며, 세부 전공별 모집 대상 출생연도가 상이합니다.",
+      cards:[
+        {accent:"music",tag:"Music",name:"음악",en:"Instrumental",items:["피아노","바이올린 · 비올라 · 첼로"],age:"2009.1.1 ~ 2016.12.31"},
+        {accent:"dance",tag:"Dance",name:"무용",en:"Ballet",items:["발레 — bar & center work","발레 — 자유 작품 영상"],age:"2010.1.1 ~ 2015.12.31"},
+        {accent:"trad",tag:"Traditional Arts",name:"전통예술",en:"기악 · 성악 · 연희",items:["가야금 · 거문고 · 해금","타악(설장구) · 판소리 · 연희"],age:"2009.1.1 ~ 2015.12.31"},
+        {accent:"art",tag:"Visual Arts",name:"미술",en:"Visual Arts",items:["시각예술 — 포트폴리오(10p)","지원에세이 제출"],age:"2010.1.1 ~ 2013.12.31"}
       ]
     },
-    {
-      id:2, day:"8.15", weekday:"토", label:"본과정",
-      name:"2회차 · 분야별 심화 워크숍 Ⅰ",
-      sub:"4개 분야 각각의 전공 실기 수업 및 조별 실습",
-      date:"2026.08.15(토) 10:00–17:00",
-      place:"한국예술종합학교 석관동 캠퍼스 · 분야별 실습동",
-      count:"학생 96명 · 강사 14명", status:"완료",
-      fields:["traditional","dance"],
-      gallery:[
-        {type:"photo", label:"전통무용 기본 동작 지도"}, {type:"photo", label:"조별 실습 현장"},
-        {type:"video", label:"수업 요약 영상"}, {type:"photo", label:"강사 시연"}
-      ],
-      files:[{name:"2회차 커리큘럼.pdf", desc:"장르별 실기 수업 커리큘럼", type:"PDF"}],
-      roster:[
-        {role:"student", field:"traditional", name:"정민준", major:"판소리", org:"국립국악고등학교", note:"조장"},
-        {role:"student", field:"dance", name:"최유나", major:"현대무용", org:"선화예술중학교", note:""}
+    journey:{
+      bg:{type:"gradient"}, eyebrow:"Journey", heading:"성장의 여정",
+      desc:"한 번의 워크숍으로 끝나지 않는, 세 단계로 이어지는 성장 프로그램입니다.",
+      steps:[
+        {when:"2026. 7 – 8월",title:"K예술영재 발굴 워크숍",desc:"분야별 캠퍼스에서 진행되는 집중 워크숍. 개인레슨, 마스터클래스, 저명 예술가와의 만남. 교육비·식비 무료 (비숙박).",tags:["음악 · 서초 캠퍼스","무용 · 광주 캠퍼스","전통예술 · 석관동","미술 · KAIST"]},
+        {when:"2026. 9 – 12월",title:"K예술영재 심화 멘토링",desc:"워크숍 수료자 중 참여도·성장 가능성이 돋보이는 참가자에게 온·오프라인 병행 멘토링과 맞춤 코칭을 제공합니다.",tags:["개인별 맞춤 코칭","크로스오버 프로젝트"]},
+        {when:"2027. 1.24 – 1.30 · 6박7일",title:"K예술영재 겨울 집중 캠프",desc:"광주광역시 숙박형 캠프. 마스터클래스와 창작 레지던시를 거쳐 하이라이트 갈라 공연으로 성장을 완성, 인증서를 수여합니다.",tags:["마스터클래스","갈라 공연","인증서 발급"]}
       ]
     },
-    {
-      id:3, day:"8.17", weekday:"월", label:"본과정",
-      name:"3회차 · 분야별 심화 워크숍 Ⅱ",
-      sub:"미술·음악 분야 이론 강의와 실습",
-      date:"2026.08.17(월) 10:00–17:00",
-      place:"한국예술종합학교 석관동 캠퍼스 · 분야별 실습동",
-      count:"학생 96명 · 강사 14명", status:"완료",
-      fields:["art","music"],
-      gallery:[
-        {type:"photo", label:"회화 실기 수업"}, {type:"photo", label:"작곡 이론 강의"},
-        {type:"video", label:"실습 영상"}, {type:"photo", label:"악기 체험"}
+    board:{
+      bg:{type:"gradient"}, eyebrow:"Apply", heading:"지원 및 안내",
+      desc:"2026학년도 한국예술영재교육원 재원생은 지원할 수 없으며, 타 분야 중복 지원 시 전부 무효 처리됩니다.",
+      moreUrl:"https://kriga.karts.ac.kr/",
+      rows:[
+        {title:"모집 공고",sub:"전공별 시험 내용(제출 내용) 확인",date:"5.18 – 6.5"},
+        {title:"서류 접수",sub:"등기우편 제출 · 마감일 소인분까지 인정",date:"6.1 – 6.5"},
+        {title:"합격자 발표",sub:"한국예술영재교육연구원 홈페이지 공지",date:"6월 중"},
+        {title:"발굴 워크숍",sub:"분야별 캠퍼스에서 진행",date:"7 – 8월"},
+        {title:"겨울 집중 캠프",sub:"6박7일 · 광주광역시",date:"'27.1.24–30"}
       ],
-      files:[{name:"3회차 교재.pdf", desc:"미술·음악 이론 강의 교재", type:"PDF"}],
-      roster:[
-        {role:"student", field:"art", name:"이하람", major:"한국화", org:"예원학교", note:""},
-        {role:"student", field:"music", name:"박도현", major:"작곡", org:"예원학교", note:""}
-      ]
+      info:{title:"제출 서류",lines:[
+        {k:"공통",v:"지원서 및 연구 참여 동의서"},
+        {k:"음악·무용·전통예술",v:"자기소개서 + 실기 동영상"},
+        {k:"미술",v:"지원에세이 + 포트폴리오(6부)"},
+        {k:"접수 방법",v:"등기우편 (소인 인정)"},
+        {k:"문의",v:"kgifted2026@naver.com",link:"mailto:kgifted2026@naver.com"},
+        {k:"홈페이지",v:"kriga.karts.ac.kr",link:"https://kriga.karts.ac.kr/"}
+      ]}
     },
-    {
-      id:4, day:"8.23", weekday:"일", label:"본과정",
-      name:"4회차 · 통합 합동 리허설",
-      sub:"발표회를 위한 4개 분야 합동 리허설 및 무대 동선 점검",
-      date:"2026.08.23(일) 10:00–18:00",
-      place:"한국예술종합학교 석관동 캠퍼스 · 대극장",
-      count:"학생 96명 · 강사 16명", status:"완료",
-      fields:["traditional","art","music","dance"],
-      gallery:[
-        {type:"photo", label:"무대 동선 점검"}, {type:"photo", label:"조명·음향 리허설"},
-        {type:"video", label:"리허설 현장 스케치"}, {type:"photo", label:"전시 셋업(미술)"}
-      ],
-      files:[
-        {name:"4회차 무대 동선표.pdf", desc:"발표회 무대 동선 및 큐시트", type:"PDF"},
-        {name:"미술 전시 배치도.pdf", desc:"미술 분야 전시 공간 배치", type:"PDF"}
-      ],
-      roster:[
-        {role:"faculty", field:"music", name:"한지훈", major:"작곡 지도", org:"국립합창단", note:""},
-        {role:"faculty", field:"dance", name:"신은서", major:"무용 지도", org:"국립무용단", note:""}
+    gallery:{
+      bg:{type:"gradient"}, eyebrow:"Media", heading:"갤러리 · 성장 기록",
+      desc:"연습에서 무대까지 — 관찰의 시선으로 담는 아이들의 성장 다큐멘터리.",
+      channelUrl:"https://www.youtube.com/@kartsgifted",
+      items:[
+        {caption:"음악 · 발굴 워크숍",color:"music",link:"https://www.youtube.com/@kartsgifted"},
+        {caption:"무용 · 발레 워크숍",color:"dance",link:"https://www.youtube.com/@kartsgifted"},
+        {caption:"전통예술 · 워크숍",color:"trad",link:"https://www.youtube.com/@kartsgifted"},
+        {caption:"미술 · 워크숍",color:"art",link:"https://www.youtube.com/@kartsgifted"}
       ]
-    },
-    {
-      id:5, day:"8.29", weekday:"토", label:"폐회식",
-      name:"5회차 · 폐회식 & 성과 발표회",
-      sub:"전 과정을 마무리하는 4개 분야 합동 성과 발표회 및 수료식",
-      date:"2026.08.29(토) 14:00–19:00",
-      place:"한국예술종합학교 석관동 캠퍼스 · 대극장 · 전시홀",
-      count:"학생 96명 · 강사 16명 · 내빈 다수", status:"예정",
-      fields:["traditional","art","music","dance"],
-      gallery:[
-        {type:"photo", label:"발표회 무대"}, {type:"photo", label:"미술 전시 오프닝"},
-        {type:"video", label:"폐회식 풀영상"}, {type:"photo", label:"수료증 전달식"}
-      ],
-      files:[
-        {name:"5회차 프로그램북.pdf", desc:"발표회 순서 및 출연진·전시작 소개", type:"PDF"},
-        {name:"MC 진행 스크립트.docx", desc:"폐회식·발표회 사회자 대본", type:"DOC"},
-        {name:"수료증 명단.xlsx", desc:"수료 대상자 명단", type:"XLS"}
-      ],
-      roster:[]
     }
-  ]
+  },
+  footer:{
+    brand:"2026 K예술영재 프로젝트",
+    desc:"문화체육관광부 주최\n한국예술종합학교 산학협력단 · 한국예술영재교육연구원 주관",
+    columns:[
+      {title:"프로젝트",links:[{label:"프로젝트 소개",nav:"intro"},{label:"모집분야",nav:"fields"},{label:"프로그램",nav:"journey"}]},
+      {title:"지원",links:[{label:"지원 및 안내",nav:"board"},{label:"공고문",url:"https://kriga.karts.ac.kr/"},{label:"문의하기",url:"mailto:kgifted2026@naver.com"}]},
+      {title:"미디어",links:[{label:"갤러리",nav:"gallery"},{label:"유튜브",url:"https://www.youtube.com/@kartsgifted"}]},
+      {title:"주최 · 주관",links:[{label:"문화체육관광부"},{label:"한국예술종합학교"},{label:"한국예술영재교육연구원"}]}
+    ],
+    address:"(우) 03072 서울시 종로구 창경궁로 215 한국예술종합학교 대학로캠퍼스 232호",
+    contact:"문의 kgifted2026@naver.com"
+  }
 };
 
-const LS_KEY = 'kart_archive_data_v1';
-let DATA = null;
-let activeFieldFilter = 'all';
+const ACCENT_COLORS = {music:"var(--music)",dance:"var(--dance)",trad:"var(--trad)",art:"var(--art)"};
+const SECTION_LABELS = {hero:"홈",intro:"소개",fields:"모집분야",journey:"프로그램",board:"지원안내",gallery:"갤러리",footerSec:"안내"};
 
-function fieldOf(id){ return (DATA.fields||[]).find(f=>f.id===id); }
-function fieldLabel(id){ const f=fieldOf(id); return f? f.label : id; }
-function fieldColor(id){ const f=fieldOf(id); return f? f.color : '#999'; }
+/* ===================== LOAD DATA (priority: data.json > localStorage draft > default) ===================== */
+async function loadData(){
+  try{
+    const res = await fetch('data.json', {cache:'no-store'});
+    if(res.ok){
+      const json = await res.json();
+      showSrcBadge('data.json 발행본');
+      return json;
+    }
+  }catch(e){}
+  try{
+    const draft = localStorage.getItem('kgifted_draft');
+    if(draft){ showSrcBadge('임시저장 미리보기 (관리자 draft)'); return JSON.parse(draft); }
+  }catch(e){}
+  showSrcBadge('기본 샘플 데이터');
+  return DEFAULT_DATA;
+}
+function showSrcBadge(text){
+  const params = new URLSearchParams(location.search);
+  if(params.get('preview') === '1'){
+    const el = document.getElementById('srcBadge');
+    el.textContent = text; el.style.display = 'block';
+  }
+}
 
-/* ---------------- 히어로 배경 동영상: 유튜브/Vimeo/mp4 자동 감지 ---------------- */
-function parseYouTubeId(url){
+/* ===================== YOUTUBE HELPER ===================== */
+function getYouTubeId(url){
   if(!url) return null;
   const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{6,})/);
   return m ? m[1] : null;
 }
-function parseVimeoId(url){
-  if(!url) return null;
-  const m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
-  return m ? m[1] : null;
-}
-function sizeCoverIframe(iframe){
-  function resize(){
-    const layer = iframe.parentElement;
-    if(!layer) return;
-    const w = layer.clientWidth || window.innerWidth;
-    const h = layer.clientHeight || window.innerHeight;
-    const ratio = 16/9;
-    if(w/h > ratio){ iframe.style.width = w+'px'; iframe.style.height = Math.ceil(w/ratio)+'px'; }
-    else{ iframe.style.height = h+'px'; iframe.style.width = Math.ceil(h*ratio)+'px'; }
-  }
-  resize();
-  window.addEventListener('resize', resize);
-}
-function applyHeroVideo(hv){
-  const heroSection = document.getElementById('hero-section');
-  const layer = document.getElementById('hero-video-layer');
-  layer.innerHTML = '';
-  const src = hv.type==='upload' ? hv.dataUrl : (hv.type==='url' ? hv.url : '');
-  if(!src){
-    layer.style.display = 'none';
-    heroSection.classList.remove('has-video');
+
+/* ===================== BACKGROUND RENDERER ===================== */
+function renderBg(container, bg, isHeroGrad){
+  container.innerHTML = '';
+  const type = (bg && bg.type) || 'gradient';
+  if(type === 'gradient'){
+    const layer = document.createElement('div');
+    layer.className = 'layer ' + (isHeroGrad ? 'grad-hero' : '');
+    if(!isHeroGrad) layer.style.background = 'linear-gradient(160deg,#12566a,#176C86)';
+    container.appendChild(layer);
+    container.closest('.snap-section').classList.add('on-media');
     return;
   }
-  heroSection.classList.add('has-video');
-  layer.style.display = 'block';
-
-  let media;
-  if(hv.type==='upload'){
-    media = document.createElement('video');
-    media.autoplay = true; media.muted = true; media.loop = true; media.playsInline = true;
-    media.src = src;
-    layer.appendChild(media);
-  }else{
-    const yt = parseYouTubeId(src);
-    const vm = !yt ? parseVimeoId(src) : null;
-    if(yt){
-      media = document.createElement('iframe');
-      media.src = `https://www.youtube.com/embed/${yt}?autoplay=1&mute=1&loop=1&playlist=${yt}&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1`;
-      media.setAttribute('allow','autoplay; encrypted-media');
-      media.setAttribute('frameborder','0');
-      layer.appendChild(media);
-      sizeCoverIframe(media);
-    }else if(vm){
-      media = document.createElement('iframe');
-      media.src = `https://player.vimeo.com/video/${vm}?autoplay=1&muted=1&loop=1&background=1`;
-      media.setAttribute('allow','autoplay; fullscreen');
-      media.setAttribute('frameborder','0');
-      layer.appendChild(media);
-      sizeCoverIframe(media);
-    }else{
-      media = document.createElement('video');
-      media.autoplay = true; media.muted = true; media.loop = true; media.playsInline = true;
-      media.src = src;
-      layer.appendChild(media);
+  container.closest('.snap-section').classList.add('on-media');
+  if(type === 'image' && bg.url){
+    const img = document.createElement('img');
+    img.className = 'bgimg'; img.src = bg.url; img.alt = '';
+    container.appendChild(img);
+  } else if(type === 'video' && bg.url){
+    const vid = document.createElement('video');
+    vid.className = 'bgvid'; vid.src = bg.url; vid.autoplay = true; vid.muted = true; vid.loop = true; vid.playsInline = true;
+    container.appendChild(vid);
+  } else if(type === 'youtube' && bg.url){
+    const id = getYouTubeId(bg.url);
+    if(id){
+      const iframe = document.createElement('iframe');
+      iframe.className = 'bgyt';
+      iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&showinfo=0&modestbranding=1&playsinline=1`;
+      iframe.setAttribute('frameborder','0'); iframe.setAttribute('allow','autoplay; encrypted-media');
+      container.appendChild(iframe);
     }
+  } else {
+    const layer = document.createElement('div');
+    layer.style.background = 'linear-gradient(160deg,#12566a,#176C86)';
+    layer.className = 'layer';
+    container.appendChild(layer);
   }
   const overlay = document.createElement('div');
-  overlay.className = 'hero-video-overlay';
-  layer.appendChild(overlay);
+  overlay.className = 'overlay';
+  overlay.style.background = `rgba(0,0,0,${bg.overlay != null ? bg.overlay : 0.35})`;
+  container.appendChild(overlay);
 }
 
-async function loadData(){
-  // 1) 실제 배포된 data.json 우선
-  try{
-    const res = await fetch('./data.json', {cache:'no-store'});
-    if(res.ok){
-      DATA = await res.json();
-      setBadge('live');
-      return;
-    }
-  }catch(e){}
-  // 2) 관리자 페이지에서 저장한 로컬 초안(같은 브라우저 미리보기용)
-  try{
-    const draft = localStorage.getItem(LS_KEY);
-    if(draft){ DATA = JSON.parse(draft); setBadge('draft'); return; }
-  }catch(e){}
-  // 3) 기본 샘플 데이터
-  DATA = DEFAULT_DATA;
-  setBadge('sample');
-}
+/* ===================== RENDER ===================== */
+function render(data){
+  document.title = data.meta.title;
+  document.getElementById('hdrBadge').textContent = data.meta.badge;
+  const s = data.sections;
 
-function setBadge(kind){
-  const el = document.getElementById('data-badge');
-  if(kind==='live'){ el.textContent='실 데이터(data.json) 표시 중'; el.className='data-badge'; }
-  else if(kind==='draft'){ el.textContent='관리자 미리보기 초안 표시 중 (미발행)'; el.className='data-badge draft'; }
-  else { el.textContent='샘플 데이터 표시 중 (data.json 없음)'; el.className='data-badge sample'; }
-}
+  renderBg(document.getElementById('bg-hero'), s.hero.bg, true);
+  document.getElementById('heroEyebrow').textContent = s.hero.eyebrow;
+  document.getElementById('heroTitle').textContent = s.hero.title;
+  document.getElementById('heroSubtitle').textContent = s.hero.subtitle;
+  document.getElementById('heroChips').innerHTML = s.hero.chips.map(c=>`<span>${esc(c)}</span>`).join('');
 
-/* ---------------- Render: 공통 ---------------- */
-function renderChrome(){
-  const m = DATA.meta;
-  document.getElementById('brand-badge').textContent = m.brandBadge;
-  document.getElementById('brand-name').textContent = m.brandName;
-  document.getElementById('brand-sub').textContent = m.brandSub;
-  document.getElementById('hero-cta').textContent = m.ctaLabel;
-  document.getElementById('hero-cta').href = m.ctaHref;
-  document.getElementById('hero-eyebrow').textContent = m.heroEyebrow;
-  document.getElementById('hero-title').innerHTML = m.heroTitle;
-  document.getElementById('hero-lead').textContent = m.heroLead;
-  document.getElementById('hero-meta').innerHTML = m.heroMeta.map(x=>`<div><div class="k">${x.k}</div><div class="v">${x.v}</div></div>`).join('');
-  document.getElementById('footer-brand-name').textContent = m.brandName;
-  document.getElementById('footer-address').innerHTML = m.address.map(a=>`<li>${a}</li>`).join('');
-  document.getElementById('footer-copy').textContent = m.footerCopy;
+  renderBg(document.getElementById('bg-intro'), s.intro.bg);
+  document.getElementById('introEyebrow').textContent = s.intro.eyebrow;
+  document.getElementById('introHeading').textContent = s.intro.heading;
+  document.getElementById('introDesc').textContent = s.intro.desc;
+  document.getElementById('introQuote').textContent = s.intro.quote;
+  document.getElementById('introQuoteSrc').textContent = s.intro.quoteSource;
+  document.getElementById('figuresRow').innerHTML = s.intro.figures.map(f=>`<div class="figure"><div class="name">${esc(f.name)}</div><div class="role">${esc(f.role)}</div></div>`).join('');
+  document.getElementById('statRow').innerHTML = s.intro.stats.map(st=>`<div class="stat-cell"><div class="n">${esc(st.n)}</div><div class="l">${esc(st.l)}</div></div>`).join('');
 
-  // 히어로 배경 동영상
-  applyHeroVideo(m.heroVideo || {type:'none'});
-
-  document.getElementById('gnb').innerHTML = DATA.menu.map(x=>`<a href="${x.href}">${x.label}</a>`).join('');
-
-  document.getElementById('field-badges').innerHTML = DATA.fields.map(f=>`
-    <span class="field-badge"><span class="dot" style="background:${f.color}"></span>${f.label}</span>
-  `).join('');
-
-  document.getElementById('notice-list').innerHTML = DATA.notices.map(n=>`<li><span>${n.title}</span><span>${n.date}</span></li>`).join('');
-  document.getElementById('update-list').innerHTML = DATA.updates.map(n=>`<li><span>${n.title}</span><span>${n.date}</span></li>`).join('');
-  document.getElementById('quicklink-list').innerHTML = DATA.quicklinks.map(n=>`<li><span>${n.title}</span><span>${n.tag}</span></li>`).join('');
-}
-
-function renderFilterRow(){
-  const row = document.getElementById('filter-row');
-  const chips = [{id:'all', label:'전체', color:'#1c1d1f'}, ...DATA.fields];
-  row.innerHTML = chips.map(c=>`
-    <button class="filter-chip ${activeFieldFilter===c.id?'active':''}" data-field="${c.id}">
-      <span class="dot" style="background:${c.color}"></span>${c.label}
-    </button>
-  `).join('');
-  row.querySelectorAll('.filter-chip').forEach(btn=>{
-    btn.addEventListener('click', ()=>{ activeFieldFilter = btn.dataset.field; renderFilterRow(); renderArchiveGrid(); });
-  });
-}
-
-function renderArchiveGrid(){
-  const grid = document.getElementById('archive-grid');
-  grid.innerHTML = DATA.sessions.map(s => `
-    <a class="session-card" href="#/session/${s.id}" data-fields="${(s.fields||[]).join(',')}">
-      <div class="thumb">
-        <span class="status">${s.status}</span>
-        <span class="stamp">${s.id}</span>
-        <div class="day">${s.day} <small>${s.weekday}요일 · ${s.label}</small></div>
+  renderBg(document.getElementById('bg-fields'), s.fields.bg);
+  document.getElementById('fieldsEyebrow').textContent = s.fields.eyebrow;
+  document.getElementById('fieldsHeading').textContent = s.fields.heading;
+  document.getElementById('fieldsDesc').textContent = s.fields.desc;
+  document.getElementById('cardGrid').innerHTML = s.fields.cards.map(c=>`
+    <div class="prog-card">
+      <div class="band" style="background:${ACCENT_COLORS[c.accent]||'var(--teal)'}"></div>
+      <div class="body">
+        <div class="tag" style="color:${ACCENT_COLORS[c.accent]||'var(--teal)'}">${esc(c.tag)}</div>
+        <h3>${esc(c.name)}</h3><div class="en">${esc(c.en)}</div>
+        <ul>${c.items.map(i=>`<li><b>${esc(i)}</b></li>`).join('')}</ul>
+        <div class="age"><b style="color:${ACCENT_COLORS[c.accent]||'var(--teal)'}">${esc(c.age)}</b>출생자 지원 가능</div>
       </div>
-      <div class="meta">
-        <div class="name">${s.name.split(' · ')[1] || s.name}</div>
-        <div class="place">${(s.place||'').split(' · ')[0]||''}</div>
-        <div class="field-tags">${(s.fields||[]).map(fid=>`<span style="background:${fieldColor(fid)}">${fieldLabel(fid)}</span>`).join('')}</div>
-      </div>
-    </a>
-  `).join('');
-  grid.querySelectorAll('.session-card').forEach(card=>{
-    const fs = card.dataset.fields.split(',');
-    const show = activeFieldFilter==='all' || fs.includes(activeFieldFilter);
-    card.classList.toggle('hidden', !show);
+    </div>`).join('');
+
+  renderBg(document.getElementById('bg-journey'), s.journey.bg);
+  document.getElementById('journeyEyebrow').textContent = s.journey.eyebrow;
+  document.getElementById('journeyHeading').textContent = s.journey.heading;
+  document.getElementById('journeyDesc').textContent = s.journey.desc;
+  document.getElementById('stepGrid').innerHTML = s.journey.steps.map((st,i)=>`
+    <div class="step-card">
+      <div class="step-no">${i+1}</div><div class="when">${esc(st.when)}</div>
+      <h3>${esc(st.title)}</h3><p>${esc(st.desc)}</p>
+      <div class="step-tags">${st.tags.map(t=>`<span>${esc(t)}</span>`).join('')}</div>
+    </div>`).join('');
+
+  renderBg(document.getElementById('bg-board'), s.board.bg);
+  document.getElementById('boardEyebrow').textContent = s.board.eyebrow;
+  document.getElementById('boardHeading').textContent = s.board.heading;
+  document.getElementById('boardDesc').textContent = s.board.desc;
+  document.getElementById('boardMore').href = s.board.moreUrl;
+  document.getElementById('boardList').innerHTML =
+    `<div class="board-row head"><span>No.</span><span>내용</span><span style="text-align:right">일정</span></div>` +
+    s.board.rows.map((r,i)=>`<div class="board-row"><span class="no">${String(i+1).padStart(2,'0')}</span><span class="tt">${esc(r.title)}<small>${esc(r.sub)}</small></span><span class="dt">${esc(r.date)}</span></div>`).join('');
+  document.getElementById('infoCard').innerHTML = `<h4>${esc(s.board.info.title)}</h4>` +
+    s.board.info.lines.map(l=>`<div class="info-line"><span class="k">${esc(l.k)}</span>${l.link?`<a class="v" href="${esc(l.link)}" target="_blank" rel="noopener">${esc(l.v)}</a>`:`<span class="v">${esc(l.v)}</span>`}</div>`).join('');
+
+  renderBg(document.getElementById('bg-gallery'), s.gallery.bg);
+  document.getElementById('galleryEyebrow').textContent = s.gallery.eyebrow;
+  document.getElementById('galleryHeading').textContent = s.gallery.heading;
+  document.getElementById('galleryDesc').textContent = s.gallery.desc;
+  document.getElementById('galleryMore').href = s.gallery.channelUrl;
+  document.getElementById('galCta').href = s.gallery.channelUrl;
+  document.getElementById('galGrid').innerHTML = s.gallery.items.map(it=>`
+    <a class="gal-item" href="${esc(it.link)}" target="_blank" rel="noopener">
+      <div class="base" style="background:${it.bgImage ? `url('${esc(it.bgImage)}') center/cover` : `linear-gradient(135deg, ${ACCENT_COLORS[it.color]||'var(--teal)'}, #2a2a2a)`}"></div>
+      <div class="play"></div><div class="cap">${esc(it.caption)}</div>
+    </a>`).join('');
+
+  const f = data.footer;
+  document.getElementById('footGrid').innerHTML =
+    `<div><div class="foot-brand">${esc(f.brand)}</div><p class="foot-brand-desc">${esc(f.desc).replace(/\n/g,'<br>')}</p></div>` +
+    f.columns.map(col=>`<div class="foot-col"><h5>${esc(col.title)}</h5>${col.links.map(l=>{
+      if(l.nav) return `<a data-nav="${l.nav}">${esc(l.label)}</a>`;
+      if(l.url) return `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`;
+      return `<a style="pointer-events:none;color:#8b969b;">${esc(l.label)}</a>`;
+    }).join('')}</div>`).join('');
+  document.getElementById('footBottom').innerHTML = `<span>${esc(f.address)}</span><span>${esc(f.contact)}</span>`;
+
+  buildDotNav();
+  bindNav();
+}
+function esc(str){ return String(str==null?'':str).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ===================== NAV / DOTS ===================== */
+function buildDotNav(){
+  const nav = document.getElementById('dotNav');
+  nav.innerHTML = '';
+  document.querySelectorAll('.snap-section').forEach(sec=>{
+    const key = sec.dataset.section;
+    const dot = document.createElement('div');
+    dot.className = 'dot'; dot.dataset.target = key;
+    dot.innerHTML = `<span class="lbl">${SECTION_LABELS[key]||key}</span>`;
+    dot.addEventListener('click', ()=> gotoSection(key));
+    nav.appendChild(dot);
   });
 }
-
-/* ---------------- Render: 상세 ---------------- */
-function renderDetail(session){
-  document.getElementById('crumb-current').textContent = session.name;
-  document.getElementById('detail-stamp-n').textContent = session.id;
-  document.getElementById('detail-name').textContent = session.name;
-  document.getElementById('detail-sub').textContent = session.sub;
-  document.getElementById('detail-date').textContent = session.date;
-  document.getElementById('detail-place').textContent = session.place;
-  document.getElementById('detail-count').textContent = session.count;
-  document.getElementById('detail-field-tags').innerHTML = (session.fields||[]).map(fid=>`<span style="background:${fieldColor(fid)}">${fieldLabel(fid)}</span>`).join('');
-
-  document.getElementById('gallery-grid').innerHTML = (session.gallery||[]).map(g => `
-    <div class="gallery-item ${g.type==='video'?'video':''}"><div class="ph"><span>${g.label}</span></div></div>
-  `).join('') || '<div class="empty">등록된 사진/영상이 없습니다.</div>';
-
-  document.getElementById('file-list').innerHTML = (session.files||[]).map(f => `
-    <div class="file-row">
-      <div class="file-icon">${f.type}</div>
-      <div class="file-info"><div class="name">${f.name}</div><div class="desc">${f.desc}</div></div>
-      <a class="file-dl" href="${f.url||'#'}" ${f.url?'target="_blank"':'onclick="return false;"'}>다운로드</a>
-    </div>
-  `).join('') || '<div class="empty">등록된 자료가 없습니다.</div>';
-
-  // roster filter chips (분야 기준)
-  const rf = document.getElementById('roster-filter');
-  rf.innerHTML = `<button data-role="all" class="active">전체</button>` +
-    DATA.fields.map(f=>`<button data-role="${f.id}">${f.label}</button>`).join('') +
-    `<button data-role="__faculty">강사만</button>`;
-  rf.querySelectorAll('button').forEach(b=>{
-    b.addEventListener('click', ()=>{
-      rf.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
-      renderRoster(session, b.dataset.role, document.getElementById('roster-search').value);
-    });
+function bindNav(){
+  document.querySelectorAll('[data-nav]').forEach(el=>{
+    el.addEventListener('click', (e)=>{ e.preventDefault(); gotoSection(el.dataset.nav); });
   });
-  renderRoster(session, 'all', '');
 }
-
-function renderRoster(session, filter, query){
-  const body = document.getElementById('roster-body');
-  const q = (query||'').trim().toLowerCase();
-  const rows = (session.roster||[]).filter(r=>{
-    const passFilter = filter==='all' ? true : (filter==='__faculty' ? r.role==='faculty' : r.field===filter);
-    const passQuery = q==='' || (r.name||'').toLowerCase().includes(q) || (r.org||'').toLowerCase().includes(q);
-    return passFilter && passQuery;
-  });
-  document.getElementById('roster-empty').style.display = rows.length ? 'none' : 'block';
-  body.innerHTML = rows.map(r => `
-    <tr>
-      <td><span class="role-pill">${r.role==='student'?'학생':'강사'}</span></td>
-      <td>${r.name}</td>
-      <td><span class="field-pill" style="background:${fieldColor(r.field)}">${fieldLabel(r.field)}</span></td>
-      <td>${r.major||'-'}</td>
-      <td>${r.org||'-'}</td>
-      <td>${r.note || '-'}</td>
-    </tr>
-  `).join('');
+function gotoSection(key){
+  const el = document.getElementById(key);
+  if(el) el.scrollIntoView({behavior:'smooth'});
 }
-
-document.getElementById('roster-search').addEventListener('input', e=>{
-  const m = location.hash.match(/^#\/session\/(\d+)/);
-  const session = m ? DATA.sessions.find(s=>s.id===Number(m[1])) : null;
-  if(!session) return;
-  const active = document.querySelector('#roster-filter button.active');
-  renderRoster(session, active ? active.dataset.role : 'all', e.target.value);
-});
-
-/* ---------------- Router ---------------- */
-function route(){
-  const hash = location.hash || '#/';
-  const homeSnap = document.getElementById('home-snap');
-  const detailView = document.getElementById('view-detail');
-  const dots = document.getElementById('snap-dots');
-  const m = hash.match(/^#\/session\/(\d+)/);
-  if(m){
-    const session = DATA.sessions.find(s => s.id === Number(m[1]));
-    if(session){
-      homeSnap.style.display = 'none';
-      detailView.style.display = 'block';
-      dots.classList.add('force-hidden');
-      renderDetail(session);
-      detailView.scrollTop = 0;
-      return;
-    }
-  }
-  homeSnap.style.display = 'block';
-  detailView.style.display = 'none';
-  dots.classList.remove('force-hidden');
-  homeSnap.scrollTop = 0;
-  updateActiveDot();
-}
-window.addEventListener('hashchange', route);
-
-/* ---------------- 풀페이지 스냅 내비게이션 (dot + scroll cue) ---------------- */
-const snapSections = ()=> Array.from(document.querySelectorAll('#home-snap .snap-section'));
-
-function scrollToSnapIndex(i){
-  const sections = snapSections();
-  if(!sections[i]) return;
-  document.getElementById('home-snap').scrollTo({top: sections[i].offsetTop, behavior:'smooth'});
-}
-
 function updateActiveDot(){
-  const homeSnap = document.getElementById('home-snap');
-  const sections = snapSections();
-  const scrollPos = homeSnap.scrollTop;
-  let idx = 0;
-  sections.forEach((sec,i)=>{ if(scrollPos >= sec.offsetTop - 40) idx = i; });
-  document.querySelectorAll('.snap-dots button').forEach((b,i)=>{ b.classList.toggle('active', i===idx); });
+  const snap = document.getElementById('snap');
+  const mid = snap.scrollTop + snap.clientHeight/2;
+  let current = null;
+  document.querySelectorAll('.snap-section').forEach(sec=>{
+    if(sec.offsetTop <= mid) current = sec.dataset.section;
+  });
+  document.querySelectorAll('.dotnav .dot').forEach(d=> d.classList.toggle('active', d.dataset.target === current));
+  const header = document.getElementById('siteHeader');
+  header.classList.toggle('solid', snap.scrollTop > 40 && current !== 'hero');
 }
 
-document.getElementById('snap-dots').addEventListener('click', e=>{
-  const btn = e.target.closest('button[data-target]');
-  if(!btn) return;
-  scrollToSnapIndex(Number(btn.dataset.target));
-});
-document.getElementById('scroll-cue').addEventListener('click', ()=> scrollToSnapIndex(1));
-document.getElementById('home-snap').addEventListener('scroll', ()=>{
-  clearTimeout(window.__snapDotTimer);
-  window.__snapDotTimer = setTimeout(updateActiveDot, 60);
-});
-
-document.querySelector('.tabbar').addEventListener('click', e=>{
-  const btn = e.target.closest('button[data-tab]');
-  if(!btn) return;
-  document.querySelectorAll('.tabbar button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.tabpanel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
-});
-
-document.getElementById('panel-gallery').addEventListener('click', e=>{
-  const item = e.target.closest('.gallery-item');
-  if(!item) return;
-  const label = item.querySelector('.ph span').textContent;
-  document.getElementById('lightbox-inner').innerHTML = `<p style="font-size:15px; font-weight:700; margin-bottom:8px;">${label}</p><p style="font-size:12.5px; color:#c9c9c9;">실제 이미지/영상 URL로 교체해 사용하세요.</p>`;
-  document.getElementById('lightbox').classList.add('open');
-});
-document.getElementById('lightbox-close').addEventListener('click', ()=>{ document.getElementById('lightbox').classList.remove('open'); });
-document.getElementById('lightbox').addEventListener('click', e=>{ if(e.target.id==='lightbox') e.currentTarget.classList.remove('open'); });
-
+/* ===================== INIT ===================== */
 (async function init(){
-  await loadData();
-  renderChrome();
-  renderFilterRow();
-  renderArchiveGrid();
-  route();
+  const data = await loadData();
+  render(data);
+  const snap = document.getElementById('snap');
+  snap.addEventListener('scroll', updateActiveDot);
+  updateActiveDot();
 })();
 </script>
 </body>
