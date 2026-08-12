@@ -1,469 +1,345 @@
 {
   "meta": {
-    "brandBadge": "藝",
-    "brandName": "K예술영재 프로젝트",
-    "brandSub": "2026 통합 워크숍 아카이브",
-    "ctaLabel": "최근 회차 보기",
-    "ctaHref": "#/session/1",
-    "heroEyebrow": "2026 K-ARTS TALENT ARCHIVE",
-    "heroTitle": "네 개의 재능,<br>다섯 번의 <em>만남</em>",
-    "heroLead": "2026 K예술영재 프로젝트는 전통예술·미술·음악·무용 4개 분야에서 선발된 영재들이 함께 성장하는 통합 워크숍입니다. 회차별 진행 기록과 자료를 한자리에 모았습니다.",
-    "heroMeta": [
-      {
-        "k": "주최",
-        "v": "K예술영재 프로젝트 추진단"
+    "title": "2026 K예술영재 프로젝트",
+    "badge": "2026"
+  },
+  "sections": {
+    "hero": {
+      "bg": {
+        "type": "youtube",
+        "url": "https://www.youtube.com/watch?v=zSX0ex_JkxI",
+        "overlay": 0.25
       },
-      {
-        "k": "장소",
-        "v": "한국예술종합학교 석관동 캠퍼스"
+      "eyebrow": "문화체육관광부 주최 · 2026",
+      "title": "잘하는 아이에서,\n표현하는 아티스트로",
+      "subtitle": "음악·무용·전통예술·미술, 네 분야의 예술영재를 전국에서 발굴하고\n워크숍부터 겨울 캠프까지 국가가 지원하는 성장의 무대를 엽니다.",
+      "chips": [
+        "모집기간 2026.5.18–6.5",
+        "대상 초4~고2",
+        "4개 분야",
+        "참가비 무료"
+      ]
+    },
+    "intro": {
+      "bg": {
+        "type": "gradient",
+        "url": "",
+        "overlay": 0.35
       },
-      {
-        "k": "분야",
-        "v": "전통예술·미술·음악·무용 (4개 분야)"
+      "eyebrow": "About",
+      "heading": "왜 지금, 예술영재인가",
+      "desc": "세계는 이미 대한민국 젊은 예술가들의 성취에 주목하고 있습니다. 하지만 우리는 그들의 '시작'을 본 적이 없습니다.",
+      "quote": "\"재능 있는 아이\"에서, 자신의 예술적 정체성을 갖고\n미래를 준비하는 \"아티스트\"로의 전환점을 제공합니다.",
+      "quoteSource": "2026 K예술영재 프로젝트 사업 목적",
+      "figures": [
+        {
+          "name": "전민철",
+          "role": "마린스키 발레단 수석무용수"
+        },
+        {
+          "name": "조성진",
+          "role": "쇼팽 국제 콩쿠르 우승 피아니스트"
+        },
+        {
+          "name": "임윤찬",
+          "role": "반 클라이번 국제 콩쿠르 우승 피아니스트"
+        },
+        {
+          "name": "양인모",
+          "role": "파가니니 국제 콩쿠르 한국인 최초 우승자"
+        }
+      ],
+      "stats": [
+        {
+          "n": "200명",
+          "l": "전국 공모 선발 인원 (내외)"
+        },
+        {
+          "n": "4개",
+          "l": "모집 분야"
+        },
+        {
+          "n": "6박7일",
+          "l": "겨울 집중 캠프 (광주)"
+        },
+        {
+          "n": "무료",
+          "l": "문화체육관광부 지원"
+        }
+      ]
+    },
+    "fields": {
+      "bg": {
+        "type": "gradient",
+        "url": "",
+        "overlay": 0.35
       },
-      {
-        "k": "회차",
-        "v": "총 5회 · 7.29 ~ 8.29"
+      "eyebrow": "Programs",
+      "heading": "모집분야",
+      "desc": "1인 1개 전공만 지원 가능하며, 세부 전공별 모집 대상 출생연도가 상이합니다.",
+      "cards": [
+        {
+          "accent": "music",
+          "tag": "Music",
+          "name": "음악",
+          "en": "Instrumental",
+          "items": [
+            "피아노",
+            "바이올린 · 비올라 · 첼로"
+          ],
+          "age": "2009.1.1 ~ 2016.12.31"
+        },
+        {
+          "accent": "dance",
+          "tag": "Dance",
+          "name": "무용",
+          "en": "Ballet",
+          "items": [
+            "발레 — bar & center work",
+            "발레 — 자유 작품 영상"
+          ],
+          "age": "2010.1.1 ~ 2015.12.31"
+        },
+        {
+          "accent": "trad",
+          "tag": "Traditional Arts",
+          "name": "전통예술",
+          "en": "기악 · 성악 · 연희",
+          "items": [
+            "가야금 · 거문고 · 해금",
+            "타악(설장구) · 판소리 · 연희"
+          ],
+          "age": "2009.1.1 ~ 2015.12.31"
+        },
+        {
+          "accent": "art",
+          "tag": "Visual Arts",
+          "name": "미술",
+          "en": "Visual Arts",
+          "items": [
+            "시각예술 — 포트폴리오(10p)",
+            "지원에세이 제출"
+          ],
+          "age": "2010.1.1 ~ 2013.12.31"
+        }
+      ]
+    },
+    "journey": {
+      "bg": {
+        "type": "gradient",
+        "url": "",
+        "overlay": 0.35
+      },
+      "eyebrow": "Journey",
+      "heading": "성장의 여정",
+      "desc": "한 번의 워크숍으로 끝나지 않는, 세 단계로 이어지는 성장 프로그램입니다.",
+      "steps": [
+        {
+          "when": "2026. 7 – 8월",
+          "title": "K예술영재 발굴 워크숍",
+          "desc": "분야별 캠퍼스에서 진행되는 집중 워크숍. 개인레슨, 마스터클래스, 저명 예술가와의 만남. 교육비·식비 무료 (비숙박).",
+          "tags": [
+            "음악 · 서초 캠퍼스",
+            "무용 · 광주 캠퍼스",
+            "전통예술 · 석관동",
+            "미술 · KAIST"
+          ]
+        },
+        {
+          "when": "2026. 9 – 12월",
+          "title": "K예술영재 심화 멘토링",
+          "desc": "워크숍 수료자 중 참여도·성장 가능성이 돋보이는 참가자에게 온·오프라인 병행 멘토링과 맞춤 코칭을 제공합니다.",
+          "tags": [
+            "개인별 맞춤 코칭",
+            "크로스오버 프로젝트"
+          ]
+        },
+        {
+          "when": "2027. 1.24 – 1.30 · 6박7일",
+          "title": "K예술영재 겨울 집중 캠프",
+          "desc": "광주광역시 숙박형 캠프. 마스터클래스와 창작 레지던시를 거쳐 하이라이트 갈라 공연으로 성장을 완성, 인증서를 수여합니다.",
+          "tags": [
+            "마스터클래스",
+            "갈라 공연",
+            "인증서 발급"
+          ]
+        }
+      ]
+    },
+    "board": {
+      "bg": {
+        "type": "gradient",
+        "url": "",
+        "overlay": 0.35
+      },
+      "eyebrow": "Apply",
+      "heading": "지원 및 안내",
+      "desc": "2026학년도 한국예술영재교육원 재원생은 지원할 수 없으며, 타 분야 중복 지원 시 전부 무효 처리됩니다.",
+      "moreUrl": "https://kriga.karts.ac.kr/",
+      "rows": [
+        {
+          "title": "모집 공고",
+          "sub": "전공별 시험 내용(제출 내용) 확인",
+          "date": "5.18 – 6.5"
+        },
+        {
+          "title": "서류 접수",
+          "sub": "등기우편 제출 · 마감일 소인분까지 인정",
+          "date": "6.1 – 6.5"
+        },
+        {
+          "title": "합격자 발표",
+          "sub": "한국예술영재교육연구원 홈페이지 공지",
+          "date": "6월 중"
+        },
+        {
+          "title": "발굴 워크숍",
+          "sub": "분야별 캠퍼스에서 진행",
+          "date": "7 – 8월"
+        },
+        {
+          "title": "겨울 집중 캠프",
+          "sub": "6박7일 · 광주광역시",
+          "date": "'27.1.24–30"
+        }
+      ],
+      "info": {
+        "title": "제출 서류",
+        "lines": [
+          {
+            "k": "공통",
+            "v": "지원서 및 연구 참여 동의서"
+          },
+          {
+            "k": "음악·무용·전통예술",
+            "v": "자기소개서 + 실기 동영상"
+          },
+          {
+            "k": "미술",
+            "v": "지원에세이 + 포트폴리오(6부)"
+          },
+          {
+            "k": "접수 방법",
+            "v": "등기우편 (소인 인정)"
+          },
+          {
+            "k": "문의",
+            "v": "kgifted2026@naver.com",
+            "link": "mailto:kgifted2026@naver.com"
+          },
+          {
+            "k": "홈페이지",
+            "v": "kriga.karts.ac.kr",
+            "link": "https://kriga.karts.ac.kr/"
+          }
+        ]
       }
-    ],
-    "address": [
-      "한국예술종합학교 석관동 캠퍼스",
-      "서울특별시 성북구 화랑로32길 146-37",
-      "k-arts-archive@project.kr"
-    ],
-    "footerCopy": "© 2026 K예술영재 프로젝트. All Rights Reserved.",
-    "heroVideo": {
-      "type": "url",
-      "url": "https://youtu.be/hiXbSmEy958",
-      "dataUrl": ""
+    },
+    "gallery": {
+      "bg": {
+        "type": "gradient",
+        "url": "",
+        "overlay": 0.35
+      },
+      "eyebrow": "Media",
+      "heading": "갤러리 · 성장 기록",
+      "desc": "연습에서 무대까지 — 관찰의 시선으로 담는 아이들의 성장 다큐멘터리.",
+      "channelUrl": "https://www.youtube.com/@kartsgifted",
+      "items": [
+        {
+          "caption": "음악 · 발굴 워크숍",
+          "color": "music",
+          "link": "https://www.youtube.com/@kartsgifted",
+          "bgImage": ""
+        },
+        {
+          "caption": "무용 · 발레 워크숍",
+          "color": "dance",
+          "link": "https://www.youtube.com/@kartsgifted",
+          "bgImage": ""
+        },
+        {
+          "caption": "전통예술 · 워크숍",
+          "color": "trad",
+          "link": "https://www.youtube.com/@kartsgifted",
+          "bgImage": ""
+        },
+        {
+          "caption": "미술 · 워크숍",
+          "color": "art",
+          "link": "https://www.youtube.com/@kartsgifted",
+          "bgImage": ""
+        }
+      ]
     }
   },
-  "fields": [
-    {
-      "id": "traditional",
-      "label": "전통예술",
-      "color": "#AC3B2F"
-    },
-    {
-      "id": "art",
-      "label": "미술",
-      "color": "#B08A4E"
-    },
-    {
-      "id": "music",
-      "label": "음악",
-      "color": "#176C86"
-    },
-    {
-      "id": "dance",
-      "label": "무용",
-      "color": "#5B3A8E"
-    }
-  ],
-  "menu": [
-    {
-      "label": "아카이브 홈",
-      "href": "#/"
-    },
-    {
-      "label": "회차별 기록",
-      "href": "#/"
-    },
-    {
-      "label": "분야별 보기",
-      "href": "#/"
-    },
-    {
-      "label": "참가자 명단",
-      "href": "#/"
-    }
-  ],
-  "notices": [
-    {
-      "title": "개회식(1회) 참가자 사전 안내",
-      "date": "07.25"
-    },
-    {
-      "title": "2회차 우천 시 일정 안내",
-      "date": "08.13"
-    },
-    {
-      "title": "폐회식 발표회 좌석 배치 공지",
-      "date": "08.27"
-    }
-  ],
-  "updates": [
-    {
-      "title": "2회차 사진·영상 갤러리 업로드",
-      "date": "NEW"
-    },
-    {
-      "title": "1회차 자료실 등록",
-      "date": "08.02"
-    },
-    {
-      "title": "참가 학생·강사 명단 갱신",
-      "date": "08.10"
-    }
-  ],
-  "quicklinks": [
-    {
-      "title": "2026 전체 프로그램북 (PDF)",
-      "tag": "PDF"
-    },
-    {
-      "title": "워크숍 운영 매뉴얼",
-      "tag": "PDF"
-    },
-    {
-      "title": "참가자 안내 리플렛",
-      "tag": "HTML"
-    }
-  ],
-  "sessions": [
-    {
-      "id": 1,
-      "day": "7.29",
-      "weekday": "수",
-      "label": "개회식",
-      "name": "1회차 · 개회식 & 오리엔테이션",
-      "sub": "4개 분야 영재들이 처음 모이는 자리 — 개회식, 분야 소개, 팀 편성",
-      "date": "2026.07.29(수) 10:00–17:00",
-      "place": "한국예술종합학교 석관동 캠퍼스 · 대극장",
-      "count": "학생 96명 · 강사 16명",
-      "status": "완료",
-      "fields": [
-        "traditional",
-        "art",
-        "music",
-        "dance"
-      ],
-      "gallery": [
-        {
-          "type": "photo",
-          "label": "개회식 전경"
-        },
-        {
-          "type": "photo",
-          "label": "축사 및 인사말"
-        },
-        {
-          "type": "video",
-          "label": "개회식 하이라이트 영상"
-        },
-        {
-          "type": "photo",
-          "label": "분야별 오리엔테이션"
-        },
-        {
-          "type": "photo",
-          "label": "팀 편성 활동"
-        },
-        {
-          "type": "photo",
-          "label": "단체 기념촬영"
-        }
-      ],
-      "files": [
-        {
-          "name": "1회차 프로그램북.pdf",
-          "desc": "당일 진행 순서 및 세부 일정",
-          "type": "PDF"
-        },
-        {
-          "name": "MC 진행 스크립트.docx",
-          "desc": "개회식 사회자 대본",
-          "type": "DOC"
-        }
-      ],
-      "roster": [
-        {
-          "role": "student",
-          "field": "traditional",
-          "name": "김서연",
-          "major": "전통무용",
-          "org": "서울예술고등학교",
-          "note": "조장"
-        },
-        {
-          "role": "student",
-          "field": "art",
-          "name": "이하람",
-          "major": "한국화",
-          "org": "예원학교",
-          "note": ""
-        },
-        {
-          "role": "student",
-          "field": "music",
-          "name": "박도현",
-          "major": "작곡",
-          "org": "예원학교",
-          "note": ""
-        },
-        {
-          "role": "student",
-          "field": "dance",
-          "name": "최유나",
-          "major": "현대무용",
-          "org": "선화예술중학교",
-          "note": ""
-        },
-        {
-          "role": "faculty",
-          "field": "traditional",
-          "name": "윤서인",
-          "major": "전통무용 지도",
-          "org": "한국예술종합학교",
-          "note": "수석강사"
-        },
-        {
-          "role": "faculty",
-          "field": "art",
-          "name": "오세인",
-          "major": "회화 지도",
-          "org": "국립현대미술관",
-          "note": ""
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "day": "8.15",
-      "weekday": "토",
-      "label": "본과정",
-      "name": "2회차 · 분야별 심화 워크숍 Ⅰ",
-      "sub": "4개 분야 각각의 전공 실기 수업 및 조별 실습",
-      "date": "2026.08.15(토) 10:00–17:00",
-      "place": "한국예술종합학교 석관동 캠퍼스 · 분야별 실습동",
-      "count": "학생 96명 · 강사 14명",
-      "status": "완료",
-      "fields": [
-        "traditional",
-        "dance"
-      ],
-      "gallery": [
-        {
-          "type": "photo",
-          "label": "전통무용 기본 동작 지도"
-        },
-        {
-          "type": "photo",
-          "label": "조별 실습 현장"
-        },
-        {
-          "type": "video",
-          "label": "수업 요약 영상"
-        },
-        {
-          "type": "photo",
-          "label": "강사 시연"
-        }
-      ],
-      "files": [
-        {
-          "name": "2회차 커리큘럼.pdf",
-          "desc": "장르별 실기 수업 커리큘럼",
-          "type": "PDF"
-        }
-      ],
-      "roster": [
-        {
-          "role": "student",
-          "field": "traditional",
-          "name": "정민준",
-          "major": "판소리",
-          "org": "국립국악고등학교",
-          "note": "조장"
-        },
-        {
-          "role": "student",
-          "field": "dance",
-          "name": "최유나",
-          "major": "현대무용",
-          "org": "선화예술중학교",
-          "note": ""
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "day": "8.17",
-      "weekday": "월",
-      "label": "본과정",
-      "name": "3회차 · 분야별 심화 워크숍 Ⅱ",
-      "sub": "미술·음악 분야 이론 강의와 실습",
-      "date": "2026.08.17(월) 10:00–17:00",
-      "place": "한국예술종합학교 석관동 캠퍼스 · 분야별 실습동",
-      "count": "학생 96명 · 강사 14명",
-      "status": "완료",
-      "fields": [
-        "art",
-        "music"
-      ],
-      "gallery": [
-        {
-          "type": "photo",
-          "label": "회화 실기 수업"
-        },
-        {
-          "type": "photo",
-          "label": "작곡 이론 강의"
-        },
-        {
-          "type": "video",
-          "label": "실습 영상"
-        },
-        {
-          "type": "photo",
-          "label": "악기 체험"
-        }
-      ],
-      "files": [
-        {
-          "name": "3회차 교재.pdf",
-          "desc": "미술·음악 이론 강의 교재",
-          "type": "PDF"
-        }
-      ],
-      "roster": [
-        {
-          "role": "student",
-          "field": "art",
-          "name": "이하람",
-          "major": "한국화",
-          "org": "예원학교",
-          "note": ""
-        },
-        {
-          "role": "student",
-          "field": "music",
-          "name": "박도현",
-          "major": "작곡",
-          "org": "예원학교",
-          "note": ""
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "day": "8.23",
-      "weekday": "일",
-      "label": "본과정",
-      "name": "4회차 · 통합 합동 리허설",
-      "sub": "발표회를 위한 4개 분야 합동 리허설 및 무대 동선 점검",
-      "date": "2026.08.23(일) 10:00–18:00",
-      "place": "한국예술종합학교 석관동 캠퍼스 · 대극장",
-      "count": "학생 96명 · 강사 16명",
-      "status": "완료",
-      "fields": [
-        "traditional",
-        "art",
-        "music",
-        "dance"
-      ],
-      "gallery": [
-        {
-          "type": "photo",
-          "label": "무대 동선 점검"
-        },
-        {
-          "type": "photo",
-          "label": "조명·음향 리허설"
-        },
-        {
-          "type": "video",
-          "label": "리허설 현장 스케치"
-        },
-        {
-          "type": "photo",
-          "label": "전시 셋업(미술)"
-        }
-      ],
-      "files": [
-        {
-          "name": "4회차 무대 동선표.pdf",
-          "desc": "발표회 무대 동선 및 큐시트",
-          "type": "PDF"
-        },
-        {
-          "name": "미술 전시 배치도.pdf",
-          "desc": "미술 분야 전시 공간 배치",
-          "type": "PDF"
-        }
-      ],
-      "roster": [
-        {
-          "role": "faculty",
-          "field": "music",
-          "name": "한지훈",
-          "major": "작곡 지도",
-          "org": "국립합창단",
-          "note": ""
-        },
-        {
-          "role": "faculty",
-          "field": "dance",
-          "name": "신은서",
-          "major": "무용 지도",
-          "org": "국립무용단",
-          "note": ""
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "day": "8.29",
-      "weekday": "토",
-      "label": "폐회식",
-      "name": "5회차 · 폐회식 & 성과 발표회",
-      "sub": "전 과정을 마무리하는 4개 분야 합동 성과 발표회 및 수료식",
-      "date": "2026.08.29(토) 14:00–19:00",
-      "place": "한국예술종합학교 석관동 캠퍼스 · 대극장 · 전시홀",
-      "count": "학생 96명 · 강사 16명 · 내빈 다수",
-      "status": "예정",
-      "fields": [
-        "traditional",
-        "art",
-        "music",
-        "dance"
-      ],
-      "gallery": [
-        {
-          "type": "photo",
-          "label": "발표회 무대"
-        },
-        {
-          "type": "photo",
-          "label": "미술 전시 오프닝"
-        },
-        {
-          "type": "video",
-          "label": "폐회식 풀영상"
-        },
-        {
-          "type": "photo",
-          "label": "수료증 전달식"
-        }
-      ],
-      "files": [
-        {
-          "name": "5회차 프로그램북.pdf",
-          "desc": "발표회 순서 및 출연진·전시작 소개",
-          "type": "PDF"
-        },
-        {
-          "name": "MC 진행 스크립트.docx",
-          "desc": "폐회식·발표회 사회자 대본",
-          "type": "DOC"
-        },
-        {
-          "name": "수료증 명단.xlsx",
-          "desc": "수료 대상자 명단",
-          "type": "XLS"
-        }
-      ],
-      "roster": []
-    }
-  ]
+  "footer": {
+    "brand": "2026 K예술영재 프로젝트",
+    "desc": "문화체육관광부 주최\n한국예술종합학교 산학협력단 · 한국예술영재교육연구원 주관",
+    "columns": [
+      {
+        "title": "프로젝트",
+        "links": [
+          {
+            "label": "프로젝트 소개",
+            "nav": "intro"
+          },
+          {
+            "label": "모집분야",
+            "nav": "fields"
+          },
+          {
+            "label": "프로그램",
+            "nav": "journey"
+          }
+        ]
+      },
+      {
+        "title": "지원",
+        "links": [
+          {
+            "label": "지원 및 안내",
+            "nav": "board"
+          },
+          {
+            "label": "공고문",
+            "url": "https://kriga.karts.ac.kr/"
+          },
+          {
+            "label": "문의하기",
+            "url": "mailto:kgifted2026@naver.com"
+          }
+        ]
+      },
+      {
+        "title": "미디어",
+        "links": [
+          {
+            "label": "갤러리",
+            "nav": "gallery"
+          },
+          {
+            "label": "유튜브",
+            "url": "https://www.youtube.com/@kartsgifted"
+          }
+        ]
+      },
+      {
+        "title": "주최 · 주관",
+        "links": [
+          {
+            "label": "문화체육관광부"
+          },
+          {
+            "label": "한국예술종합학교"
+          },
+          {
+            "label": "한국예술영재교육연구원"
+          }
+        ]
+      }
+    ],
+    "address": "(우) 03072 서울시 종로구 창경궁로 215 한국예술종합학교 대학로캠퍼스 232호",
+    "contact": "문의 kgifted2026@naver.com"
+  }
 }
