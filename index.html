@@ -45,7 +45,7 @@
   .sec-bg{position:absolute;inset:0;z-index:0;}
   .sec-bg .layer{position:absolute;inset:0;}
   .sec-bg img.bgimg, .sec-bg video.bgvid{width:100%;height:100%;object-fit:cover;}
-  .sec-bg iframe.bgyt{position:absolute;top:50%;left:50%;width:177.78vh;height:56.25vw;min-width:100%;min-height:100%;transform:translate(-50%,-50%);pointer-events:none;}
+  .sec-bg iframe.bgyt{position:absolute;top:50%;left:50%;width:185vh;height:60vw;min-width:145%;min-height:145%;transform:translate(-50%,-50%);pointer-events:none;}
   .sec-bg .overlay{position:absolute;inset:0;background:rgba(0,0,0,0);}
   .grad-hero{background:linear-gradient(160deg,#0b3644 0%,#12566a 42%,#176C86 75%,#1c8aa9 100%);}
   .grad-hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 30% 20%, rgba(255,255,255,0.10), transparent 55%),radial-gradient(ellipse 60% 50% at 80% 85%, rgba(0,0,0,0.18), transparent 60%);}
@@ -451,8 +451,10 @@ function renderBg(container, bg, isHeroGrad){
     if(id){
       const iframe = document.createElement('iframe');
       iframe.className = 'bgyt';
-      iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&showinfo=0&modestbranding=1&playsinline=1`;
-      iframe.setAttribute('frameborder','0'); iframe.setAttribute('allow','autoplay; encrypted-media');
+      iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0&iv_load_policy=3&cc_load_policy=0&disablekb=1&fs=0&cc_lang_pref=00&hl=en`;
+      iframe.setAttribute('frameborder','0');
+      iframe.setAttribute('allow','autoplay; encrypted-media; fullscreen');
+      iframe.setAttribute('tabindex','-1');
       container.appendChild(iframe);
     }
   } else {
