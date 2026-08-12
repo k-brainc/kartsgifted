@@ -3,1014 +3,665 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>관리자 · K예술영재 프로젝트 아카이브</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" as="style" crossorigin
-  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" />
+<title>관리자 - 2026 K예술영재 프로젝트</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" />
 <style>
-:root{
-  --bg:#f5f6f7; --panel:#fff; --ink:#1c1d1f; --ink-soft:#5b5f66; --ink-faint:#9a9da3;
-  --line:#e3e5e8; --teal:#176c86; --teal-deep:#0f4a5c; --dancheong:#ac3b2f;
-  --danger:#c0392b; --radius:8px;
-  --font-body:'Pretendard Variable','Pretendard',-apple-system,sans-serif;
-}
-*{box-sizing:border-box;}
-body{margin:0; font-family:var(--font-body); background:var(--bg); color:var(--ink); line-height:1.5;}
-a{color:inherit;}
-button{font-family:inherit; cursor:pointer;}
-input,textarea,select{font-family:inherit; font-size:13.5px;}
+  :root{
+    --teal:#176C86; --teal-dark:#124f61; --teal-tint:#EAF3F5;
+    --ink:#212326; --ink-2:#55595e; --ink-3:#8a8f94;
+    --bg:#ffffff; --bg-soft:#F6F8F9; --line:#E5E8EA;
+    --sans:'PretendardVariable','Pretendard-Regular','Pretendard', -apple-system, sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:var(--sans);background:var(--bg-soft);color:var(--ink);}
+  a{color:inherit;}
+  input,textarea,select{font-family:var(--sans);font-size:13.5px;border:1px solid var(--line);border-radius:5px;padding:9px 11px;width:100%;background:#fff;color:var(--ink);}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--teal-tint);border-color:var(--teal);}
+  textarea{resize:vertical;min-height:56px;}
+  label{font-size:12px;font-weight:700;color:var(--ink-2);display:block;margin-bottom:5px;}
+  button{font-family:var(--sans);cursor:pointer;border:none;border-radius:5px;font-weight:700;font-size:13px;}
+  .field{margin-bottom:14px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
 
-/* ---------- 로그인 게이트 ---------- */
-#gate{
-  position:fixed; inset:0; background:var(--teal-deep); color:#fff;
-  display:flex; align-items:center; justify-content:center; z-index:1000;
-}
-#gate .box{background:rgba(255,255,255,.06); padding:40px; border-radius:14px; width:340px; max-width:90vw; text-align:center;}
-#gate h1{font-size:18px; margin-bottom:6px;}
-#gate p{font-size:13px; color:#bcd6dc; margin-bottom:22px;}
-#gate input{width:100%; padding:12px 14px; border-radius:8px; border:none; font-size:14px; margin-bottom:12px;}
-#gate button{width:100%; padding:12px; border-radius:8px; border:none; background:var(--dancheong); color:#fff; font-weight:700; font-size:14px;}
-#gate .err{color:#ffb4a8; font-size:12.5px; margin-top:10px; min-height:16px;}
+  /* login */
+  #login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#0b3644,#176C86);}
+  .login-box{background:#fff;border-radius:10px;padding:40px 36px;width:340px;box-shadow:0 20px 60px rgba(0,0,0,0.25);}
+  .login-box h1{font-size:18px;font-weight:800;margin-bottom:6px;}
+  .login-box p{font-size:12.5px;color:var(--ink-3);margin-bottom:22px;}
+  .login-box button{width:100%;background:var(--teal);color:#fff;padding:12px;margin-top:12px;}
+  .login-box .err{color:#c0392b;font-size:12px;margin-top:8px;display:none;}
 
-/* ---------- 레이아웃 ---------- */
-#app{display:none;}
-.topbar{
-  position:sticky; top:0; z-index:50; background:var(--ink); color:#fff;
-  display:flex; align-items:center; justify-content:space-between; padding:0 22px; height:58px;
-}
-.topbar .title{font-weight:700; font-size:14.5px; display:flex; align-items:center; gap:8px;}
-.topbar .title .dot{width:8px; height:8px; border-radius:50%; background:#7fd88a;}
-.topbar .actions{display:flex; gap:8px;}
-.tb-btn{padding:8px 14px; border-radius:6px; font-size:12.5px; font-weight:700; color:#fff; background:rgba(255,255,255,.12);}
-.tb-btn:hover{background:rgba(255,255,255,.22);}
-.tb-btn.primary{background:var(--teal);}
-.tb-btn.primary:hover{background:#1c86a3;}
-.tb-btn.ghost{background:transparent; border:1px solid rgba(255,255,255,.3);}
+  /* app shell */
+  #app{display:none;}
+  header.topbar{
+    position:fixed;top:0;left:0;right:0;height:58px;background:#fff;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;padding:0 22px;z-index:100;
+  }
+  header.topbar .title{font-weight:800;font-size:15px;}
+  header.topbar .title span{color:var(--teal);}
+  .topbar-actions{display:flex;gap:10px;align-items:center;}
+  .btn{padding:9px 16px;border-radius:5px;font-size:12.5px;font-weight:700;}
+  .btn-ghost{background:var(--bg-soft);color:var(--ink);border:1px solid var(--line);}
+  .btn-teal{background:var(--teal);color:#fff;}
+  .btn-teal:hover{background:var(--teal-dark);}
+  .btn-outline{background:#fff;color:var(--teal);border:1.5px solid var(--teal);}
+  .save-msg{font-size:12px;color:var(--teal);font-weight:700;opacity:0;transition:opacity .3s;}
 
-.layout{display:grid; grid-template-columns:220px 1fr; min-height:calc(100vh - 58px);}
-.side{background:#fff; border-right:1px solid var(--line); padding:18px 12px;}
-.side button{
-  display:block; width:100%; text-align:left; padding:11px 14px; border-radius:8px;
-  font-size:13.5px; font-weight:600; color:var(--ink-soft); margin-bottom:2px;
-}
-.side button.active{background:var(--teal); color:#fff;}
-.side button:hover:not(.active){background:var(--bg);}
+  .layout{display:flex;padding-top:58px;min-height:100vh;}
+  .sidebar{width:190px;flex-shrink:0;background:#fff;border-right:1px solid var(--line);position:fixed;top:58px;bottom:0;left:0;overflow-y:auto;}
+  .sidebar button{
+    display:block;width:100%;text-align:left;padding:13px 20px;background:none;font-size:13.5px;font-weight:600;color:var(--ink-2);border-left:3px solid transparent;
+  }
+  .sidebar button.active{background:var(--teal-tint);color:var(--teal-dark);border-left-color:var(--teal);}
+  .sidebar button:hover{background:var(--bg-soft);}
+  .main{margin-left:190px;flex:1;display:flex;}
+  .form-pane{flex:1;padding:28px 32px;max-width:640px;}
+  .preview-pane{flex:1;background:#eef1f2;padding:20px;position:sticky;top:58px;height:calc(100vh - 58px);}
+  .preview-pane iframe{width:100%;height:100%;border:1px solid var(--line);border-radius:8px;background:#fff;}
+  .panel-title{font-size:19px;font-weight:800;margin-bottom:4px;}
+  .panel-sub{font-size:12.5px;color:var(--ink-3);margin-bottom:24px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:20px;margin-bottom:16px;}
+  .card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .card-head h4{font-size:13.5px;font-weight:800;}
+  .mini-btn{background:var(--bg-soft);border:1px solid var(--line);padding:6px 10px;font-size:11.5px;border-radius:4px;color:var(--ink-2);}
+  .mini-btn:hover{color:#c0392b;border-color:#c0392b;}
+  .add-btn{background:var(--teal-tint);color:var(--teal-dark);padding:10px;border-radius:6px;font-size:12.5px;width:100%;margin-top:6px;}
+  .add-btn:hover{background:var(--teal);color:#fff;}
+  .bg-editor{background:var(--bg-soft);border-radius:6px;padding:16px;margin-bottom:18px;}
+  .bg-editor .hint{font-size:11px;color:var(--ink-3);margin-top:4px;}
+  .list-item{border:1px solid var(--line);border-radius:6px;padding:14px;margin-bottom:10px;background:var(--bg-soft);}
+  .divider{height:1px;background:var(--line);margin:22px 0;}
+  .range-row{display:flex;align-items:center;gap:10px;}
+  .range-row input[type=range]{flex:1;}
+  .range-row span{font-size:12px;color:var(--ink-2);width:34px;text-align:right;}
 
-.content{padding:28px 32px 80px; max-width:980px;}
-.tabpage{display:none;}
-.tabpage.active{display:block;}
-.page-head{margin-bottom:22px;}
-.page-head h2{font-size:19px;}
-.page-head p{font-size:13px; color:var(--ink-soft); margin-top:4px;}
-
-.card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px; margin-bottom:16px;}
-.card h3{font-size:14px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;}
-.field{margin-bottom:14px;}
-.field label{display:block; font-size:12px; font-weight:700; color:var(--ink-soft); margin-bottom:5px;}
-.field input[type=text], .field input[type=url], .field textarea, .field select{
-  width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:6px; background:#fbfbfc;
-}
-.field textarea{resize:vertical; min-height:64px;}
-.row2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
-.row3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px;}
-.row4{display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px;}
-
-.repeat-row{display:flex; gap:10px; align-items:flex-start; margin-bottom:10px; padding:12px; background:var(--bg); border-radius:6px;}
-.repeat-row .grow{flex:1; display:grid; gap:8px;}
-.icon-btn{
-  flex:0 0 auto; width:30px; height:30px; border-radius:6px; background:#fff; border:1px solid var(--line);
-  color:var(--danger); font-size:14px; display:flex; align-items:center; justify-content:center;
-}
-.icon-btn:hover{background:#fdecea;}
-.add-btn{
-  font-size:12.5px; font-weight:700; color:var(--teal); padding:8px 14px; border:1px dashed var(--teal); border-radius:6px;
-}
-.add-btn:hover{background:#eaf4f6;}
-
-.color-swatch{width:22px; height:22px; border-radius:50%; display:inline-block; vertical-align:middle; border:1px solid rgba(0,0,0,.1);}
-.chip-select{display:flex; gap:6px; flex-wrap:wrap;}
-.chip-select label{
-  display:flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; padding:7px 12px;
-  border:1px solid var(--line); border-radius:999px; cursor:pointer; background:#fff;
-}
-.chip-select input{margin:0;}
-
-.session-summary{
-  display:flex; align-items:center; justify-content:space-between; padding:14px 16px;
-  border:1px solid var(--line); border-radius:8px; margin-bottom:8px; background:#fff; cursor:pointer;
-}
-.session-summary:hover{border-color:var(--teal);}
-.session-summary .l{display:flex; align-items:center; gap:12px;}
-.session-summary .stamp{
-  width:34px; height:34px; border-radius:50%; background:var(--dancheong); color:#fff;
-  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; flex:0 0 auto;
-}
-.session-summary .name{font-size:13.5px; font-weight:700;}
-.session-summary .sub{font-size:11.5px; color:var(--ink-faint); margin-top:2px;}
-.session-editor{display:none; margin-top:10px;}
-.session-editor.open{display:block;}
-.subtab-bar{display:flex; gap:4px; margin-bottom:14px; border-bottom:1px solid var(--line);}
-.subtab-bar button{padding:9px 14px; font-size:12.5px; font-weight:700; color:var(--ink-faint); border-bottom:2px solid transparent; margin-bottom:-1px;}
-.subtab-bar button.active{color:var(--ink); border-color:var(--dancheong);}
-.subpanel{display:none;}
-.subpanel.active{display:block;}
-
-.toast{
-  position:fixed; bottom:24px; right:24px; background:var(--ink); color:#fff; padding:14px 20px;
-  border-radius:8px; font-size:13px; font-weight:600; box-shadow:0 8px 24px rgba(0,0,0,.2);
-  opacity:0; transform:translateY(10px); transition:.25s; pointer-events:none; z-index:900;
-}
-.toast.show{opacity:1; transform:translateY(0);}
-.hint{font-size:12px; color:var(--ink-faint); margin-top:6px;}
-.danger-zone{border:1px dashed var(--danger); background:#fdf3f2;}
+  @media(max-width:1100px){ .preview-pane{display:none;} .form-pane{max-width:none;} }
 </style>
 </head>
 <body>
 
-<div id="gate">
-  <div class="box">
-    <h1>관리자 접속</h1>
-    <p>K예술영재 프로젝트 아카이브 관리자 페이지입니다.</p>
-    <input type="password" id="gate-pass" placeholder="관리자 비밀번호">
-    <button id="gate-btn">입장</button>
-    <div class="err" id="gate-err"></div>
+<div id="login">
+  <div class="login-box">
+    <h1>K예술영재 프로젝트</h1>
+    <p>관리자 페이지 · 비밀번호를 입력하세요</p>
+    <input type="password" id="pwInput" placeholder="비밀번호">
+    <button onclick="tryLogin()">로그인</button>
+    <div class="err" id="loginErr">비밀번호가 올바르지 않습니다.</div>
   </div>
 </div>
 
 <div id="app">
-  <div class="topbar">
-    <div class="title"><span class="dot"></span> K예술영재 아카이브 관리자</div>
-    <div class="actions">
-      <button class="tb-btn ghost" id="btn-preview">사이트 미리보기 ↗</button>
-      <button class="tb-btn ghost" id="btn-import">가져오기</button>
-      <input type="file" id="file-import" accept="application/json" style="display:none;">
-      <button class="tb-btn" id="btn-export">내보내기 (data.json)</button>
-      <button class="tb-btn primary" id="btn-save">임시저장 (미리보기 반영)</button>
+  <header class="topbar">
+    <div class="title">K예술영재 <span>관리자</span></div>
+    <div class="topbar-actions">
+      <span class="save-msg" id="saveMsg">임시저장됨</span>
+      <button class="btn btn-ghost" onclick="resetToDefault()">기본값으로 초기화</button>
+      <button class="btn btn-outline" onclick="saveDraft()">임시저장 (미리보기)</button>
+      <button class="btn btn-teal" onclick="exportJson()">data.json 내보내기</button>
     </div>
-  </div>
-
+  </header>
   <div class="layout">
-    <div class="side">
-      <button class="active" data-page="meta">기본 정보</button>
-      <button data-page="fields">분야 관리</button>
-      <button data-page="menu">메뉴 관리</button>
-      <button data-page="sessions">회차 관리</button>
-      <button data-page="boards">공지·업데이트·자료</button>
-      <button data-page="danger">데이터 초기화</button>
-    </div>
-
-    <div class="content">
-
-      <!-- ===================== 기본 정보 ===================== -->
-      <div class="tabpage active" id="page-meta">
-        <div class="page-head"><h2>기본 정보</h2><p>사이트 상단 브랜드명, 히어로 문구, 하단 연락처를 편집합니다.</p></div>
-        <div class="card">
-          <h3>브랜드 / 헤더</h3>
-          <div class="row3">
-            <div class="field"><label>배지 글자 (1~2자)</label><input type="text" id="m-brandBadge"></div>
-            <div class="field"><label>사이트명</label><input type="text" id="m-brandName"></div>
-            <div class="field"><label>부제</label><input type="text" id="m-brandSub"></div>
-          </div>
-          <div class="row2">
-            <div class="field"><label>CTA 버튼 문구</label><input type="text" id="m-ctaLabel"></div>
-            <div class="field"><label>CTA 버튼 링크 (해시)</label><input type="text" id="m-ctaHref"></div>
-          </div>
-        </div>
-        <div class="card">
-          <h3>히어로 영역</h3>
-          <div class="field"><label>eyebrow (상단 작은 라벨)</label><input type="text" id="m-heroEyebrow"></div>
-          <div class="field"><label>히어로 타이틀 (HTML 가능, &lt;br&gt;·&lt;em&gt; 사용 가능)</label><textarea id="m-heroTitle"></textarea></div>
-          <div class="field"><label>리드 문구</label><textarea id="m-heroLead"></textarea></div>
-          <div class="field">
-            <label>히어로 정보 목록 (주최/장소/분야/회차 등)</label>
-            <div id="m-heroMeta-list"></div>
-            <button class="add-btn" id="add-heroMeta">+ 항목 추가</button>
-          </div>
-        </div>
-        <div class="card">
-          <h3>히어로 배경 동영상</h3>
-          <p class="hint" style="margin-bottom:14px;">bafeko.com처럼 "네 개의 재능~" 문구 뒤에 자동재생(무음) 동영상을 배경으로 깔 수 있습니다. 용량이 큰 영상은 URL 방식을 권장합니다.</p>
-          <div class="field">
-            <label>배경 동영상 방식</label>
-            <select id="m-heroVideoType">
-              <option value="none">사용 안 함 (기본 그래픽 배경)</option>
-              <option value="url">외부 URL (mp4 직접 링크 권장)</option>
-              <option value="upload">파일 업로드 (미리보기 · 소용량 권장)</option>
-            </select>
-          </div>
-          <div class="field" id="wrap-heroVideoUrl">
-            <label>동영상 URL (유튜브 / Vimeo / mp4 직접 링크 모두 가능)</label>
-            <input type="url" id="m-heroVideoUrl" placeholder="https://www.youtube.com/watch?v=... 또는 https://vimeo.com/... 또는 https://example.com/video.mp4">
-            <p class="hint">유튜브·Vimeo 링크를 붙여넣으면 자동으로 무음·자동재생·반복·컨트롤 숨김 배경으로 전환됩니다. 일반 동영상 파일이면 mp4 직접 링크(구글드라이브 공유 후 다운로드 링크 변환 등)를 넣으세요.</p>
-            <div id="heroVideoUrlPreview" style="margin-top:10px; width:240px; aspect-ratio:16/9; background:#000; border-radius:8px; overflow:hidden; display:none; position:relative;"></div>
-          </div>
-          <div class="field" id="wrap-heroVideoUpload">
-            <label>동영상 파일 선택</label>
-            <input type="file" id="m-heroVideoFile" accept="video/*">
-            <p class="hint">10MB 이하의 짧은 클립을 권장합니다. 파일이 크면 임시저장·내보내기가 느려지거나 실패할 수 있어요 — 그럴 땐 위 URL 방식을 사용하세요.</p>
-            <video id="m-heroVideoPreview" style="max-width:280px; margin-top:8px; border-radius:8px; display:none; background:#000;" muted controls></video>
-          </div>
-          <button class="tb-btn ghost" id="btn-remove-hero-video" style="margin-top:4px; background:#f2f2f3; color:var(--ink);">배경 동영상 제거</button>
-        </div>
-        <div class="card">
-          <h3>푸터 / 연락처</h3>
-          <div class="field">
-            <label>오시는 길 (줄 단위)</label>
-            <div id="m-address-list"></div>
-            <button class="add-btn" id="add-address">+ 줄 추가</button>
-          </div>
-          <div class="field"><label>저작권 문구</label><input type="text" id="m-footerCopy"></div>
-        </div>
+    <div class="sidebar" id="sidebar"></div>
+    <div class="main">
+      <div class="form-pane" id="formPane"></div>
+      <div class="preview-pane">
+        <iframe id="previewFrame" src="index.html?preview=1"></iframe>
       </div>
-
-      <!-- ===================== 분야 관리 ===================== -->
-      <div class="tabpage" id="page-fields">
-        <div class="page-head"><h2>분야 관리</h2><p>전통예술 · 미술 · 음악 · 무용 등 워크숍 분야를 추가/수정/삭제합니다. 색상은 카드·태그·명단에 자동 반영됩니다.</p></div>
-        <div class="card">
-          <h3>분야 목록</h3>
-          <div id="fields-list"></div>
-          <button class="add-btn" id="add-field">+ 분야 추가</button>
-        </div>
-      </div>
-
-      <!-- ===================== 메뉴 관리 ===================== -->
-      <div class="tabpage" id="page-menu">
-        <div class="page-head"><h2>메뉴 관리</h2><p>상단 내비게이션(GNB)에 노출되는 메뉴 항목입니다.</p></div>
-        <div class="card">
-          <h3>GNB 메뉴</h3>
-          <div id="menu-list"></div>
-          <button class="add-btn" id="add-menu">+ 메뉴 추가</button>
-        </div>
-      </div>
-
-      <!-- ===================== 회차 관리 ===================== -->
-      <div class="tabpage" id="page-sessions">
-        <div class="page-head"><h2>회차 관리</h2><p>각 회차의 기본 정보, 참여 분야, 갤러리, 자료, 참가자 명단을 편집합니다.</p></div>
-        <div id="sessions-list"></div>
-        <button class="add-btn" id="add-session">+ 회차 추가</button>
-      </div>
-
-      <!-- ===================== 공지·업데이트·자료 ===================== -->
-      <div class="tabpage" id="page-boards">
-        <div class="page-head"><h2>공지사항 · 최근 업데이트 · 자료실 바로가기</h2><p>홈 화면 하단 3단 위젯에 표시되는 목록입니다.</p></div>
-        <div class="card">
-          <h3>공지사항</h3>
-          <div id="notices-list"></div>
-          <button class="add-btn" id="add-notice">+ 항목 추가</button>
-        </div>
-        <div class="card">
-          <h3>최근 업데이트</h3>
-          <div id="updates-list"></div>
-          <button class="add-btn" id="add-update">+ 항목 추가</button>
-        </div>
-        <div class="card">
-          <h3>자료실 바로가기</h3>
-          <div id="quicklinks-list"></div>
-          <button class="add-btn" id="add-quicklink">+ 항목 추가</button>
-        </div>
-      </div>
-
-      <!-- ===================== 초기화 ===================== -->
-      <div class="tabpage" id="page-danger">
-        <div class="page-head"><h2>데이터 초기화</h2><p>편집 중인 임시 데이터를 기본 샘플 상태로 되돌립니다. 내보내기 하지 않은 변경사항은 사라집니다.</p></div>
-        <div class="card danger-zone">
-          <h3>⚠️ 기본값으로 초기화</h3>
-          <p style="font-size:13px; color:var(--ink-soft); margin-bottom:14px;">되돌릴 수 없습니다. 초기화 전 "내보내기"로 현재 데이터를 백업하는 것을 권장합니다.</p>
-          <button class="tb-btn" style="background:var(--danger); color:#fff;" id="btn-reset">전체 초기화</button>
-        </div>
-      </div>
-
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
-
 <script>
-/* ============================================================
-   관리자 페이지 — index.html 과 동일한 데이터 스키마를 편집합니다.
-   저장 방식:
-   - "임시저장": localStorage(kart_archive_data_v1) 에 저장 → 같은 브라우저에서
-     index.html 을 열면 즉시 미리보기 가능 (실제 방문자에게는 아직 미반영).
-   - "내보내기": 현재 데이터를 data.json 으로 다운로드. 이 파일을 index.html 과
-     같은 폴더(예: GitHub 저장소)에 올리면 모든 방문자에게 반영됩니다.
-   ============================================================ */
-const LS_KEY = 'kart_archive_data_v1';
-const ADMIN_PASS = 'karts2026'; // 필요 시 이 값을 변경하세요.
+const PASSWORD = 'kartsgifted2026';
+const DRAFT_KEY = 'kgifted_draft';
 
+function tryLogin(){
+  const v = document.getElementById('pwInput').value;
+  if(v === PASSWORD){
+    sessionStorage.setItem('kgifted_admin_auth','1');
+    document.getElementById('login').style.display='none';
+    document.getElementById('app').style.display='block';
+    boot();
+  } else {
+    document.getElementById('loginErr').style.display='block';
+  }
+}
+document.getElementById('pwInput').addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
+if(sessionStorage.getItem('kgifted_admin_auth') === '1'){
+  document.getElementById('login').style.display='none';
+  document.getElementById('app').style.display='block';
+  window.addEventListener('DOMContentLoaded', boot);
+}
+
+/* ===================== DEFAULT DATA (mirrors index.html) ===================== */
 const DEFAULT_DATA = {
-  meta:{
-    brandBadge:"藝", brandName:"K예술영재 프로젝트", brandSub:"2026 통합 워크숍 아카이브",
-    ctaLabel:"최근 회차 보기", ctaHref:"#/session/1",
-    heroEyebrow:"2026 K-ARTS TALENT ARCHIVE",
-    heroTitle:"네 개의 재능,<br>다섯 번의 <em>만남</em>",
-    heroLead:"2026 K예술영재 프로젝트는 전통예술·미술·음악·무용 4개 분야에서 선발된 영재들이 함께 성장하는 통합 워크숍입니다. 회차별 진행 기록과 자료를 한자리에 모았습니다.",
-    heroMeta:[
-      {k:"주최", v:"K예술영재 프로젝트 추진단"},
-      {k:"장소", v:"한국예술종합학교 석관동 캠퍼스"},
-      {k:"분야", v:"전통예술·미술·음악·무용 (4개 분야)"},
-      {k:"회차", v:"총 5회 · 7.29 ~ 8.29"}
-    ],
-    address:["한국예술종합학교 석관동 캠퍼스","서울특별시 성북구 화랑로32길 146-37","k-arts-archive@project.kr"],
-    footerCopy:"© 2026 K예술영재 프로젝트. All Rights Reserved.",
-    heroVideo:{type:"none", url:"", dataUrl:""}
-  },
-  fields:[
-    {id:"traditional", label:"전통예술", color:"#AC3B2F"},
-    {id:"art", label:"미술", color:"#B08A4E"},
-    {id:"music", label:"음악", color:"#176C86"},
-    {id:"dance", label:"무용", color:"#5B3A8E"}
-  ],
-  menu:[
-    {label:"아카이브 홈", href:"#/"},
-    {label:"회차별 기록", href:"#/"},
-    {label:"분야별 보기", href:"#/"},
-    {label:"참가자 명단", href:"#/"}
-  ],
-  notices:[
-    {title:"개회식(1회) 참가자 사전 안내", date:"07.25"},
-    {title:"2회차 우천 시 일정 안내", date:"08.13"},
-    {title:"폐회식 발표회 좌석 배치 공지", date:"08.27"}
-  ],
-  updates:[
-    {title:"2회차 사진·영상 갤러리 업로드", date:"NEW"},
-    {title:"1회차 자료실 등록", date:"08.02"},
-    {title:"참가 학생·강사 명단 갱신", date:"08.10"}
-  ],
-  quicklinks:[
-    {title:"2026 전체 프로그램북 (PDF)", tag:"PDF"},
-    {title:"워크숍 운영 매뉴얼", tag:"PDF"},
-    {title:"참가자 안내 리플렛", tag:"HTML"}
-  ],
-  sessions:[
-    {
-      id:1, day:"7.29", weekday:"수", label:"개회식",
-      name:"1회차 · 개회식 & 오리엔테이션",
-      sub:"4개 분야 영재들이 처음 모이는 자리 — 개회식, 분야 소개, 팀 편성",
-      date:"2026.07.29(수) 10:00–17:00",
-      place:"한국예술종합학교 석관동 캠퍼스 · 대극장",
-      count:"학생 96명 · 강사 16명", status:"완료",
-      fields:["traditional","art","music","dance"],
-      gallery:[
-        {type:"photo", label:"개회식 전경"}, {type:"photo", label:"축사 및 인사말"},
-        {type:"video", label:"개회식 하이라이트 영상"}, {type:"photo", label:"분야별 오리엔테이션"},
-        {type:"photo", label:"팀 편성 활동"}, {type:"photo", label:"단체 기념촬영"}
+  meta:{ title:"2026 K예술영재 프로젝트", badge:"2026" },
+  sections:{
+    hero:{
+      bg:{type:"gradient",url:"",overlay:0.25}, eyebrow:"문화체육관광부 주최 · 2026",
+      title:"잘하는 아이에서,\n표현하는 아티스트로",
+      subtitle:"음악·무용·전통예술·미술, 네 분야의 예술영재를 전국에서 발굴하고\n워크숍부터 겨울 캠프까지 국가가 지원하는 성장의 무대를 엽니다.",
+      chips:["모집기간 2026.5.18–6.5","대상 초4~고2","4개 분야","참가비 무료"]
+    },
+    intro:{
+      bg:{type:"gradient",url:"",overlay:0.35}, eyebrow:"About", heading:"왜 지금, 예술영재인가",
+      desc:"세계는 이미 대한민국 젊은 예술가들의 성취에 주목하고 있습니다. 하지만 우리는 그들의 '시작'을 본 적이 없습니다.",
+      quote:"\"재능 있는 아이\"에서, 자신의 예술적 정체성을 갖고\n미래를 준비하는 \"아티스트\"로의 전환점을 제공합니다.",
+      quoteSource:"2026 K예술영재 프로젝트 사업 목적",
+      figures:[
+        {name:"전민철",role:"마린스키 발레단 수석무용수"},
+        {name:"조성진",role:"쇼팽 국제 콩쿠르 우승 피아니스트"},
+        {name:"임윤찬",role:"반 클라이번 국제 콩쿠르 우승 피아니스트"},
+        {name:"양인모",role:"파가니니 국제 콩쿠르 한국인 최초 우승자"}
       ],
-      files:[
-        {name:"1회차 프로그램북.pdf", desc:"당일 진행 순서 및 세부 일정", type:"PDF"},
-        {name:"MC 진행 스크립트.docx", desc:"개회식 사회자 대본", type:"DOC"}
-      ],
-      roster:[
-        {role:"student", field:"traditional", name:"김서연", major:"전통무용", org:"서울예술고등학교", note:"조장"},
-        {role:"student", field:"art", name:"이하람", major:"한국화", org:"예원학교", note:""},
-        {role:"student", field:"music", name:"박도현", major:"작곡", org:"예원학교", note:""},
-        {role:"student", field:"dance", name:"최유나", major:"현대무용", org:"선화예술중학교", note:""},
-        {role:"faculty", field:"traditional", name:"윤서인", major:"전통무용 지도", org:"한국예술종합학교", note:"수석강사"},
-        {role:"faculty", field:"art", name:"오세인", major:"회화 지도", org:"국립현대미술관", note:""}
+      stats:[{n:"200명",l:"전국 공모 선발 인원 (내외)"},{n:"4개",l:"모집 분야"},{n:"6박7일",l:"겨울 집중 캠프 (광주)"},{n:"무료",l:"문화체육관광부 지원"}]
+    },
+    fields:{
+      bg:{type:"gradient",url:"",overlay:0.35}, eyebrow:"Programs", heading:"모집분야",
+      desc:"1인 1개 전공만 지원 가능하며, 세부 전공별 모집 대상 출생연도가 상이합니다.",
+      cards:[
+        {accent:"music",tag:"Music",name:"음악",en:"Instrumental",items:["피아노","바이올린 · 비올라 · 첼로"],age:"2009.1.1 ~ 2016.12.31"},
+        {accent:"dance",tag:"Dance",name:"무용",en:"Ballet",items:["발레 — bar & center work","발레 — 자유 작품 영상"],age:"2010.1.1 ~ 2015.12.31"},
+        {accent:"trad",tag:"Traditional Arts",name:"전통예술",en:"기악 · 성악 · 연희",items:["가야금 · 거문고 · 해금","타악(설장구) · 판소리 · 연희"],age:"2009.1.1 ~ 2015.12.31"},
+        {accent:"art",tag:"Visual Arts",name:"미술",en:"Visual Arts",items:["시각예술 — 포트폴리오(10p)","지원에세이 제출"],age:"2010.1.1 ~ 2013.12.31"}
       ]
     },
-    {
-      id:2, day:"8.15", weekday:"토", label:"본과정",
-      name:"2회차 · 분야별 심화 워크숍 Ⅰ",
-      sub:"4개 분야 각각의 전공 실기 수업 및 조별 실습",
-      date:"2026.08.15(토) 10:00–17:00",
-      place:"한국예술종합학교 석관동 캠퍼스 · 분야별 실습동",
-      count:"학생 96명 · 강사 14명", status:"완료",
-      fields:["traditional","dance"],
-      gallery:[
-        {type:"photo", label:"전통무용 기본 동작 지도"}, {type:"photo", label:"조별 실습 현장"},
-        {type:"video", label:"수업 요약 영상"}, {type:"photo", label:"강사 시연"}
-      ],
-      files:[{name:"2회차 커리큘럼.pdf", desc:"장르별 실기 수업 커리큘럼", type:"PDF"}],
-      roster:[
-        {role:"student", field:"traditional", name:"정민준", major:"판소리", org:"국립국악고등학교", note:"조장"},
-        {role:"student", field:"dance", name:"최유나", major:"현대무용", org:"선화예술중학교", note:""}
+    journey:{
+      bg:{type:"gradient",url:"",overlay:0.35}, eyebrow:"Journey", heading:"성장의 여정",
+      desc:"한 번의 워크숍으로 끝나지 않는, 세 단계로 이어지는 성장 프로그램입니다.",
+      steps:[
+        {when:"2026. 7 – 8월",title:"K예술영재 발굴 워크숍",desc:"분야별 캠퍼스에서 진행되는 집중 워크숍. 개인레슨, 마스터클래스, 저명 예술가와의 만남. 교육비·식비 무료 (비숙박).",tags:["음악 · 서초 캠퍼스","무용 · 광주 캠퍼스","전통예술 · 석관동","미술 · KAIST"]},
+        {when:"2026. 9 – 12월",title:"K예술영재 심화 멘토링",desc:"워크숍 수료자 중 참여도·성장 가능성이 돋보이는 참가자에게 온·오프라인 병행 멘토링과 맞춤 코칭을 제공합니다.",tags:["개인별 맞춤 코칭","크로스오버 프로젝트"]},
+        {when:"2027. 1.24 – 1.30 · 6박7일",title:"K예술영재 겨울 집중 캠프",desc:"광주광역시 숙박형 캠프. 마스터클래스와 창작 레지던시를 거쳐 하이라이트 갈라 공연으로 성장을 완성, 인증서를 수여합니다.",tags:["마스터클래스","갈라 공연","인증서 발급"]}
       ]
     },
-    {
-      id:3, day:"8.17", weekday:"월", label:"본과정",
-      name:"3회차 · 분야별 심화 워크숍 Ⅱ",
-      sub:"미술·음악 분야 이론 강의와 실습",
-      date:"2026.08.17(월) 10:00–17:00",
-      place:"한국예술종합학교 석관동 캠퍼스 · 분야별 실습동",
-      count:"학생 96명 · 강사 14명", status:"완료",
-      fields:["art","music"],
-      gallery:[
-        {type:"photo", label:"회화 실기 수업"}, {type:"photo", label:"작곡 이론 강의"},
-        {type:"video", label:"실습 영상"}, {type:"photo", label:"악기 체험"}
+    board:{
+      bg:{type:"gradient",url:"",overlay:0.35}, eyebrow:"Apply", heading:"지원 및 안내",
+      desc:"2026학년도 한국예술영재교육원 재원생은 지원할 수 없으며, 타 분야 중복 지원 시 전부 무효 처리됩니다.",
+      moreUrl:"https://kriga.karts.ac.kr/",
+      rows:[
+        {title:"모집 공고",sub:"전공별 시험 내용(제출 내용) 확인",date:"5.18 – 6.5"},
+        {title:"서류 접수",sub:"등기우편 제출 · 마감일 소인분까지 인정",date:"6.1 – 6.5"},
+        {title:"합격자 발표",sub:"한국예술영재교육연구원 홈페이지 공지",date:"6월 중"},
+        {title:"발굴 워크숍",sub:"분야별 캠퍼스에서 진행",date:"7 – 8월"},
+        {title:"겨울 집중 캠프",sub:"6박7일 · 광주광역시",date:"'27.1.24–30"}
       ],
-      files:[{name:"3회차 교재.pdf", desc:"미술·음악 이론 강의 교재", type:"PDF"}],
-      roster:[
-        {role:"student", field:"art", name:"이하람", major:"한국화", org:"예원학교", note:""},
-        {role:"student", field:"music", name:"박도현", major:"작곡", org:"예원학교", note:""}
-      ]
+      info:{title:"제출 서류",lines:[
+        {k:"공통",v:"지원서 및 연구 참여 동의서"},
+        {k:"음악·무용·전통예술",v:"자기소개서 + 실기 동영상"},
+        {k:"미술",v:"지원에세이 + 포트폴리오(6부)"},
+        {k:"접수 방법",v:"등기우편 (소인 인정)"},
+        {k:"문의",v:"kgifted2026@naver.com",link:"mailto:kgifted2026@naver.com"},
+        {k:"홈페이지",v:"kriga.karts.ac.kr",link:"https://kriga.karts.ac.kr/"}
+      ]}
     },
-    {
-      id:4, day:"8.23", weekday:"일", label:"본과정",
-      name:"4회차 · 통합 합동 리허설",
-      sub:"발표회를 위한 4개 분야 합동 리허설 및 무대 동선 점검",
-      date:"2026.08.23(일) 10:00–18:00",
-      place:"한국예술종합학교 석관동 캠퍼스 · 대극장",
-      count:"학생 96명 · 강사 16명", status:"완료",
-      fields:["traditional","art","music","dance"],
-      gallery:[
-        {type:"photo", label:"무대 동선 점검"}, {type:"photo", label:"조명·음향 리허설"},
-        {type:"video", label:"리허설 현장 스케치"}, {type:"photo", label:"전시 셋업(미술)"}
-      ],
-      files:[
-        {name:"4회차 무대 동선표.pdf", desc:"발표회 무대 동선 및 큐시트", type:"PDF"},
-        {name:"미술 전시 배치도.pdf", desc:"미술 분야 전시 공간 배치", type:"PDF"}
-      ],
-      roster:[
-        {role:"faculty", field:"music", name:"한지훈", major:"작곡 지도", org:"국립합창단", note:""},
-        {role:"faculty", field:"dance", name:"신은서", major:"무용 지도", org:"국립무용단", note:""}
+    gallery:{
+      bg:{type:"gradient",url:"",overlay:0.35}, eyebrow:"Media", heading:"갤러리 · 성장 기록",
+      desc:"연습에서 무대까지 — 관찰의 시선으로 담는 아이들의 성장 다큐멘터리.",
+      channelUrl:"https://www.youtube.com/@kartsgifted",
+      items:[
+        {caption:"음악 · 발굴 워크숍",color:"music",link:"https://www.youtube.com/@kartsgifted",bgImage:""},
+        {caption:"무용 · 발레 워크숍",color:"dance",link:"https://www.youtube.com/@kartsgifted",bgImage:""},
+        {caption:"전통예술 · 워크숍",color:"trad",link:"https://www.youtube.com/@kartsgifted",bgImage:""},
+        {caption:"미술 · 워크숍",color:"art",link:"https://www.youtube.com/@kartsgifted",bgImage:""}
       ]
-    },
-    {
-      id:5, day:"8.29", weekday:"토", label:"폐회식",
-      name:"5회차 · 폐회식 & 성과 발표회",
-      sub:"전 과정을 마무리하는 4개 분야 합동 성과 발표회 및 수료식",
-      date:"2026.08.29(토) 14:00–19:00",
-      place:"한국예술종합학교 석관동 캠퍼스 · 대극장 · 전시홀",
-      count:"학생 96명 · 강사 16명 · 내빈 다수", status:"예정",
-      fields:["traditional","art","music","dance"],
-      gallery:[
-        {type:"photo", label:"발표회 무대"}, {type:"photo", label:"미술 전시 오프닝"},
-        {type:"video", label:"폐회식 풀영상"}, {type:"photo", label:"수료증 전달식"}
-      ],
-      files:[
-        {name:"5회차 프로그램북.pdf", desc:"발표회 순서 및 출연진·전시작 소개", type:"PDF"},
-        {name:"MC 진행 스크립트.docx", desc:"폐회식·발표회 사회자 대본", type:"DOC"},
-        {name:"수료증 명단.xlsx", desc:"수료 대상자 명단", type:"XLS"}
-      ],
-      roster:[]
     }
-  ]
+  },
+  footer:{
+    brand:"2026 K예술영재 프로젝트",
+    desc:"문화체육관광부 주최\n한국예술종합학교 산학협력단 · 한국예술영재교육연구원 주관",
+    columns:[
+      {title:"프로젝트",links:[{label:"프로젝트 소개",nav:"intro"},{label:"모집분야",nav:"fields"},{label:"프로그램",nav:"journey"}]},
+      {title:"지원",links:[{label:"지원 및 안내",nav:"board"},{label:"공고문",url:"https://kriga.karts.ac.kr/"},{label:"문의하기",url:"mailto:kgifted2026@naver.com"}]},
+      {title:"미디어",links:[{label:"갤러리",nav:"gallery"},{label:"유튜브",url:"https://www.youtube.com/@kartsgifted"}]},
+      {title:"주최 · 주관",links:[{label:"문화체육관광부"},{label:"한국예술종합학교"},{label:"한국예술영재교육연구원"}]}
+    ],
+    address:"(우) 03072 서울시 종로구 창경궁로 215 한국예술종합학교 대학로캠퍼스 232호",
+    contact:"문의 kgifted2026@naver.com"
+  }
 };
 
-let DATA = null;
-let openSessionId = null;
+let state = null;
+const TABS = [
+  {key:'meta', label:'기본정보'},
+  {key:'hero', label:'히어로'},
+  {key:'intro', label:'프로젝트 소개'},
+  {key:'fields', label:'모집분야'},
+  {key:'journey', label:'프로그램 여정'},
+  {key:'board', label:'지원안내'},
+  {key:'gallery', label:'갤러리'},
+  {key:'footer', label:'푸터'}
+];
+let currentTab = 'hero';
 
-function uid(){ return Date.now() + Math.floor(Math.random()*1000); }
-
-function loadInitial(){
+async function boot(){
   try{
-    const draft = localStorage.getItem(LS_KEY);
-    DATA = draft ? JSON.parse(draft) : JSON.parse(JSON.stringify(DEFAULT_DATA));
-  }catch(e){ DATA = JSON.parse(JSON.stringify(DEFAULT_DATA)); }
-}
-
-function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2200);
-}
-
-function persistDraft(){
-  try{
-    localStorage.setItem(LS_KEY, JSON.stringify(DATA));
-    return true;
-  }catch(e){
-    showToast('임시저장 실패: 데이터 용량이 너무 큽니다 (동영상은 URL 방식을 권장합니다)');
-    console.error(e);
-    return false;
-  }
-}
-
-/* ---------------- 로그인 게이트 ---------------- */
-document.getElementById('gate-btn').addEventListener('click', tryLogin);
-document.getElementById('gate-pass').addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
-function tryLogin(){
-  const val = document.getElementById('gate-pass').value;
-  if(val === ADMIN_PASS){
-    document.getElementById('gate').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    boot();
-  }else{
-    document.getElementById('gate-err').textContent = '비밀번호가 올바르지 않습니다.';
-  }
-}
-
-/* ---------------- 사이드 네비 ---------------- */
-document.querySelectorAll('.side button').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.side button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.tabpage').forEach(p=>p.classList.remove('active'));
-    document.getElementById('page-'+btn.dataset.page).classList.add('active');
-  });
-});
-
-/* ================= 렌더: 기본 정보 ================= */
-function renderMeta(){
-  const m = DATA.meta;
-  document.getElementById('m-brandBadge').value = m.brandBadge;
-  document.getElementById('m-brandName').value = m.brandName;
-  document.getElementById('m-brandSub').value = m.brandSub;
-  document.getElementById('m-ctaLabel').value = m.ctaLabel;
-  document.getElementById('m-ctaHref').value = m.ctaHref;
-  document.getElementById('m-heroEyebrow').value = m.heroEyebrow;
-  document.getElementById('m-heroTitle').value = m.heroTitle;
-  document.getElementById('m-heroLead').value = m.heroLead;
-  document.getElementById('m-footerCopy').value = m.footerCopy;
-
-  const hmList = document.getElementById('m-heroMeta-list');
-  hmList.innerHTML = m.heroMeta.map((x,i)=>`
-    <div class="repeat-row">
-      <div class="grow row2">
-        <input type="text" value="${esc(x.k)}" placeholder="라벨 (예: 주최)" data-hm-k="${i}">
-        <input type="text" value="${esc(x.v)}" placeholder="값 (예: K예술영재 프로젝트 추진단)" data-hm-v="${i}">
-      </div>
-      <button class="icon-btn" data-hm-del="${i}">✕</button>
-    </div>
-  `).join('');
-
-  const addrList = document.getElementById('m-address-list');
-  addrList.innerHTML = m.address.map((a,i)=>`
-    <div class="repeat-row">
-      <div class="grow"><input type="text" value="${esc(a)}" data-addr="${i}"></div>
-      <button class="icon-btn" data-addr-del="${i}">✕</button>
-    </div>
-  `).join('');
-
-  renderHeroVideoUI();
-}
-
-function renderHeroVideoUI(){
-  if(!DATA.meta.heroVideo) DATA.meta.heroVideo = {type:'none', url:'', dataUrl:''};
-  const hv = DATA.meta.heroVideo;
-  document.getElementById('m-heroVideoType').value = hv.type || 'none';
-  document.getElementById('m-heroVideoUrl').value = hv.url || '';
-  document.getElementById('wrap-heroVideoUrl').style.display = hv.type==='url' ? 'block' : 'none';
-  document.getElementById('wrap-heroVideoUpload').style.display = hv.type==='upload' ? 'block' : 'none';
-  const preview = document.getElementById('m-heroVideoPreview');
-  if(hv.type==='upload' && hv.dataUrl){
-    preview.src = hv.dataUrl;
-    preview.style.display = 'block';
-  }else{
-    preview.style.display = 'none';
-  }
-  renderHeroVideoUrlPreview();
-}
-
-/* 유튜브/Vimeo/mp4 자동 감지 (index.html 과 동일 로직) */
-function parseYouTubeId(url){
-  if(!url) return null;
-  const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{6,})/);
-  return m ? m[1] : null;
-}
-function parseVimeoId(url){
-  if(!url) return null;
-  const m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
-  return m ? m[1] : null;
-}
-function renderHeroVideoUrlPreview(){
-  const box = document.getElementById('heroVideoUrlPreview');
-  const hv = DATA.meta.heroVideo;
-  const url = (hv.type==='url') ? (hv.url||'').trim() : '';
-  box.innerHTML = '';
-  if(!url){ box.style.display = 'none'; return; }
-  box.style.display = 'block';
-  const yt = parseYouTubeId(url);
-  const vm = !yt ? parseVimeoId(url) : null;
-  let el;
-  if(yt){
-    el = document.createElement('iframe');
-    el.src = `https://www.youtube.com/embed/${yt}?autoplay=1&mute=1&loop=1&playlist=${yt}&controls=0&modestbranding=1&rel=0`;
-    el.style.cssText = 'position:absolute; inset:0; width:100%; height:100%; border:0;';
-    el.setAttribute('allow','autoplay; encrypted-media');
-  }else if(vm){
-    el = document.createElement('iframe');
-    el.src = `https://player.vimeo.com/video/${vm}?autoplay=1&muted=1&loop=1&background=1`;
-    el.style.cssText = 'position:absolute; inset:0; width:100%; height:100%; border:0;';
-    el.setAttribute('allow','autoplay; fullscreen');
-  }else{
-    el = document.createElement('video');
-    el.src = url; el.autoplay = true; el.muted = true; el.loop = true; el.playsInline = true;
-    el.style.cssText = 'position:absolute; inset:0; width:100%; height:100%; object-fit:cover;';
-  }
-  box.appendChild(el);
-}
-
-function bindMetaEvents(){
-  ['brandBadge','brandName','brandSub','ctaLabel','ctaHref','heroEyebrow','heroTitle','heroLead','footerCopy'].forEach(key=>{
-    document.getElementById('m-'+key).addEventListener('input', e=>{ DATA.meta[key] = e.target.value; });
-  });
-  document.getElementById('add-heroMeta').addEventListener('click', ()=>{
-    DATA.meta.heroMeta.push({k:'라벨', v:'값'}); renderMeta(); bindDynamicMetaRows();
-  });
-  document.getElementById('add-address').addEventListener('click', ()=>{
-    DATA.meta.address.push('새 주소 줄'); renderMeta(); bindDynamicMetaRows();
-  });
-  bindDynamicMetaRows();
-  bindHeroVideoEvents();
-}
-
-function bindHeroVideoEvents(){
-  document.getElementById('m-heroVideoType').addEventListener('change', e=>{
-    DATA.meta.heroVideo.type = e.target.value;
-    renderHeroVideoUI();
-  });
-  document.getElementById('m-heroVideoUrl').addEventListener('input', e=>{
-    DATA.meta.heroVideo.url = e.target.value;
-    clearTimeout(window.__heroUrlPreviewTimer);
-    window.__heroUrlPreviewTimer = setTimeout(renderHeroVideoUrlPreview, 500);
-  });
-  document.getElementById('m-heroVideoFile').addEventListener('change', e=>{
-    const file = e.target.files[0];
-    if(!file) return;
-    if(!file.type.startsWith('video/')){
-      alert('동영상 파일만 선택할 수 있습니다.');
-      e.target.value = '';
-      return;
+    const draft = localStorage.getItem(DRAFT_KEY);
+    if(draft){ state = JSON.parse(draft); }
+    else {
+      const res = await fetch('data.json', {cache:'no-store'});
+      state = res.ok ? await res.json() : JSON.parse(JSON.stringify(DEFAULT_DATA));
     }
-    const MAX_SOFT = 8 * 1024 * 1024; // 8MB
-    if(file.size > MAX_SOFT){
-      const mb = (file.size/1024/1024).toFixed(1);
-      if(!confirm(`선택한 파일이 약 ${mb}MB로 큽니다. 임시저장·내보내기가 느리거나 실패할 수 있습니다.\n계속 진행할까요? (권장: 위 "외부 URL" 방식)`)){
-        e.target.value = '';
-        return;
-      }
-    }
-    const reader = new FileReader();
-    reader.onload = ()=>{
-      DATA.meta.heroVideo.type = 'upload';
-      DATA.meta.heroVideo.dataUrl = reader.result;
-      renderHeroVideoUI();
-      showToast('동영상을 불러왔습니다 — 임시저장 또는 내보내기로 반영하세요.');
-    };
-    reader.onerror = ()=>{ alert('파일을 읽는 중 오류가 발생했습니다.'); };
-    reader.readAsDataURL(file);
-  });
-  document.getElementById('btn-remove-hero-video').addEventListener('click', ()=>{
-    DATA.meta.heroVideo = {type:'none', url:'', dataUrl:''};
-    document.getElementById('m-heroVideoFile').value = '';
-    renderHeroVideoUI();
-    showToast('배경 동영상을 제거했습니다.');
+  }catch(e){ state = JSON.parse(JSON.stringify(DEFAULT_DATA)); }
+  buildSidebar();
+  renderTab(currentTab);
+}
+function resetToDefault(){
+  if(!confirm('현재 편집 중인 모든 내용을 기본값으로 되돌립니다. 계속할까요?')) return;
+  state = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  renderTab(currentTab);
+  flash('기본값으로 초기화되었습니다 (아직 임시저장 전)');
+}
+function buildSidebar(){
+  const sb = document.getElementById('sidebar');
+  sb.innerHTML = TABS.map(t=>`<button data-tab="${t.key}" class="${t.key===currentTab?'active':''}">${t.label}</button>`).join('');
+  sb.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{ currentTab = b.dataset.tab; buildSidebar(); renderTab(currentTab); });
   });
 }
-function bindDynamicMetaRows(){
-  document.querySelectorAll('[data-hm-k]').forEach(el=> el.addEventListener('input', e=>{ DATA.meta.heroMeta[+e.target.dataset.hmK].k = e.target.value; }));
-  document.querySelectorAll('[data-hm-v]').forEach(el=> el.addEventListener('input', e=>{ DATA.meta.heroMeta[+e.target.dataset.hmV].v = e.target.value; }));
-  document.querySelectorAll('[data-hm-del]').forEach(el=> el.addEventListener('click', e=>{ DATA.meta.heroMeta.splice(+e.target.dataset.hmDel,1); renderMeta(); bindDynamicMetaRows(); }));
-  document.querySelectorAll('[data-addr]').forEach(el=> el.addEventListener('input', e=>{ DATA.meta.address[+e.target.dataset.addr] = e.target.value; }));
-  document.querySelectorAll('[data-addr-del]').forEach(el=> el.addEventListener('click', e=>{ DATA.meta.address.splice(+e.target.dataset.addrDel,1); renderMeta(); bindDynamicMetaRows(); }));
+function flash(msg){
+  const el = document.getElementById('saveMsg');
+  el.textContent = msg; el.style.opacity = '1';
+  setTimeout(()=> el.style.opacity='0', 1800);
 }
-
-/* ================= 렌더: 분야 관리 ================= */
-function renderFields(){
-  const list = document.getElementById('fields-list');
-  list.innerHTML = DATA.fields.map((f,i)=>`
-    <div class="repeat-row">
-      <div class="grow row3">
-        <input type="text" value="${esc(f.id)}" placeholder="id (영문, 예: art)" data-f-id="${i}">
-        <input type="text" value="${esc(f.label)}" placeholder="표시명 (예: 미술)" data-f-label="${i}">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <input type="color" value="${f.color}" data-f-color="${i}" style="width:40px; height:36px; border:1px solid var(--line); border-radius:6px; padding:2px;">
-          <span class="color-swatch" style="background:${f.color}"></span>
-        </div>
-      </div>
-      <button class="icon-btn" data-f-del="${i}">✕</button>
-    </div>
-  `).join('');
-  document.querySelectorAll('[data-f-id]').forEach(el=> el.addEventListener('input', e=>{ DATA.fields[+e.target.dataset.fId].id = e.target.value; }));
-  document.querySelectorAll('[data-f-label]').forEach(el=> el.addEventListener('input', e=>{ DATA.fields[+e.target.dataset.fLabel].label = e.target.value; }));
-  document.querySelectorAll('[data-f-color]').forEach(el=> el.addEventListener('input', e=>{ DATA.fields[+e.target.dataset.fColor].color = e.target.value; renderFields(); }));
-  document.querySelectorAll('[data-f-del]').forEach(el=> el.addEventListener('click', e=>{
-    if(confirm('이 분야를 삭제하시겠습니까? 회차에 지정된 태그는 남아있을 수 있습니다.')){
-      DATA.fields.splice(+e.target.dataset.fDel,1); renderFields();
-    }
-  }));
+function saveDraft(){
+  localStorage.setItem(DRAFT_KEY, JSON.stringify(state));
+  document.getElementById('previewFrame').src = 'index.html?preview=1&t=' + Date.now();
+  flash('임시저장됨 · 미리보기 갱신');
 }
-document.getElementById('add-field').addEventListener('click', ()=>{
-  DATA.fields.push({id:'new_'+uid(), label:'새 분야', color:'#888888'}); renderFields();
-});
-
-/* ================= 렌더: 메뉴 관리 ================= */
-function renderMenu(){
-  const list = document.getElementById('menu-list');
-  list.innerHTML = DATA.menu.map((m,i)=>`
-    <div class="repeat-row">
-      <div class="grow row2">
-        <input type="text" value="${esc(m.label)}" placeholder="메뉴 이름" data-mn-label="${i}">
-        <input type="text" value="${esc(m.href)}" placeholder="링크 (예: #/)" data-mn-href="${i}">
-      </div>
-      <button class="icon-btn" data-mn-del="${i}">✕</button>
-    </div>
-  `).join('');
-  document.querySelectorAll('[data-mn-label]').forEach(el=> el.addEventListener('input', e=>{ DATA.menu[+e.target.dataset.mnLabel].label = e.target.value; }));
-  document.querySelectorAll('[data-mn-href]').forEach(el=> el.addEventListener('input', e=>{ DATA.menu[+e.target.dataset.mnHref].href = e.target.value; }));
-  document.querySelectorAll('[data-mn-del]').forEach(el=> el.addEventListener('click', e=>{ DATA.menu.splice(+e.target.dataset.mnDel,1); renderMenu(); }));
-}
-document.getElementById('add-menu').addEventListener('click', ()=>{ DATA.menu.push({label:'새 메뉴', href:'#/'}); renderMenu(); });
-
-/* ================= 렌더: 공지/업데이트/자료 ================= */
-function renderSimpleList(containerId, arrKey, fields){
-  const list = document.getElementById(containerId);
-  list.innerHTML = DATA[arrKey].map((item,i)=>`
-    <div class="repeat-row">
-      <div class="grow row2">
-        ${fields.map(f=>`<input type="text" value="${esc(item[f.key]||'')}" placeholder="${f.label}" data-arr="${arrKey}" data-i="${i}" data-k="${f.key}">`).join('')}
-      </div>
-      <button class="icon-btn" data-del-arr="${arrKey}" data-del-i="${i}">✕</button>
-    </div>
-  `).join('');
-  list.querySelectorAll('input').forEach(el=>{
-    el.addEventListener('input', e=>{
-      const t = e.target;
-      DATA[t.dataset.arr][+t.dataset.i][t.dataset.k] = t.value;
-    });
-  });
-  list.querySelectorAll('[data-del-arr]').forEach(el=>{
-    el.addEventListener('click', e=>{
-      const t = e.target;
-      DATA[t.dataset.delArr].splice(+t.dataset.delI,1);
-      renderBoards();
-    });
-  });
-}
-function renderBoards(){
-  renderSimpleList('notices-list','notices',[{key:'title',label:'제목'},{key:'date',label:'날짜/표시'}]);
-  renderSimpleList('updates-list','updates',[{key:'title',label:'제목'},{key:'date',label:'날짜/표시'}]);
-  renderSimpleList('quicklinks-list','quicklinks',[{key:'title',label:'제목'},{key:'tag',label:'태그(PDF 등)'}]);
-}
-document.getElementById('add-notice').addEventListener('click', ()=>{ DATA.notices.push({title:'새 공지', date:'MM.DD'}); renderBoards(); });
-document.getElementById('add-update').addEventListener('click', ()=>{ DATA.updates.push({title:'새 업데이트', date:'MM.DD'}); renderBoards(); });
-document.getElementById('add-quicklink').addEventListener('click', ()=>{ DATA.quicklinks.push({title:'새 자료', tag:'PDF'}); renderBoards(); });
-
-/* ================= 렌더: 회차 관리 ================= */
-function renderSessions(){
-  const list = document.getElementById('sessions-list');
-  list.innerHTML = DATA.sessions.map((s,i)=>`
-    <div class="session-summary" data-toggle="${s.id}">
-      <div class="l">
-        <div class="stamp">${s.id}</div>
-        <div>
-          <div class="name">${esc(s.name)}</div>
-          <div class="sub">${esc(s.date)} · ${(s.fields||[]).map(fid=>fieldLabel(fid)).join(', ')}</div>
-        </div>
-      </div>
-      <div style="display:flex; gap:8px; align-items:center;">
-        <button class="icon-btn" data-session-del="${i}" title="회차 삭제">✕</button>
-        <span style="font-size:12px; color:var(--ink-faint);">${openSessionId===s.id?'▲ 접기':'▼ 펼치기'}</span>
-      </div>
-    </div>
-    <div class="session-editor ${openSessionId===s.id?'open':''}" id="editor-${s.id}"></div>
-  `).join('');
-
-  list.querySelectorAll('[data-toggle]').forEach(el=>{
-    el.addEventListener('click', ()=>{
-      const id = Number(el.dataset.toggle);
-      openSessionId = (openSessionId===id) ? null : id;
-      renderSessions();
-    });
-  });
-  list.querySelectorAll('[data-session-del]').forEach(el=>{
-    el.addEventListener('click', e=>{
-      e.stopPropagation();
-      if(confirm('이 회차를 삭제하시겠습니까?')){
-        DATA.sessions.splice(+e.target.dataset.sessionDel,1); renderSessions();
-      }
-    });
-  });
-
-  if(openSessionId!==null){
-    const session = DATA.sessions.find(s=>s.id===openSessionId);
-    if(session) renderSessionEditor(session);
-  }
-}
-document.getElementById('add-session').addEventListener('click', ()=>{
-  const newId = Math.max(0,...DATA.sessions.map(s=>s.id)) + 1;
-  DATA.sessions.push({
-    id:newId, day:"M.D", weekday:"요일", label:"라벨", name:`${newId}회차 · 제목`, sub:"부제",
-    date:"2026.00.00() 00:00–00:00", place:"장소", count:"참가 인원", status:"예정",
-    fields:[], gallery:[], files:[], roster:[]
-  });
-  openSessionId = newId;
-  renderSessions();
-});
-
-function fieldLabel(id){ const f=DATA.fields.find(x=>x.id===id); return f?f.label:id; }
-
-function renderSessionEditor(session){
-  const box = document.getElementById('editor-'+session.id);
-  box.innerHTML = `
-    <div class="card">
-      <div class="row4">
-        <div class="field"><label>날짜(월.일)</label><input type="text" data-s="day"></div>
-        <div class="field"><label>요일</label><input type="text" data-s="weekday"></div>
-        <div class="field"><label>라벨(개회식/본과정 등)</label><input type="text" data-s="label"></div>
-        <div class="field"><label>상태</label>
-          <select data-s="status"><option value="예정">예정</option><option value="진행중">진행중</option><option value="완료">완료</option></select>
-        </div>
-      </div>
-      <div class="field"><label>회차 제목</label><input type="text" data-s="name"></div>
-      <div class="field"><label>부제 설명</label><input type="text" data-s="sub"></div>
-      <div class="row2">
-        <div class="field"><label>일시 (상세 표기)</label><input type="text" data-s="date"></div>
-        <div class="field"><label>장소</label><input type="text" data-s="place"></div>
-      </div>
-      <div class="field"><label>참가 인원 표기</label><input type="text" data-s="count"></div>
-      <div class="field">
-        <label>참여 분야 (해당 회차에 참여하는 분야 선택)</label>
-        <div class="chip-select" id="chip-fields-${session.id}"></div>
-      </div>
-    </div>
-
-    <div class="subtab-bar" id="subtab-${session.id}">
-      <button class="active" data-sub="gallery">사진·영상 갤러리</button>
-      <button data-sub="files">자료 다운로드</button>
-      <button data-sub="roster">참가자 명단</button>
-    </div>
-    <div class="subpanel active" id="sub-gallery-${session.id}"></div>
-    <div class="subpanel" id="sub-files-${session.id}"></div>
-    <div class="subpanel" id="sub-roster-${session.id}"></div>
-  `;
-
-  // basic fields
-  box.querySelectorAll('[data-s]').forEach(el=>{
-    const key = el.dataset.s;
-    el.value = session[key] || '';
-    el.addEventListener('input', e=>{ session[key] = e.target.value; renderSessions(); });
-  });
-
-  // field chips
-  const chipBox = box.querySelector(`#chip-fields-${session.id}`);
-  chipBox.innerHTML = DATA.fields.map(f=>`
-    <label><input type="checkbox" value="${f.id}" ${(session.fields||[]).includes(f.id)?'checked':''}> <span class="color-swatch" style="width:12px;height:12px;background:${f.color}"></span> ${esc(f.label)}</label>
-  `).join('');
-  chipBox.querySelectorAll('input[type=checkbox]').forEach(cb=>{
-    cb.addEventListener('change', ()=>{
-      const checked = Array.from(chipBox.querySelectorAll('input:checked')).map(c=>c.value);
-      session.fields = checked;
-    });
-  });
-
-  // subtabs
-  box.querySelector(`#subtab-${session.id}`).addEventListener('click', e=>{
-    const btn = e.target.closest('button[data-sub]'); if(!btn) return;
-    box.querySelectorAll('.subtab-bar button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    box.querySelectorAll('.subpanel').forEach(p=>p.classList.remove('active'));
-    box.querySelector(`#sub-${btn.dataset.sub}-${session.id}`).classList.add('active');
-  });
-
-  renderGalleryEditor(session);
-  renderFilesEditor(session);
-  renderRosterEditor(session);
-}
-
-function renderGalleryEditor(session){
-  const el = document.getElementById(`sub-gallery-${session.id}`);
-  session.gallery = session.gallery || [];
-  el.innerHTML = `
-    <div class="card">
-      <h3>사진·영상 목록</h3>
-      <div id="gallery-rows-${session.id}"></div>
-      <button class="add-btn" data-add-gallery="${session.id}">+ 항목 추가</button>
-    </div>
-  `;
-  const rows = el.querySelector(`#gallery-rows-${session.id}`);
-  rows.innerHTML = session.gallery.map((g,i)=>`
-    <div class="repeat-row">
-      <div class="grow row3">
-        <select data-g-type="${i}"><option value="photo" ${g.type==='photo'?'selected':''}>사진</option><option value="video" ${g.type==='video'?'selected':''}>영상</option></select>
-        <input type="text" value="${esc(g.label)}" placeholder="설명 라벨" data-g-label="${i}" style="grid-column:span 2;">
-      </div>
-      <button class="icon-btn" data-g-del="${i}">✕</button>
-    </div>
-  `).join('') || '<p class="hint">등록된 항목이 없습니다.</p>';
-  rows.querySelectorAll('[data-g-type]').forEach(x=>x.addEventListener('change', e=>{ session.gallery[+e.target.dataset.gType].type = e.target.value; }));
-  rows.querySelectorAll('[data-g-label]').forEach(x=>x.addEventListener('input', e=>{ session.gallery[+e.target.dataset.gLabel].label = e.target.value; }));
-  rows.querySelectorAll('[data-g-del]').forEach(x=>x.addEventListener('click', e=>{ session.gallery.splice(+e.target.dataset.gDel,1); renderGalleryEditor(session); }));
-  el.querySelector(`[data-add-gallery]`).addEventListener('click', ()=>{ session.gallery.push({type:'photo', label:'새 항목'}); renderGalleryEditor(session); });
-}
-
-function renderFilesEditor(session){
-  const el = document.getElementById(`sub-files-${session.id}`);
-  session.files = session.files || [];
-  el.innerHTML = `
-    <div class="card">
-      <h3>다운로드 자료 목록</h3>
-      <div id="files-rows-${session.id}"></div>
-      <button class="add-btn" data-add-file="${session.id}">+ 자료 추가</button>
-    </div>
-  `;
-  const rows = el.querySelector(`#files-rows-${session.id}`);
-  rows.innerHTML = session.files.map((f,i)=>`
-    <div class="repeat-row">
-      <div class="grow row2">
-        <input type="text" value="${esc(f.name)}" placeholder="파일명" data-fl-name="${i}">
-        <input type="text" value="${esc(f.type||'')}" placeholder="유형(PDF/DOC/XLS)" data-fl-type="${i}">
-        <input type="text" value="${esc(f.desc||'')}" placeholder="설명" data-fl-desc="${i}" style="grid-column:span 2;">
-        <input type="url" value="${esc(f.url||'')}" placeholder="파일 URL (구글드라이브 공유링크 등)" data-fl-url="${i}" style="grid-column:span 2;">
-      </div>
-      <button class="icon-btn" data-fl-del="${i}">✕</button>
-    </div>
-  `).join('') || '<p class="hint">등록된 자료가 없습니다.</p>';
-  rows.querySelectorAll('[data-fl-name]').forEach(x=>x.addEventListener('input', e=>{ session.files[+e.target.dataset.flName].name = e.target.value; }));
-  rows.querySelectorAll('[data-fl-type]').forEach(x=>x.addEventListener('input', e=>{ session.files[+e.target.dataset.flType].type = e.target.value; }));
-  rows.querySelectorAll('[data-fl-desc]').forEach(x=>x.addEventListener('input', e=>{ session.files[+e.target.dataset.flDesc].desc = e.target.value; }));
-  rows.querySelectorAll('[data-fl-url]').forEach(x=>x.addEventListener('input', e=>{ session.files[+e.target.dataset.flUrl].url = e.target.value; }));
-  rows.querySelectorAll('[data-fl-del]').forEach(x=>x.addEventListener('click', e=>{ session.files.splice(+e.target.dataset.flDel,1); renderFilesEditor(session); }));
-  el.querySelector(`[data-add-file]`).addEventListener('click', ()=>{ session.files.push({name:'새 자료.pdf', desc:'', type:'PDF', url:''}); renderFilesEditor(session); });
-}
-
-function renderRosterEditor(session){
-  const el = document.getElementById(`sub-roster-${session.id}`);
-  session.roster = session.roster || [];
-  const fieldOptions = DATA.fields.map(f=>`<option value="${f.id}">${esc(f.label)}</option>`).join('');
-  el.innerHTML = `
-    <div class="card">
-      <h3>참가자 명단</h3>
-      <div id="roster-rows-${session.id}"></div>
-      <button class="add-btn" data-add-roster="${session.id}">+ 참가자 추가</button>
-    </div>
-  `;
-  const rows = el.querySelector(`#roster-rows-${session.id}`);
-  rows.innerHTML = session.roster.map((r,i)=>`
-    <div class="repeat-row">
-      <div class="grow row4">
-        <select data-r-role="${i}"><option value="student" ${r.role==='student'?'selected':''}>학생</option><option value="faculty" ${r.role==='faculty'?'selected':''}>강사</option></select>
-        <select data-r-field="${i}">${fieldOptions}</select>
-        <input type="text" value="${esc(r.name||'')}" placeholder="이름" data-r-name="${i}">
-        <input type="text" value="${esc(r.major||'')}" placeholder="세부전공" data-r-major="${i}">
-        <input type="text" value="${esc(r.org||'')}" placeholder="소속" data-r-org="${i}" style="grid-column:span 2;">
-        <input type="text" value="${esc(r.note||'')}" placeholder="비고" data-r-note="${i}" style="grid-column:span 2;">
-      </div>
-      <button class="icon-btn" data-r-del="${i}">✕</button>
-    </div>
-  `).join('') || '<p class="hint">등록된 참가자가 없습니다.</p>';
-
-  rows.querySelectorAll('[data-r-role]').forEach(x=>{ x.value = session.roster[+x.dataset.rRole].role; x.addEventListener('change', e=>{ session.roster[+e.target.dataset.rRole].role = e.target.value; }); });
-  rows.querySelectorAll('[data-r-field]').forEach(x=>{ x.value = session.roster[+x.dataset.rField].field; x.addEventListener('change', e=>{ session.roster[+e.target.dataset.rField].field = e.target.value; }); });
-  rows.querySelectorAll('[data-r-name]').forEach(x=>x.addEventListener('input', e=>{ session.roster[+e.target.dataset.rName].name = e.target.value; }));
-  rows.querySelectorAll('[data-r-major]').forEach(x=>x.addEventListener('input', e=>{ session.roster[+e.target.dataset.rMajor].major = e.target.value; }));
-  rows.querySelectorAll('[data-r-org]').forEach(x=>x.addEventListener('input', e=>{ session.roster[+e.target.dataset.rOrg].org = e.target.value; }));
-  rows.querySelectorAll('[data-r-note]').forEach(x=>x.addEventListener('input', e=>{ session.roster[+e.target.dataset.rNote].note = e.target.value; }));
-  rows.querySelectorAll('[data-r-del]').forEach(x=>x.addEventListener('click', e=>{ session.roster.splice(+e.target.dataset.rDel,1); renderRosterEditor(session); }));
-  el.querySelector(`[data-add-roster]`).addEventListener('click', ()=>{
-    session.roster.push({role:'student', field:(DATA.fields[0]||{}).id||'', name:'', major:'', org:'', note:''});
-    renderRosterEditor(session);
-  });
-}
-
-/* ---------------- 공통 유틸 ---------------- */
-function esc(str){ return String(str==null?'':str).replace(/"/g,'&quot;'); }
-
-/* ---------------- 상단 액션 ---------------- */
-document.getElementById('btn-save').addEventListener('click', ()=>{
-  persistDraft();
-  showToast('임시 저장 완료 — 같은 브라우저에서 사이트를 열면 미리볼 수 있어요.');
-});
-document.getElementById('btn-preview').addEventListener('click', ()=>{
-  persistDraft();
-  window.open('index.html', '_blank');
-});
-document.getElementById('btn-export').addEventListener('click', ()=>{
-  persistDraft();
-  const blob = new Blob([JSON.stringify(DATA, null, 2)], {type:'application/json'});
+function exportJson(){
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url; a.download = 'data.json'; a.click();
   URL.revokeObjectURL(url);
-  showToast('data.json 다운로드 완료 — index.html 과 같은 폴더에 올려주세요.');
-});
-document.getElementById('btn-import').addEventListener('click', ()=>{ document.getElementById('file-import').click(); });
-document.getElementById('file-import').addEventListener('change', e=>{
-  const file = e.target.files[0]; if(!file) return;
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    try{
-      DATA = JSON.parse(reader.result);
-      renderAll();
-      showToast('가져오기 완료 — 내용을 확인하고 다시 저장/내보내기 하세요.');
-    }catch(err){ alert('JSON 파일을 읽을 수 없습니다: ' + err.message); }
-  };
-  reader.readAsText(file);
-});
-document.getElementById('btn-reset').addEventListener('click', ()=>{
-  if(confirm('정말 기본 샘플 데이터로 초기화하시겠습니까? 임시 저장된 내용이 사라집니다.')){
-    DATA = JSON.parse(JSON.stringify(DEFAULT_DATA));
-    localStorage.removeItem(LS_KEY);
-    openSessionId = null;
-    renderAll();
-    showToast('기본값으로 초기화되었습니다.');
+  flash('data.json 다운로드됨');
+}
+
+/* ---------- helpers ---------- */
+function el(html){ const d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
+function field(labelText, inputHtml){ return `<div class="field"><label>${labelText}</label>${inputHtml}</div>`; }
+function bindInput(sel, path, isArray, delim){
+  document.querySelectorAll(sel).forEach(inp=>{
+    inp.addEventListener('input', ()=>{
+      let val = inp.value;
+      if(isArray) val = val.split(delim||'\n').map(s=>s.trim()).filter(Boolean);
+      setPath(state, path, val);
+    });
+  });
+}
+function setPath(obj, path, val){
+  const keys = path.split('.');
+  let cur = obj;
+  for(let i=0;i<keys.length-1;i++){
+    let k = keys[i];
+    if(k.includes('[')){
+      const [base, idx] = k.split('[');
+      cur = cur[base][parseInt(idx)];
+    } else cur = cur[k];
   }
-});
-
-function renderAll(){
-  renderMeta(); bindMetaEvents();
-  renderFields();
-  renderMenu();
-  renderBoards();
-  renderSessions();
+  let lastKey = keys[keys.length-1];
+  if(lastKey.includes('[')){
+    const [base, idx] = lastKey.split('[');
+    cur[base][parseInt(idx)] = val;
+  } else cur[lastKey] = val;
+}
+function getPath(obj, path){
+  const keys = path.split('.');
+  let cur = obj;
+  for(const k of keys){
+    if(k.includes('[')){
+      const [base, idx] = k.split('[');
+      cur = cur[base][parseInt(idx)];
+    } else cur = cur[k];
+  }
+  return cur;
 }
 
-function boot(){
-  loadInitial();
-  renderAll();
+/* ---------- background editor component ---------- */
+function bgEditorHtml(sectionKey){
+  const bg = state.sections[sectionKey].bg;
+  return `
+  <div class="bg-editor">
+    <div class="field">
+      <label>섹션 배경 유형</label>
+      <select id="bgtype-${sectionKey}">
+        <option value="gradient" ${bg.type==='gradient'?'selected':''}>기본 그라디언트</option>
+        <option value="image" ${bg.type==='image'?'selected':''}>이미지</option>
+        <option value="video" ${bg.type==='video'?'selected':''}>동영상 (mp4 URL)</option>
+        <option value="youtube" ${bg.type==='youtube'?'selected':''}>유튜브 영상</option>
+      </select>
+    </div>
+    <div class="field" id="bgurl-wrap-${sectionKey}" style="display:${bg.type==='gradient'?'none':'block'}">
+      <label>URL 또는 파일 업로드</label>
+      <input type="text" id="bgurl-${sectionKey}" placeholder="https://... 이미지/영상/유튜브 링크" value="${(bg.url||'').replace(/"/g,'&quot;')}">
+      <div class="hint" id="bghint-${sectionKey}"></div>
+      <input type="file" accept="image/*" id="bgfile-${sectionKey}" style="margin-top:8px;display:${bg.type==='image'?'block':'none'}">
+    </div>
+    <div class="field">
+      <label>어두운 오버레이 (텍스트 가독성)</label>
+      <div class="range-row">
+        <input type="range" min="0" max="0.8" step="0.05" id="bgov-${sectionKey}" value="${bg.overlay!=null?bg.overlay:0.35}">
+        <span id="bgov-val-${sectionKey}">${Math.round((bg.overlay!=null?bg.overlay:0.35)*100)}%</span>
+      </div>
+    </div>
+  </div>`;
 }
+function bindBgEditor(sectionKey){
+  const typeSel = document.getElementById(`bgtype-${sectionKey}`);
+  const urlWrap = document.getElementById(`bgurl-wrap-${sectionKey}`);
+  const urlInput = document.getElementById(`bgurl-${sectionKey}`);
+  const fileInput = document.getElementById(`bgfile-${sectionKey}`);
+  const ovInput = document.getElementById(`bgov-${sectionKey}`);
+  const ovVal = document.getElementById(`bgov-val-${sectionKey}`);
+  const hint = document.getElementById(`bghint-${sectionKey}`);
+  const hints = {
+    image:'고화질 이미지 URL을 붙여넣거나, 아래에서 파일을 직접 업로드하세요 (업로드 파일은 저장 시 페이지에 포함됩니다).',
+    video:'mp4로 인코딩된 동영상 파일의 URL을 입력하세요 (예: GitHub/구글드라이브 직접링크, 자체 호스팅 등). 대용량 파일은 파일 업로드를 지원하지 않으니 URL을 사용하세요.',
+    youtube:'유튜브 영상 URL을 붙여넣으세요 (예: https://youtu.be/xxxx). 자동 재생·반복 배경으로 표시됩니다.',
+    gradient:''
+  };
+  hint.textContent = hints[state.sections[sectionKey].bg.type] || '';
+  typeSel.addEventListener('change', ()=>{
+    const t = typeSel.value;
+    state.sections[sectionKey].bg.type = t;
+    urlWrap.style.display = t==='gradient' ? 'none' : 'block';
+    fileInput.style.display = t==='image' ? 'block' : 'none';
+    hint.textContent = hints[t] || '';
+  });
+  urlInput.addEventListener('input', ()=>{ state.sections[sectionKey].bg.url = urlInput.value; });
+  fileInput.addEventListener('change', ()=>{
+    const f = fileInput.files[0];
+    if(!f) return;
+    if(f.size > 3*1024*1024){ alert('이미지는 3MB 이하 파일을 권장합니다. 더 큰 파일은 URL 방식을 사용해주세요.'); }
+    const reader = new FileReader();
+    reader.onload = ()=>{ state.sections[sectionKey].bg.url = reader.result; urlInput.value = '(업로드된 이미지)'; };
+    reader.readAsDataURL(f);
+  });
+  ovInput.addEventListener('input', ()=>{
+    state.sections[sectionKey].bg.overlay = parseFloat(ovInput.value);
+    ovVal.textContent = Math.round(ovInput.value*100)+'%';
+  });
+}
+
+/* ---------- list editor helper (figures, stats, cards, steps, rows, items, columns) ---------- */
+function renderListEditor(containerId, arrPath, itemRenderer, emptyItem, label){
+  const arr = getPath(state, arrPath);
+  const container = document.getElementById(containerId);
+  container.innerHTML = arr.map((item, i)=> itemRenderer(item, i)).join('') +
+    `<button class="add-btn" id="${containerId}-add">+ ${label} 추가</button>`;
+  document.getElementById(`${containerId}-add`).addEventListener('click', ()=>{
+    arr.push(JSON.parse(JSON.stringify(emptyItem)));
+    renderListEditor(containerId, arrPath, itemRenderer, emptyItem, label);
+    bindCurrentTabInputs();
+  });
+  container.querySelectorAll('[data-remove]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      arr.splice(parseInt(btn.dataset.remove), 1);
+      renderListEditor(containerId, arrPath, itemRenderer, emptyItem, label);
+      bindCurrentTabInputs();
+    });
+  });
+}
+
+/* ===================== TAB RENDERERS ===================== */
+function renderTab(tab){
+  const pane = document.getElementById('formPane');
+  if(tab==='meta') pane.innerHTML = tplMeta();
+  else if(tab==='hero') pane.innerHTML = tplHero();
+  else if(tab==='intro') pane.innerHTML = tplIntro();
+  else if(tab==='fields') pane.innerHTML = tplFields();
+  else if(tab==='journey') pane.innerHTML = tplJourney();
+  else if(tab==='board') pane.innerHTML = tplBoard();
+  else if(tab==='gallery') pane.innerHTML = tplGallery();
+  else if(tab==='footer') pane.innerHTML = tplFooter();
+  bindCurrentTabInputs();
+}
+function bindCurrentTabInputs(){
+  const tab = currentTab;
+  if(tab==='meta'){
+    bindInput('#f-title','meta.title'); bindInput('#f-badge','meta.badge');
+  }
+  if(tab==='hero'){
+    bindBgEditor('hero');
+    bindInput('#f-h-eyebrow','sections.hero.eyebrow');
+    bindInput('#f-h-title','sections.hero.title');
+    bindInput('#f-h-subtitle','sections.hero.subtitle');
+    bindInput('#f-h-chips','sections.hero.chips', true, '\n');
+  }
+  if(tab==='intro'){
+    bindBgEditor('intro');
+    bindInput('#f-i-eyebrow','sections.intro.eyebrow');
+    bindInput('#f-i-heading','sections.intro.heading');
+    bindInput('#f-i-desc','sections.intro.desc');
+    bindInput('#f-i-quote','sections.intro.quote');
+    bindInput('#f-i-quotesrc','sections.intro.quoteSource');
+    renderListEditor('figuresList','sections.intro.figures', (item,i)=>`
+      <div class="list-item"><div class="row2">
+        <div class="field"><label>이름</label><input data-figure="${i}" data-k="name" value="${(item.name||'').replace(/"/g,'&quot;')}"></div>
+        <div class="field"><label>역할/타이틀</label><input data-figure="${i}" data-k="role" value="${(item.role||'').replace(/"/g,'&quot;')}"></div>
+      </div><button class="mini-btn" data-remove="${i}">삭제</button></div>`,
+      {name:'',role:''}, '인물 카드');
+    document.querySelectorAll('[data-figure]').forEach(inp=>{
+      inp.addEventListener('input', ()=>{ state.sections.intro.figures[inp.dataset.figure][inp.dataset.k] = inp.value; });
+    });
+    renderListEditor('statsList','sections.intro.stats', (item,i)=>`
+      <div class="list-item"><div class="row2">
+        <div class="field"><label>숫자</label><input data-stat="${i}" data-k="n" value="${(item.n||'').replace(/"/g,'&quot;')}"></div>
+        <div class="field"><label>설명</label><input data-stat="${i}" data-k="l" value="${(item.l||'').replace(/"/g,'&quot;')}"></div>
+      </div><button class="mini-btn" data-remove="${i}">삭제</button></div>`,
+      {n:'',l:''}, '통계');
+    document.querySelectorAll('[data-stat]').forEach(inp=>{
+      inp.addEventListener('input', ()=>{ state.sections.intro.stats[inp.dataset.stat][inp.dataset.k] = inp.value; });
+    });
+  }
+  if(tab==='fields'){
+    bindBgEditor('fields');
+    bindInput('#f-fl-eyebrow','sections.fields.eyebrow');
+    bindInput('#f-fl-heading','sections.fields.heading');
+    bindInput('#f-fl-desc','sections.fields.desc');
+    renderListEditor('cardsList','sections.fields.cards', (item,i)=>`
+      <div class="list-item">
+        <div class="row3">
+          <div class="field"><label>분야명</label><input data-card="${i}" data-k="name" value="${(item.name||'').replace(/"/g,'&quot;')}"></div>
+          <div class="field"><label>영문/부제</label><input data-card="${i}" data-k="en" value="${(item.en||'').replace(/"/g,'&quot;')}"></div>
+          <div class="field"><label>색상</label>
+            <select data-card="${i}" data-k="accent">
+              ${['music','dance','trad','art'].map(c=>`<option value="${c}" ${item.accent===c?'selected':''}>${c}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div class="field"><label>태그(영문 라벨)</label><input data-card="${i}" data-k="tag" value="${(item.tag||'').replace(/"/g,'&quot;')}"></div>
+        <div class="field"><label>세부 전공 (줄바꿈으로 구분)</label><textarea data-card="${i}" data-k="items" data-arr="1">${(item.items||[]).join('\n')}</textarea></div>
+        <div class="field"><label>모집 대상 출생연도</label><input data-card="${i}" data-k="age" value="${(item.age||'').replace(/"/g,'&quot;')}"></div>
+        <button class="mini-btn" data-remove="${i}">이 카드 삭제</button>
+      </div>`,
+      {accent:'music',tag:'',name:'',en:'',items:[],age:''}, '분야 카드');
+    document.querySelectorAll('[data-card]').forEach(inp=>{
+      inp.addEventListener('input', ()=>{
+        const val = inp.dataset.arr ? inp.value.split('\n').map(s=>s.trim()).filter(Boolean) : inp.value;
+        state.sections.fields.cards[inp.dataset.card][inp.dataset.k] = val;
+      });
+    });
+  }
+  if(tab==='journey'){
+    bindBgEditor('journey');
+    bindInput('#f-j-eyebrow','sections.journey.eyebrow');
+    bindInput('#f-j-heading','sections.journey.heading');
+    bindInput('#f-j-desc','sections.journey.desc');
+    renderListEditor('stepsList','sections.journey.steps', (item,i)=>`
+      <div class="list-item">
+        <div class="row2">
+          <div class="field"><label>시기</label><input data-step="${i}" data-k="when" value="${(item.when||'').replace(/"/g,'&quot;')}"></div>
+          <div class="field"><label>제목</label><input data-step="${i}" data-k="title" value="${(item.title||'').replace(/"/g,'&quot;')}"></div>
+        </div>
+        <div class="field"><label>설명</label><textarea data-step="${i}" data-k="desc">${item.desc||''}</textarea></div>
+        <div class="field"><label>태그 (줄바꿈으로 구분)</label><textarea data-step="${i}" data-k="tags" data-arr="1">${(item.tags||[]).join('\n')}</textarea></div>
+        <button class="mini-btn" data-remove="${i}">이 단계 삭제</button>
+      </div>`,
+      {when:'',title:'',desc:'',tags:[]}, '단계');
+    document.querySelectorAll('[data-step]').forEach(inp=>{
+      inp.addEventListener('input', ()=>{
+        const val = inp.dataset.arr ? inp.value.split('\n').map(s=>s.trim()).filter(Boolean) : inp.value;
+        state.sections.journey.steps[inp.dataset.step][inp.dataset.k] = val;
+      });
+    });
+  }
+  if(tab==='board'){
+    bindBgEditor('board');
+    bindInput('#f-b-eyebrow','sections.board.eyebrow');
+    bindInput('#f-b-heading','sections.board.heading');
+    bindInput('#f-b-desc','sections.board.desc');
+    bindInput('#f-b-moreurl','sections.board.moreUrl');
+    renderListEditor('rowsList','sections.board.rows', (item,i)=>`
+      <div class="list-item">
+        <div class="row3">
+          <div class="field"><label>항목</label><input data-row="${i}" data-k="title" value="${(item.title||'').replace(/"/g,'&quot;')}"></div>
+          <div class="field"><label>부연설명</label><input data-row="${i}" data-k="sub" value="${(item.sub||'').replace(/"/g,'&quot;')}"></div>
+          <div class="field"><label>일정</label><input data-row="${i}" data-k="date" value="${(item.date||'').replace(/"/g,'&quot;')}"></div>
+        </div>
+        <button class="mini-btn" data-remove="${i}">삭제</button>
+      </div>`,
+      {title:'',sub:'',date:''}, '일정 항목');
+    document.querySelectorAll('[data-row]').forEach(inp=>{
+      inp.addEventListener('input', ()=>{ state.sections.board.rows[inp.dataset.row][inp.dataset.k] = inp.value; });
+    });
+    document.getElementById('f-b-infotitle').addEventListener('input', e=> state.sections.board.info.title = e.target.value);
+    renderListEditor('infoLinesList','sections.board.info.lines', (item,i)=>`
+      <div class="list-item">
+        <div class="row3">
+          <div class="field"><label>항목명</label><input data-info="${i}" data-k="k" value="${(item.k||'').replace(/"/g,'&quot;')}"></div>
+          <div class="field"><label>내용</label><input data-info="${i}" data-k="v" value="${(item.v||'').replace(/"/g,'&quot;')}"></div>
+          <div class="field"><label>링크(선택)</label><input data-info="${i}" data-k="link" value="${(item.link||'').replace(/"/g,'&quot;')}"></div>
+        </div>
+        <button class="mini-btn" data-remove="${i}">삭제</button>
+      </div>`,
+      {k:'',v:'',link:''}, '안내 항목');
+    document.querySelectorAll('[data-info]').forEach(inp=>{
+      inp.addEventListener('input', ()=>{ state.sections.board.info.lines[inp.dataset.info][inp.dataset.k] = inp.value; });
+    });
+  }
+  if(tab==='gallery'){
+    bindBgEditor('gallery');
+    bindInput('#f-g-eyebrow','sections.gallery.eyebrow');
+    bindInput('#f-g-heading','sections.gallery.heading');
+    bindInput('#f-g-desc','sections.gallery.desc');
+    bindInput('#f-g-channel','sections.gallery.channelUrl');
+    renderListEditor('galItemsList','sections.gallery.items', (item,i)=>`
+      <div class="list-item">
+        <div class="row2">
+          <div class="field"><label>캡션</label><input data-gal="${i}" data-k="caption" value="${(item.caption||'').replace(/"/g,'&quot;')}"></div>
+          <div class="field"><label>링크</label><input data-gal="${i}" data-k="link" value="${(item.link||'').replace(/"/g,'&quot;')}"></div>
+        </div>
+        <div class="field"><label>썸네일 이미지 URL (비워두면 색상 배경)</label><input data-gal="${i}" data-k="bgImage" value="${(item.bgImage||'').replace(/"/g,'&quot;')}"></div>
+        <button class="mini-btn" data-remove="${i}">삭제</button>
+      </div>`,
+      {caption:'',color:'music',link:'',bgImage:''}, '갤러리 항목');
+    document.querySelectorAll('[data-gal]').forEach(inp=>{
+      inp.addEventListener('input', ()=>{ state.sections.gallery.items[inp.dataset.gal][inp.dataset.k] = inp.value; });
+    });
+  }
+  if(tab==='footer'){
+    bindInput('#f-ft-brand','footer.brand');
+    bindInput('#f-ft-desc','footer.desc');
+    bindInput('#f-ft-address','footer.address');
+    bindInput('#f-ft-contact','footer.contact');
+  }
+}
+
+/* ---------- HTML templates per tab ---------- */
+function tplMeta(){
+  const m = state.meta;
+  return `<div class="panel-title">기본정보</div><div class="panel-sub">사이트 제목, 헤더 배지</div>
+    ${field('사이트 제목 (브라우저 탭)', `<input id="f-title" value="${esc(m.title)}">`)}
+    ${field('헤더 배지 텍스트', `<input id="f-badge" value="${esc(m.badge)}">`)}`;
+}
+function tplHero(){
+  const h = state.sections.hero;
+  return `<div class="panel-title">히어로</div><div class="panel-sub">첫 화면 배경과 문구</div>
+    ${bgEditorHtml('hero')}
+    ${field('상단 라벨', `<input id="f-h-eyebrow" value="${esc(h.eyebrow)}">`)}
+    ${field('메인 타이틀 (줄바꿈 가능)', `<textarea id="f-h-title">${esc(h.title)}</textarea>`)}
+    ${field('서브 문구 (줄바꿈 가능)', `<textarea id="f-h-subtitle">${esc(h.subtitle)}</textarea>`)}
+    ${field('칩 태그 (줄바꿈으로 구분)', `<textarea id="f-h-chips">${h.chips.join('\n')}</textarea>`)}`;
+}
+function tplIntro(){
+  const s = state.sections.intro;
+  return `<div class="panel-title">프로젝트 소개</div><div class="panel-sub">배경, 헤딩, 인용문, 인물 카드, 통계</div>
+    ${bgEditorHtml('intro')}
+    ${field('상단 라벨', `<input id="f-i-eyebrow" value="${esc(s.eyebrow)}">`)}
+    ${field('헤딩', `<input id="f-i-heading" value="${esc(s.heading)}">`)}
+    ${field('설명', `<textarea id="f-i-desc">${esc(s.desc)}</textarea>`)}
+    ${field('인용문 (줄바꿈 가능)', `<textarea id="f-i-quote">${esc(s.quote)}</textarea>`)}
+    ${field('인용 출처', `<input id="f-i-quotesrc" value="${esc(s.quoteSource)}">`)}
+    <div class="divider"></div>
+    <div class="card-head"><h4>인물 카드</h4></div>
+    <div id="figuresList"></div>
+    <div class="divider"></div>
+    <div class="card-head"><h4>통계</h4></div>
+    <div id="statsList"></div>`;
+}
+function tplFields(){
+  const s = state.sections.fields;
+  return `<div class="panel-title">모집분야</div><div class="panel-sub">배경, 헤딩, 분야 카드</div>
+    ${bgEditorHtml('fields')}
+    ${field('상단 라벨', `<input id="f-fl-eyebrow" value="${esc(s.eyebrow)}">`)}
+    ${field('헤딩', `<input id="f-fl-heading" value="${esc(s.heading)}">`)}
+    ${field('설명', `<textarea id="f-fl-desc">${esc(s.desc)}</textarea>`)}
+    <div class="divider"></div>
+    <div class="card-head"><h4>분야 카드</h4></div>
+    <div id="cardsList"></div>`;
+}
+function tplJourney(){
+  const s = state.sections.journey;
+  return `<div class="panel-title">프로그램 여정</div><div class="panel-sub">배경, 헤딩, 단계별 카드</div>
+    ${bgEditorHtml('journey')}
+    ${field('상단 라벨', `<input id="f-j-eyebrow" value="${esc(s.eyebrow)}">`)}
+    ${field('헤딩', `<input id="f-j-heading" value="${esc(s.heading)}">`)}
+    ${field('설명', `<textarea id="f-j-desc">${esc(s.desc)}</textarea>`)}
+    <div class="divider"></div>
+    <div class="card-head"><h4>단계</h4></div>
+    <div id="stepsList"></div>`;
+}
+function tplBoard(){
+  const s = state.sections.board;
+  return `<div class="panel-title">지원안내</div><div class="panel-sub">배경, 일정 게시판, 제출서류 안내박스</div>
+    ${bgEditorHtml('board')}
+    ${field('상단 라벨', `<input id="f-b-eyebrow" value="${esc(s.eyebrow)}">`)}
+    ${field('헤딩', `<input id="f-b-heading" value="${esc(s.heading)}">`)}
+    ${field('설명', `<textarea id="f-b-desc">${esc(s.desc)}</textarea>`)}
+    ${field('공고문 링크', `<input id="f-b-moreurl" value="${esc(s.moreUrl)}">`)}
+    <div class="divider"></div>
+    <div class="card-head"><h4>일정 게시판</h4></div>
+    <div id="rowsList"></div>
+    <div class="divider"></div>
+    <div class="card-head"><h4>안내 박스</h4></div>
+    ${field('박스 제목', `<input id="f-b-infotitle" value="${esc(s.info.title)}">`)}
+    <div id="infoLinesList"></div>`;
+}
+function tplGallery(){
+  const s = state.sections.gallery;
+  return `<div class="panel-title">갤러리</div><div class="panel-sub">배경, 헤딩, 썸네일 항목</div>
+    ${bgEditorHtml('gallery')}
+    ${field('상단 라벨', `<input id="f-g-eyebrow" value="${esc(s.eyebrow)}">`)}
+    ${field('헤딩', `<input id="f-g-heading" value="${esc(s.heading)}">`)}
+    ${field('설명', `<textarea id="f-g-desc">${esc(s.desc)}</textarea>`)}
+    ${field('유튜브 채널 링크', `<input id="f-g-channel" value="${esc(s.channelUrl)}">`)}
+    <div class="divider"></div>
+    <div class="card-head"><h4>썸네일 항목</h4></div>
+    <div id="galItemsList"></div>`;
+}
+function tplFooter(){
+  const f = state.footer;
+  return `<div class="panel-title">푸터</div><div class="panel-sub">브랜드 소개, 주소, 연락처</div>
+    ${field('브랜드명', `<input id="f-ft-brand" value="${esc(f.brand)}">`)}
+    ${field('소개문 (줄바꿈 가능)', `<textarea id="f-ft-desc">${esc(f.desc)}</textarea>`)}
+    ${field('주소', `<input id="f-ft-address" value="${esc(f.address)}">`)}
+    ${field('연락처 문구', `<input id="f-ft-contact" value="${esc(f.contact)}">`)}
+    <div class="hint" style="font-size:11.5px;color:var(--ink-3);margin-top:10px;">푸터 메뉴 링크 구성은 현재 코드 기본값을 사용합니다. 문구 변경이 필요하면 알려주세요.</div>`;
+}
+function esc(str){ return String(str==null?'':str).replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 </script>
 </body>
 </html>
