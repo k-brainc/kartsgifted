@@ -331,6 +331,7 @@ function bgEditorHtml(sectionKey){
         <option value="image" ${bg.type==='image'?'selected':''}>이미지</option>
         <option value="video" ${bg.type==='video'?'selected':''}>동영상 (mp4 URL)</option>
         <option value="youtube" ${bg.type==='youtube'?'selected':''}>유튜브 영상</option>
+        <option value="vimeo" ${bg.type==='vimeo'?'selected':''}>비메오(Vimeo) 영상</option>
       </select>
     </div>
     <div class="field" id="bgurl-wrap-${sectionKey}" style="display:${bg.type==='gradient'?'none':'block'}">
@@ -360,6 +361,7 @@ function bindBgEditor(sectionKey){
     image:'고화질 이미지 URL을 붙여넣거나, 아래에서 파일을 직접 업로드하세요 (업로드 파일은 저장 시 페이지에 포함됩니다. 3MB 이하 권장).',
     video:'mp4로 인코딩된 동영상 파일의 URL을 입력하세요. 대용량 파일은 업로드를 지원하지 않으니 자체 호스팅 URL을 사용하세요.',
     youtube:'유튜브 영상 URL을 붙여넣으세요. 자동 재생·반복 배경으로, 재생버튼·자막 없이 표시됩니다.',
+    vimeo:'비메오 영상 URL을 붙여넣으세요 (예: https://vimeo.com/123456789). 비메오의 배경 재생 모드로 컨트롤·제목 없이 자동 재생·반복됩니다.',
     gradient:''
   };
   hint.textContent = hints[state.sections[sectionKey].bg.type] || '';
