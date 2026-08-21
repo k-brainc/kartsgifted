@@ -6,7 +6,7 @@
   "sections": {
     "hero": {
       "bg": {
-        "type": "youtube",
+        "type": "video",
         "url": "https://player.vimeo.com/video/1220055303",
         "overlay": 0.25
       },
