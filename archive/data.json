@@ -17,8 +17,29 @@
           "className": "발레 기초 워크숍",
           "instructor": "김서연 교수",
           "location": "한국예술종합학교 무용동 1연습실",
-          "vimeoId": "76979871",
-          "students": ["김도윤", "이서준", "박지호", "최유나"]
+          "students": [
+            "김도윤",
+            "이서준",
+            "박지호",
+            "최유나"
+          ],
+          "videos": [
+            {
+              "id": "dance-0720-1-v1",
+              "label": "전체 샷",
+              "vimeoId": "76979871"
+            },
+            {
+              "id": "dance-0720-1-v2",
+              "label": "클로즈업",
+              "vimeoId": "76979871"
+            },
+            {
+              "id": "dance-0720-1-v3",
+              "label": "측면 앵글",
+              "vimeoId": "76979871"
+            }
+          ]
         },
         {
           "id": "dance-0720-2",
@@ -27,8 +48,18 @@
           "className": "현대무용 즉흥 표현",
           "instructor": "정민아 교수",
           "location": "한국예술종합학교 무용동 1연습실",
-          "vimeoId": "76979871",
-          "students": ["김도윤", "한소율", "장하은"]
+          "students": [
+            "김도윤",
+            "한소율",
+            "장하은"
+          ],
+          "videos": [
+            {
+              "id": "dance-0720-2-v1",
+              "label": "전체 샷",
+              "vimeoId": "76979871"
+            }
+          ]
         },
         {
           "id": "dance-0721-1",
@@ -37,8 +68,12 @@
           "className": "한국무용 기본 동작",
           "instructor": "오지민 교수",
           "location": "한국예술종합학교 무용동 2연습실",
-          "vimeoId": "",
-          "students": ["이서준", "박지호", "한소율"]
+          "students": [
+            "이서준",
+            "박지호",
+            "한소율"
+          ],
+          "videos": []
         }
       ]
     },
@@ -56,8 +91,23 @@
           "className": "드로잉 기초와 관찰",
           "instructor": "윤태호 교수",
           "location": "한국예술종합학교 미술관 A동",
-          "vimeoId": "76979871",
-          "students": ["김도윤", "서지우", "임하윤"]
+          "students": [
+            "김도윤",
+            "서지우",
+            "임하윤"
+          ],
+          "videos": [
+            {
+              "id": "art-0722-1-v1",
+              "label": "전체 샷",
+              "vimeoId": "76979871"
+            },
+            {
+              "id": "art-0722-1-v2",
+              "label": "클로즈업",
+              "vimeoId": "76979871"
+            }
+          ]
         },
         {
           "id": "art-0722-2",
@@ -66,8 +116,12 @@
           "className": "색채 구성 실습",
           "instructor": "백수아 교수",
           "location": "한국예술종합학교 미술관 A동",
-          "vimeoId": "",
-          "students": ["서지우", "최유나", "강도현"]
+          "students": [
+            "서지우",
+            "최유나",
+            "강도현"
+          ],
+          "videos": []
         },
         {
           "id": "art-0723-1",
@@ -76,8 +130,23 @@
           "className": "입체 조형 워크숍",
           "instructor": "장은비 교수",
           "location": "한국예술종합학교 미술관 B동",
-          "vimeoId": "76979871",
-          "students": ["임하윤", "강도현", "한소율"]
+          "students": [
+            "임하윤",
+            "강도현",
+            "한소율"
+          ],
+          "videos": [
+            {
+              "id": "art-0723-1-v1",
+              "label": "전체 샷",
+              "vimeoId": "76979871"
+            },
+            {
+              "id": "art-0723-1-v2",
+              "label": "클로즈업",
+              "vimeoId": "76979871"
+            }
+          ]
         }
       ]
     },
@@ -95,8 +164,23 @@
           "className": "실내악 앙상블",
           "instructor": "황지원 교수",
           "location": "한국예술종합학교 음악원 1연주홀",
-          "vimeoId": "76979871",
-          "students": ["박지호", "서지우", "김도윤"]
+          "students": [
+            "박지호",
+            "서지우",
+            "김도윤"
+          ],
+          "videos": [
+            {
+              "id": "music-0724-1-v1",
+              "label": "전체 샷",
+              "vimeoId": "76979871"
+            },
+            {
+              "id": "music-0724-1-v2",
+              "label": "클로즈업",
+              "vimeoId": "76979871"
+            }
+          ]
         },
         {
           "id": "music-0724-2",
@@ -105,8 +189,11 @@
           "className": "개인 레슨 발표회",
           "instructor": "노현석 교수",
           "location": "한국예술종합학교 음악원 2연주홀",
-          "vimeoId": "",
-          "students": ["장하은", "최유나"]
+          "students": [
+            "장하은",
+            "최유나"
+          ],
+          "videos": []
         }
       ]
     },
@@ -124,8 +211,28 @@
           "className": "판소리 발성 기초",
           "instructor": "송미경 교수",
           "location": "한국예술종합학교 전통예술원",
-          "vimeoId": "76979871",
-          "students": ["한소율", "장하은", "이서준"]
+          "students": [
+            "한소율",
+            "장하은",
+            "이서준"
+          ],
+          "videos": [
+            {
+              "id": "trad-0725-1-v1",
+              "label": "전체 샷",
+              "vimeoId": "76979871"
+            },
+            {
+              "id": "trad-0725-1-v2",
+              "label": "클로즈업",
+              "vimeoId": "76979871"
+            },
+            {
+              "id": "trad-0725-1-v3",
+              "label": "측면 앵글",
+              "vimeoId": "76979871"
+            }
+          ]
         },
         {
           "id": "trad-0725-2",
@@ -134,8 +241,11 @@
           "className": "전통무용 장단 익히기",
           "instructor": "권도형 교수",
           "location": "한국예술종합학교 전통예술원",
-          "vimeoId": "",
-          "students": ["강도현", "임하윤"]
+          "students": [
+            "강도현",
+            "임하윤"
+          ],
+          "videos": []
         }
       ]
     }
