@@ -85,15 +85,21 @@
   .gate-sub{
     font-size:14px; color:var(--cream-dim); margin-bottom:34px; line-height:1.7;
   }
+  .code-input-wrap{position:relative;}
   .code-input{
     width:100%; background:rgba(255,255,255,.06); border:1px solid var(--line);
-    border-radius:2px; padding:16px 18px; color:var(--cream);
+    border-radius:2px; padding:16px 18px; color:transparent; caret-color:var(--gold-soft);
     font-family:var(--font-mono); font-weight:600; font-size:18px; letter-spacing:.3em;
     font-variant-numeric:tabular-nums;
     text-align:center; text-transform:uppercase; outline:none;
   }
   .code-input:focus{border-color:var(--gold);}
   .code-input::placeholder{color:var(--cream-dim); letter-spacing:.2em;}
+  .code-mask{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-weight:700; font-size:18px; letter-spacing:.3em;
+    color:var(--cream); pointer-events:none;
+  }
   .gate-btn{
     width:100%; margin-top:14px; padding:16px; border:1px solid var(--gold); border-radius:2px;
     background:transparent; color:var(--gold-soft); font-weight:600; font-size:14px;
@@ -133,28 +139,21 @@
   main{flex:1; width:100%;}
   .content-pad{max-width:1180px; margin:0 auto; padding:0 40px 90px;}
 
-  /* ---------- home hero ---------- */
-  .hero-band{
-    position:relative; height:44vh; min-height:300px; max-height:420px;
-    overflow:hidden; margin-bottom:56px;
-  }
-  .hero-band img{width:100%; height:100%; object-fit:cover;}
-  .hero-scrim{
-    position:absolute; inset:0;
-    background:linear-gradient(0deg, rgba(8,9,10,1) 2%, rgba(8,9,10,.35) 55%, rgba(8,9,10,.15) 100%);
-  }
-  .hero-text{position:absolute; left:40px; right:40px; bottom:32px; max-width:760px;}
+  /* ---------- home layout (title left, tiles right) ---------- */
+  .home-layout{display:flex; align-items:flex-start; gap:56px; padding-top:56px; margin-bottom:56px;}
+  .home-text{flex:0 0 300px;}
   .hero-eyebrow{font-family:var(--font-mono); font-weight:600; font-size:11px; letter-spacing:.24em; color:var(--gold-soft); text-transform:uppercase; margin-bottom:12px;}
-  .hero-title{font-family:var(--font-display); font-size:clamp(30px, 4.4vw, 46px); font-weight:800; line-height:1.25; margin-bottom:10px;}
-  .hero-desc{color:var(--cream-dim); font-size:15px; line-height:1.7; max-width:620px;}
+  .hero-title{font-family:var(--font-display); font-size:clamp(28px, 3.2vw, 38px); font-weight:800; line-height:1.3; margin-bottom:14px;}
+  .hero-desc{color:var(--cream-dim); font-size:14.5px; line-height:1.75;}
 
   /* ---------- discipline tiles (photo cards) ---------- */
-  .tile-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:20px;}
+  .tile-grid{flex:1; display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; min-width:0;}
   .tile{
     position:relative; overflow:hidden; cursor:pointer;
     aspect-ratio:16/11; border:1px solid var(--line-soft);
   }
-  .tile img{width:100%; height:100%; object-fit:cover; transition:transform .5s ease;}
+  .tile img{width:100%; height:100%; object-fit:cover; transition:transform .5s ease;
+    background:var(--ink-950); filter:brightness(.62) saturate(.92) contrast(1.03);}
   .tile:hover img{transform:scale(1.045);}
   .tile-scrim{
     position:absolute; inset:0;
@@ -300,10 +299,14 @@
     .modal-sidebar{width:100%; border-left:none; border-top:1px solid var(--line); max-height:220px;}
   }
 
+  @media (max-width: 900px){
+    .home-layout{flex-direction:column; gap:32px;}
+    .home-text{flex:none; width:100%;}
+  }
   @media (max-width: 720px){
     header.top-bar{padding:16px 20px;}
     .content-pad{padding:0 20px 60px;}
-    .hero-text, .schedule-banner-content{left:20px; right:20px;}
+    .schedule-banner-content{left:20px; right:20px;}
     .tile-grid{grid-template-columns:1fr;}
     table.schedule-grid{min-width:520px;}
     .cell-class{font-size:12.5px;}
@@ -323,7 +326,10 @@
     <div class="gate-eyebrow">WORKSHOP FOOTAGE ARCHIVE</div>
     <div class="gate-title">K예술영재 프로젝트<br>워크숍 아카이브</div>
     <div class="gate-sub">분야별 워크숍 촬영 영상은 관계자 전용입니다.<br>발급받은 접속 코드를 입력해 주세요.</div>
-    <input id="code-input" class="code-input" placeholder="ACCESS CODE" maxlength="20" autocomplete="off">
+    <div class="code-input-wrap">
+      <input id="code-input" class="code-input" placeholder="ACCESS CODE" maxlength="20" autocomplete="off" autocapitalize="off" autocorrect="off">
+      <div class="code-mask" id="code-mask"></div>
+    </div>
     <button class="gate-btn" id="gate-submit">입장하기</button>
     <div class="gate-error" id="gate-error"></div>
   </div>
@@ -348,17 +354,15 @@
   <main>
     <!-- HOME -->
     <section id="view-home">
-      <div class="hero-band">
-        <img id="hero-photo" alt="">
-        <div class="hero-scrim"></div>
-        <div class="hero-text">
-          <div class="hero-eyebrow">4 DISCIPLINES ARCHIVED</div>
-          <div class="hero-title">분야를 선택해 주세요</div>
-          <div class="hero-desc">각 분야를 선택하면 전체 워크숍 일정표가 표시됩니다. 원하는 시간대를 클릭하면 해당 세션의 촬영 영상을 바로 확인할 수 있습니다.</div>
-        </div>
-      </div>
       <div class="content-pad">
-        <div class="tile-grid" id="tile-grid"></div>
+        <div class="home-layout">
+          <div class="home-text">
+            <div class="hero-eyebrow">4 DISCIPLINES ARCHIVED</div>
+            <div class="hero-title">분야를 선택해 주세요</div>
+            <div class="hero-desc">각 분야를 선택하면 전체 워크숍 일정표가 표시됩니다. 원하는 시간대를 클릭하면 해당 세션의 촬영 영상을 바로 확인할 수 있습니다.</div>
+          </div>
+          <div class="tile-grid" id="tile-grid"></div>
+        </div>
       </div>
     </section>
 
@@ -424,14 +428,50 @@ let currentDiscipline = null;
 const gateScreen = document.getElementById('gate-screen');
 const appScreen = document.getElementById('app-screen');
 const codeInput = document.getElementById('code-input');
+const codeMask = document.getElementById('code-mask');
 const gateError = document.getElementById('gate-error');
+
+/* ---------- Hangul(2-beolsik) -> QWERTY key conversion ---------- */
+const CHO = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+const JUNG = ['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
+const JONG = ['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+const JAMO_KEY = {
+  'ㄱ':'r','ㄲ':'R','ㄴ':'s','ㄷ':'e','ㄸ':'E','ㄹ':'f','ㅁ':'a','ㅂ':'q','ㅃ':'Q','ㅅ':'t','ㅆ':'T','ㅇ':'d','ㅈ':'w','ㅉ':'W','ㅊ':'c','ㅋ':'z','ㅌ':'x','ㅍ':'v','ㅎ':'g',
+  'ㅏ':'k','ㅐ':'o','ㅑ':'i','ㅒ':'O','ㅓ':'j','ㅔ':'p','ㅕ':'u','ㅖ':'P','ㅗ':'h','ㅛ':'y','ㅜ':'n','ㅠ':'b','ㅡ':'m','ㅣ':'l'
+};
+const COMPOUND_KEY = {
+  'ㄳ':'rt','ㄵ':'sw','ㄶ':'sg','ㄺ':'fr','ㄻ':'fa','ㄼ':'fq','ㄽ':'ft','ㄾ':'fx','ㄿ':'fv','ㅀ':'fg','ㅄ':'qt',
+  'ㅘ':'hk','ㅙ':'ho','ㅚ':'hl','ㅝ':'nj','ㅞ':'np','ㅟ':'nl','ㅢ':'ml'
+};
+function jamoToKey(j){ return JAMO_KEY[j] || COMPOUND_KEY[j] || j; }
+function hangulSyllableToKeys(ch){
+  const code = ch.charCodeAt(0) - 0xAC00;
+  if(code < 0 || code > 11171) return null;
+  const cho = Math.floor(code / 588);
+  const jung = Math.floor((code % 588) / 28);
+  const jong = code % 28;
+  let out = jamoToKey(CHO[cho]) + jamoToKey(JUNG[jung]);
+  if(jong > 0) out += jamoToKey(JONG[jong]);
+  return out;
+}
+function convertHangulToEnglish(str){
+  let out = '';
+  for(const ch of str){
+    const keys = hangulSyllableToKeys(ch);
+    out += (keys !== null) ? keys : (JAMO_KEY[ch] || ch);
+  }
+  return out;
+}
+
+codeInput.addEventListener('input', () => {
+  codeMask.textContent = '*'.repeat(codeInput.value.length);
+});
 
 fetch('data.json').then(r => r.json()).then(json => {
   DATA = json;
   document.getElementById('brand-title').textContent = DATA.projectName || 'K예술영재 프로젝트';
   if(DATA.heroPhoto){
     document.getElementById('gate-bg').src = DATA.heroPhoto;
-    document.getElementById('hero-photo').src = DATA.heroPhoto;
   }
   if(sessionStorage.getItem('karts_auth') === '1'){
     enterApp();
@@ -445,8 +485,9 @@ codeInput.addEventListener('keydown', e => { if(e.key === 'Enter') tryEnter(); }
 
 function tryEnter(){
   if(!DATA){ gateError.textContent = '데이터 로딩 중입니다. 잠시 후 다시 시도해 주세요.'; return; }
-  const val = codeInput.value.trim();
-  if(val.length === 0){ gateError.textContent = '접속 코드를 입력해 주세요.'; return; }
+  const raw = codeInput.value.trim();
+  if(raw.length === 0){ gateError.textContent = '접속 코드를 입력해 주세요.'; return; }
+  const val = convertHangulToEnglish(raw);
   if(val.toUpperCase() === String(DATA.accessCode).toUpperCase()){
     sessionStorage.setItem('karts_auth', '1');
     enterApp();
