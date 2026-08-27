@@ -189,18 +189,41 @@
     padding-bottom:10px; border-bottom:1px solid var(--line);
   }
 
+  /* ---------- schedule timetable (grid) ---------- */
+  .schedule-table-wrap{overflow:auto; max-height:68vh; padding-bottom:8px; -webkit-overflow-scrolling:touch; border:1px solid var(--line-soft);}
+  table.schedule-grid{border-collapse:separate; border-spacing:0; width:100%; min-width:640px;}
+  table.schedule-grid th, table.schedule-grid td{border:1px solid var(--line-soft);}
+  table.schedule-grid thead th{
+    position:sticky; top:0; z-index:5; background:var(--ink-950);
+    padding:14px 10px; text-align:left; vertical-align:bottom;
+  }
+  table.schedule-grid thead th:first-child{left:0; z-index:7;}
+  .th-day-label{font-family:var(--font-display); font-size:16px; font-weight:700;}
+  .th-day-sub{font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; color:var(--gold-soft); text-transform:uppercase; margin-top:2px;}
+  .time-col{
+    position:sticky; left:0; z-index:4; background:var(--ink-950);
+    font-family:var(--font-mono); font-size:11px; color:var(--cream-dim);
+    padding:6px 12px; white-space:nowrap; vertical-align:top; width:64px;
+  }
+  td.cell-empty{background:repeating-linear-gradient(135deg, transparent, transparent 8px, var(--line-soft) 8px, var(--line-soft) 9px);}
+  td.cell-session{
+    padding:10px 12px; vertical-align:top; cursor:pointer;
+    background:var(--ink-900); transition:background .15s ease;
+  }
+  td.cell-session:hover{background:var(--ink-800);}
+  .cell-class{font-size:13.5px; font-weight:600; line-height:1.35; margin-bottom:4px;}
+  .cell-sub{font-size:11.5px; color:var(--cream-dim); line-height:1.4;}
+  .cell-note{font-size:11px; color:var(--gold-soft); margin-top:4px; line-height:1.4;}
+  .cell-state{font-family:var(--font-mono); font-size:10px; margin-top:6px; color:var(--cream-dim);}
+  .cell-state.ready{color:var(--gold-soft);}
+
   .session-row{
     display:flex; align-items:center; gap:24px;
     padding:20px 4px; border-bottom:1px solid var(--line-soft);
     cursor:pointer; transition:padding-left .15s ease;
   }
   .session-row:hover{padding-left:12px;}
-  .session-time{font-family:var(--font-mono); font-size:15px; font-weight:500; min-width:140px; color:var(--gold-soft);}
-  .session-main{flex:1;}
-  .session-class{font-size:17px; font-weight:600; margin-bottom:4px;}
-  .session-sub{font-size:13px; color:var(--cream-dim);}
-  .session-video-state{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; white-space:nowrap; color:var(--cream-dim);}
-  .state-ready{color:var(--gold-soft);}
+
 
   /* ---------- search results ---------- */
   .student-block{margin-bottom:36px;}
@@ -282,8 +305,9 @@
     .content-pad{padding:0 20px 60px;}
     .hero-text, .schedule-banner-content{left:20px; right:20px;}
     .tile-grid{grid-template-columns:1fr;}
-    .session-row{flex-wrap:wrap; gap:8px;}
-    .session-time{min-width:auto;}
+    table.schedule-grid{min-width:520px;}
+    .cell-class{font-size:12.5px;}
+    .cell-sub, .cell-state{font-size:10.5px;}
     .chip-time{margin-left:0;}
   }
 </style>
@@ -459,7 +483,7 @@ function renderHome(){
   grid.innerHTML = '';
   DATA.disciplines.forEach(d => {
     const sessionCount = d.schedule.length;
-    const videoCount = d.schedule.filter(s => s.vimeoId).length;
+    const videoCount = d.schedule.reduce((sum, s) => sum + ((s.videos||[]).length), 0);
     const tile = document.createElement('div');
     tile.className = 'tile';
     tile.style.setProperty('--c', d.color);
@@ -496,36 +520,117 @@ function openDiscipline(id){
   body.innerHTML = '';
   if(dates.length === 0){
     body.innerHTML = `<div class="empty-state"><div class="big">등록된 일정이 없습니다</div>아직 이 분야의 워크숍 세션이 등록되지 않았습니다.</div>`;
+    showView('schedule');
+    return;
   }
-  dates.forEach((date, i) => {
-    const group = document.createElement('div');
-    group.className = 'day-group';
-    const dLabel = document.createElement('div');
-    dLabel.className = 'day-label';
-    dLabel.textContent = `DAY ${i+1} — ${date.replaceAll('-', '.')}`;
-    group.appendChild(dLabel);
 
-    byDate[date].sort((a,b) => a.time.localeCompare(b.time)).forEach(s => {
-      const row = document.createElement('div');
-      row.className = 'session-row';
-      const videos = s.videos || [];
-      const hasVideo = videos.length > 0;
-      const stateLabel = hasVideo ? `● 영상 ${videos.length}개` : '영상 준비중';
-      row.innerHTML = `
-        <div class="session-time">${s.time}</div>
-        <div class="session-main">
-          <div class="session-class">${s.className}</div>
-          <div class="session-sub">${s.instructor} · ${s.location}${s.note ? ' · ' + s.note : ''}</div>
-        </div>
-        <div class="session-video-state ${hasVideo ? 'state-ready' : ''}">${stateLabel}</div>
-      `;
-      row.addEventListener('click', () => openVideoModal(s, currentDiscipline));
-      group.appendChild(row);
+  body.appendChild(buildScheduleTable(dates, byDate, currentDiscipline));
+  showView('schedule');
+}
+
+const WEEKDAY_KR = ['일','월','화','수','목','금','토'];
+
+function timeToMinutes(hhmm){
+  const [h, m] = hhmm.trim().split(':').map(Number);
+  return h * 60 + m;
+}
+
+function parseRange(rangeStr){
+  const [startStr, endStr] = rangeStr.split('–').map(s => s.trim());
+  return { start: timeToMinutes(startStr), end: timeToMinutes(endStr) };
+}
+
+function buildScheduleTable(dates, byDate, discipline){
+  // 1) compute each entry's start/end in minutes, and the overall time bounds
+  const parsed = {};
+  let gridStart = Infinity, gridEnd = -Infinity;
+  dates.forEach(date => {
+    parsed[date] = byDate[date].map(s => {
+      const r = parseRange(s.time);
+      gridStart = Math.min(gridStart, r.start);
+      gridEnd = Math.max(gridEnd, r.end);
+      return { entry: s, start: r.start, end: r.end };
+    }).sort((a,b) => a.start - b.start);
+  });
+  gridStart = Math.floor(gridStart / 30) * 30;
+  gridEnd = Math.ceil(gridEnd / 30) * 30;
+  const slotCount = Math.max(1, (gridEnd - gridStart) / 30);
+
+  // 2) build a per-day matrix of slots: null (free), 'SPANNED' (covered by a rowspan above), or {entry, span}
+  const matrix = {};
+  dates.forEach(date => {
+    const col = new Array(slotCount).fill(null);
+    parsed[date].forEach(({entry, start, end}) => {
+      const startSlot = Math.round((start - gridStart) / 30);
+      const span = Math.max(1, Math.round((end - start) / 30));
+      if(startSlot < 0 || startSlot >= slotCount) return;
+      col[startSlot] = { entry, span };
+      for(let i = 1; i < span && (startSlot + i) < slotCount; i++){
+        col[startSlot + i] = 'SPANNED';
+      }
     });
-    body.appendChild(group);
+    matrix[date] = col;
   });
 
-  showView('schedule');
+  // 3) render the table
+  const wrap = document.createElement('div');
+  wrap.className = 'schedule-table-wrap';
+  const table = document.createElement('table');
+  table.className = 'schedule-grid';
+
+  const thead = document.createElement('thead');
+  const headRow = document.createElement('tr');
+  headRow.innerHTML = '<th class="time-col">시간</th>';
+  dates.forEach((date, i) => {
+    const [y,m,d] = date.split('-').map(Number);
+    const wd = WEEKDAY_KR[new Date(y, m-1, d).getDay()];
+    const th = document.createElement('th');
+    th.innerHTML = `<div class="th-day-label">DAY ${i+1}</div><div class="th-day-sub">${m}.${d}(${wd})</div>`;
+    headRow.appendChild(th);
+  });
+  thead.appendChild(headRow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  for(let slot = 0; slot < slotCount; slot++){
+    const tr = document.createElement('tr');
+    const mins = gridStart + slot * 30;
+    const hh = String(Math.floor(mins/60)).padStart(2,'0');
+    const mm = String(mins%60).padStart(2,'0');
+    const timeTd = document.createElement('td');
+    timeTd.className = 'time-col';
+    timeTd.textContent = `${hh}:${mm}`;
+    tr.appendChild(timeTd);
+
+    dates.forEach(date => {
+      const cell = matrix[date][slot];
+      if(cell === 'SPANNED') return; // covered by a rowspan above, emit nothing
+      if(cell === null){
+        const td = document.createElement('td');
+        td.className = 'cell-empty';
+        tr.appendChild(td);
+        return;
+      }
+      const { entry, span } = cell;
+      const videos = entry.videos || [];
+      const hasVideo = videos.length > 0;
+      const td = document.createElement('td');
+      td.className = 'cell-session';
+      td.rowSpan = span;
+      td.innerHTML = `
+        <div class="cell-class">${entry.className}</div>
+        <div class="cell-sub">${entry.instructor || ''}${entry.location ? ' · ' + entry.location : ''}</div>
+        ${entry.note ? `<div class="cell-note">${entry.note}</div>` : ''}
+        <div class="cell-state ${hasVideo ? 'ready' : ''}">${hasVideo ? '● 영상 ' + videos.length + '개' : '영상 준비중'}</div>
+      `;
+      td.addEventListener('click', () => openVideoModal(entry, discipline));
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  }
+  table.appendChild(tbody);
+  wrap.appendChild(table);
+  return wrap;
 }
 document.getElementById('back-from-schedule').addEventListener('click', () => showView('home'));
 
