@@ -57,6 +57,14 @@
   .discipline-tabs button.active{border-color:var(--gold); color:var(--gold); background:rgba(201,162,39,.1);}
   .status-msg{font-family:var(--font-mono); font-size:12px; color:var(--gold-light); min-height:18px; margin-top:10px;}
   .empty{color:var(--cream-dim); font-size:13px; padding:20px 0;}
+  .admin-nav{display:flex; gap:6px; padding:0 32px; max-width:1100px; margin:0 auto; border-bottom:1px solid var(--navy-700); flex-wrap:wrap;}
+  .admin-nav button{
+    background:transparent; border:none; border-bottom:2px solid transparent; color:var(--cream-dim);
+    padding:14px 18px; font-size:13px; font-weight:600; cursor:pointer; font-family:var(--font-body);
+  }
+  .admin-nav button.active{color:var(--gold); border-bottom-color:var(--gold);}
+  .admin-nav button:hover{color:var(--cream);}
+  .admin-panel.hidden{display:none;}
 </style>
 </head>
 <body>
@@ -71,7 +79,14 @@
   </div>
 </header>
 
+<nav class="admin-nav" id="admin-nav">
+  <button data-panel="access" class="active">① 접속 코드</button>
+  <button data-panel="photos">② 대표 사진</button>
+  <button data-panel="sessions">③ 세션 관리</button>
+</nav>
+
 <main>
+  <section class="admin-panel" id="panel-access" data-panel="access">
   <div class="panel">
     <h2>접속 코드</h2>
     <div class="field">
@@ -79,7 +94,9 @@
       <input id="access-code-input" style="max-width:280px;">
     </div>
   </div>
+  </section>
 
+  <section class="admin-panel hidden" id="panel-photos" data-panel="photos">
   <div class="panel">
     <h2>분야별 대표 사진</h2>
     <div class="field">
@@ -89,7 +106,9 @@
     <div id="discipline-photo-fields"></div>
     <div class="students-hint">타일과 일정표 상단 배너에 쓰이는 사진입니다. 실제 촬영 사진으로 교체하려면 이미지 URL을 붙여넣고 아래 다운로드 버튼을 눌러주세요.</div>
   </div>
+  </section>
 
+  <section class="admin-panel hidden" id="panel-sessions" data-panel="sessions">
   <div class="panel">
     <h2>세션 등록 / 수정</h2>
     <div class="discipline-tabs" id="discipline-tabs"></div>
@@ -106,8 +125,8 @@
     <div class="row">
       <div class="field"><label>지도교수</label><input id="f-instructor" placeholder="예: 김서연 교수"></div>
       <div class="field"><label>장소</label><input id="f-location" placeholder="예: 한국예술종합학교 무용동 1연습실"></div>
-    <div class="field"><label>비고 (선택 — 두 그룹 동시 진행 등)</label><input id="f-note" placeholder="예: 두 그룹 동시 진행"></div>
     </div>
+    <div class="field"><label>비고 (선택 — 두 그룹 동시 진행 등)</label><input id="f-note" placeholder="예: 두 그룹 동시 진행"></div>
     <div class="field">
       <label>참여 학생 (쉼표로 구분)</label>
       <textarea id="f-students" rows="2" placeholder="김도윤, 이서준, 박지호"></textarea>
@@ -131,11 +150,21 @@
     </table>
     <div class="empty hidden" id="empty-msg">등록된 세션이 없습니다.</div>
   </div>
+  </section>
 </main>
 
 <script>
 let DATA = null;
 let activeDiscipline = null;
+
+document.getElementById('admin-nav').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-panel]');
+  if(!btn) return;
+  const target = btn.dataset.panel;
+  document.querySelectorAll('#admin-nav button').forEach(b => b.classList.toggle('active', b === btn));
+  document.querySelectorAll('.admin-panel').forEach(sec => sec.classList.toggle('hidden', sec.dataset.panel !== target));
+});
+
 
 function loadData(){
   fetch('data.json?t=' + Date.now()).then(r => r.json()).then(json => {
