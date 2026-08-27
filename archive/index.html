@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K예술영재 프로젝트 — 워크숍 아카이브</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<style>
+  :root{
+    --navy-950:#080D16;
+    --navy-900:#0B1420;
+    --navy-800:#12203A;
+    --navy-700:#1B2C4D;
+    --navy-600:#28406B;
+    --gold:#C9A227;
+    --gold-light:#E8C766;
+    --cream:#F6F3EC;
+    --cream-dim:#CFCABB;
+    --ink:#0E1218;
+
+    --dance:#E1574C;
+    --art:#2E86AB;
+    --music:#8B5CF6;
+    --trad:#B8853A;
+
+    --font-display:'Noto Serif KR', serif;
+    --font-body:'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--navy-950);
+    color:var(--cream);
+    font-family:var(--font-body);
+    word-break:keep-all;
+    overflow-wrap:break-word;
+    min-height:100vh;
+  }
+  ::selection{background:var(--gold); color:var(--navy-950);}
+
+  button, input{font-family:inherit;}
+
+  .hidden{display:none !important;}
+
+  /* ---------- sprocket / timecode motifs ---------- */
+  .sprocket-row{
+    display:flex; gap:14px; justify-content:center; padding:18px 0;
+  }
+  .sprocket-row span{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--navy-600);
+  }
+  .tc-ruler{
+    display:flex; align-items:flex-end; gap:3px; height:22px;
+    padding:0 4px; overflow:hidden; opacity:.55;
+  }
+  .tc-ruler i{
+    display:block; width:1px; background:var(--gold);
+    flex:0 0 auto;
+  }
+  .tc-ruler i:nth-child(5n){height:14px;}
+  .tc-ruler i:not(:nth-child(5n)){height:6px;}
+
+  /* ---------- gate screen ---------- */
+  #gate-screen{
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:24px;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(201,162,39,.10), transparent 60%),
+      var(--navy-950);
+  }
+  .gate-card{
+    width:100%; max-width:440px;
+    background:linear-gradient(180deg, var(--navy-900), var(--navy-950));
+    border:1px solid var(--navy-700);
+    border-top:3px solid var(--gold);
+    border-radius:18px;
+    padding:12px 40px 40px;
+    text-align:center;
+    box-shadow:0 40px 80px -30px rgba(0,0,0,.7);
+  }
+  .gate-eyebrow{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.24em;
+    color:var(--gold); text-transform:uppercase; margin-top:8px;
+  }
+  .gate-title{
+    font-family:var(--font-display); font-weight:700; font-size:28px;
+    margin:10px 0 6px; line-height:1.3;
+  }
+  .gate-sub{
+    font-size:14px; color:var(--cream-dim); margin-bottom:28px; line-height:1.6;
+  }
+  .code-input{
+    width:100%; background:var(--navy-800); border:1px solid var(--navy-600);
+    border-radius:10px; padding:16px 18px; color:var(--cream);
+    font-family:var(--font-mono); font-size:20px; letter-spacing:.3em;
+    text-align:center; text-transform:uppercase; outline:none;
+  }
+  .code-input:focus{border-color:var(--gold);}
+  .gate-btn{
+    width:100%; margin-top:16px; padding:16px; border:none; border-radius:10px;
+    background:var(--gold); color:var(--navy-950); font-weight:700; font-size:16px;
+    cursor:pointer; transition:transform .15s ease, background .15s ease;
+  }
+  .gate-btn:hover{background:var(--gold-light); transform:translateY(-1px);}
+  .gate-error{
+    margin-top:14px; font-size:13px; color:var(--dance); min-height:18px;
+  }
+
+  /* ---------- app shell ---------- */
+  #app-screen{min-height:100vh; display:flex; flex-direction:column;}
+
+  header.top-bar{
+    position:sticky; top:0; z-index:20;
+    background:rgba(11,20,32,.92); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--navy-700);
+    padding:18px 32px;
+    display:flex; align-items:center; gap:24px; flex-wrap:wrap;
+  }
+  .brand{display:flex; flex-direction:column; cursor:pointer;}
+  .brand-name{font-family:var(--font-display); font-weight:700; font-size:19px;}
+  .brand-tag{font-family:var(--font-mono); font-size:10px; letter-spacing:.18em; color:var(--gold); text-transform:uppercase;}
+
+  .search-wrap{
+    flex:1 1 320px; position:relative; max-width:560px;
+  }
+  .search-wrap input{
+    width:100%; background:var(--navy-800); border:1px solid var(--navy-600);
+    border-radius:999px; padding:13px 20px 13px 44px; color:var(--cream);
+    font-size:15px; outline:none;
+  }
+  .search-wrap input:focus{border-color:var(--gold);}
+  .search-wrap .icon{
+    position:absolute; left:16px; top:50%; transform:translateY(-50%);
+    width:16px; height:16px; opacity:.6;
+  }
+  .top-actions{margin-left:auto; display:flex; gap:10px;}
+  .ghost-btn{
+    background:transparent; border:1px solid var(--navy-600); color:var(--cream-dim);
+    border-radius:999px; padding:10px 18px; font-size:13px; cursor:pointer;
+  }
+  .ghost-btn:hover{border-color:var(--gold); color:var(--gold);}
+
+  main{flex:1; padding:40px 32px 80px; max-width:1200px; margin:0 auto; width:100%;}
+
+  /* ---------- home / discipline tiles ---------- */
+  .home-heading{margin-bottom:32px;}
+  .home-eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:.2em; color:var(--gold); text-transform:uppercase;}
+  .home-title{font-family:var(--font-display); font-size:34px; font-weight:700; margin:10px 0 8px;}
+  .home-desc{color:var(--cream-dim); font-size:15px; max-width:640px; line-height:1.7;}
+
+  .tile-grid{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:22px;
+  }
+  .tile{
+    --c: var(--gold);
+    position:relative; overflow:hidden;
+    background:var(--navy-900); border:1px solid var(--navy-700);
+    border-radius:20px; padding:36px 32px;
+    min-height:200px; cursor:pointer;
+    display:flex; flex-direction:column; justify-content:space-between;
+    transition:transform .18s ease, border-color .18s ease;
+  }
+  .tile::before{
+    content:""; position:absolute; inset:0 auto auto 0; width:100%; height:4px;
+    background:var(--c);
+  }
+  .tile::after{
+    content:""; position:absolute; right:-40px; bottom:-40px; width:180px; height:180px;
+    border-radius:50%; background:var(--c); opacity:.08;
+  }
+  .tile:hover{transform:translateY(-4px); border-color:var(--c);}
+  .tile-icon{width:40px; height:40px; color:var(--c);}
+  .tile-name{font-family:var(--font-display); font-size:30px; font-weight:700; margin:18px 0 4px;}
+  .tile-eng{font-family:var(--font-mono); font-size:11px; letter-spacing:.22em; color:var(--cream-dim);}
+  .tile-meta{font-family:var(--font-mono); font-size:13px; color:var(--cream-dim); margin-top:18px;}
+
+  /* ---------- schedule view ---------- */
+  .view-header{display:flex; align-items:center; gap:16px; margin-bottom:6px;}
+  .back-btn{
+    background:none; border:1px solid var(--navy-600); color:var(--cream-dim);
+    border-radius:999px; width:38px; height:38px; cursor:pointer; font-size:16px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .back-btn:hover{border-color:var(--gold); color:var(--gold);}
+  .view-title{font-family:var(--font-display); font-size:30px; font-weight:700;}
+  .view-title-bar{height:4px; width:64px; border-radius:2px; margin:14px 0 4px;}
+
+  .day-group{margin-top:36px;}
+  .day-label{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.14em;
+    color:var(--navy-950); background:var(--gold);
+    padding:6px 14px; border-radius:6px; margin-bottom:16px;
+  }
+
+  .session-row{
+    display:flex; align-items:center; gap:24px;
+    background:var(--navy-900); border:1px solid var(--navy-700);
+    border-radius:14px; padding:22px 26px; margin-bottom:14px;
+    cursor:pointer; transition:border-color .15s ease, transform .15s ease;
+  }
+  .session-row:hover{border-color:var(--gold); transform:translateX(4px);}
+  .session-time{
+    font-family:var(--font-mono); font-size:17px; font-weight:600;
+    min-width:150px; color:var(--gold-light);
+  }
+  .session-main{flex:1;}
+  .session-class{font-size:18px; font-weight:600; margin-bottom:4px;}
+  .session-sub{font-size:13px; color:var(--cream-dim);}
+  .session-video-state{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.1em;
+    padding:6px 12px; border-radius:999px; white-space:nowrap;
+  }
+  .state-ready{background:rgba(201,162,39,.15); color:var(--gold-light); border:1px solid rgba(201,162,39,.4);}
+  .state-pending{background:transparent; color:var(--cream-dim); border:1px solid var(--navy-600);}
+
+  /* ---------- search results ---------- */
+  .student-block{margin-bottom:36px;}
+  .student-name{font-family:var(--font-display); font-size:22px; font-weight:700; margin-bottom:14px;}
+  .class-chip-list{display:flex; flex-wrap:wrap; gap:10px;}
+  .class-chip{
+    background:var(--navy-900); border:1px solid var(--navy-700); border-left:4px solid var(--c, var(--gold));
+    border-radius:10px; padding:14px 18px; cursor:pointer; min-width:220px;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .class-chip:hover{transform:translateY(-2px); border-color:var(--c, var(--gold));}
+  .chip-field{font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; color:var(--c, var(--gold)); text-transform:uppercase; margin-bottom:6px;}
+  .chip-class{font-size:14px; font-weight:600; margin-bottom:4px;}
+  .chip-time{font-family:var(--font-mono); font-size:12px; color:var(--cream-dim);}
+
+  .empty-state{
+    text-align:center; padding:80px 20px; color:var(--cream-dim);
+  }
+  .empty-state .big{font-family:var(--font-display); font-size:22px; color:var(--cream); margin-bottom:8px;}
+
+  /* ---------- video modal ---------- */
+  .modal-backdrop{
+    position:fixed; inset:0; background:rgba(4,7,12,.86); backdrop-filter:blur(4px);
+    display:flex; align-items:center; justify-content:center; z-index:100; padding:24px;
+  }
+  .modal-panel{
+    width:100%; max-width:920px; background:var(--navy-900); border-radius:18px;
+    overflow:hidden; border:1px solid var(--navy-700);
+    max-height:92vh; display:flex; flex-direction:column;
+  }
+  .modal-accent{height:5px; width:100%; background:var(--c, var(--gold));}
+  .modal-head{
+    display:flex; align-items:flex-start; justify-content:space-between;
+    padding:22px 26px 14px; gap:16px;
+  }
+  .modal-eyebrow{font-family:var(--font-mono); font-size:11px; letter-spacing:.16em; color:var(--c, var(--gold)); text-transform:uppercase; margin-bottom:6px;}
+  .modal-title{font-family:var(--font-display); font-size:22px; font-weight:700;}
+  .modal-close{
+    background:none; border:1px solid var(--navy-600); color:var(--cream-dim);
+    width:34px; height:34px; border-radius:50%; cursor:pointer; flex:0 0 auto; font-size:15px;
+  }
+  .modal-close:hover{border-color:var(--gold); color:var(--gold);}
+  .video-frame{
+    position:relative; width:100%; padding-top:56.25%; background:#000;
+  }
+  .video-frame iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
+  .video-empty{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:8px; color:var(--cream-dim); font-family:var(--font-mono); font-size:13px;
+  }
+  .modal-meta{
+    padding:16px 26px 24px; display:flex; gap:28px; flex-wrap:wrap;
+    font-size:13px; color:var(--cream-dim); font-family:var(--font-mono);
+  }
+  .modal-meta b{color:var(--cream); font-family:var(--font-body); font-weight:600;}
+
+  @media (max-width: 720px){
+    header.top-bar{padding:16px 18px;}
+    main{padding:28px 18px 60px;}
+    .tile-grid{grid-template-columns:1fr;}
+    .session-row{flex-wrap:wrap; gap:10px;}
+    .session-time{min-width:auto;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= GATE ================= -->
+<div id="gate-screen">
+  <div class="gate-card">
+    <div class="sprocket-row">
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="gate-eyebrow">WORKSHOP FOOTAGE ARCHIVE</div>
+    <div class="gate-title">K예술영재 프로젝트<br>워크숍 아카이브</div>
+    <div class="gate-sub">분야별 워크숍 촬영 영상은 관계자 전용입니다.<br>발급받은 접속 코드를 입력해 주세요.</div>
+    <input id="code-input" class="code-input" placeholder="ACCESS CODE" maxlength="20" autocomplete="off">
+    <button class="gate-btn" id="gate-submit">입장하기</button>
+    <div class="gate-error" id="gate-error"></div>
+  </div>
+</div>
+
+<!-- ================= APP ================= -->
+<div id="app-screen" class="hidden">
+  <header class="top-bar">
+    <div class="brand" id="brand-home">
+      <span class="brand-name" id="brand-title">K예술영재 프로젝트</span>
+      <span class="brand-tag">Workshop Archive</span>
+    </div>
+    <div class="search-wrap">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="search-input" placeholder="학생 이름으로 전체 영상 검색 (예: 김도윤)">
+    </div>
+    <div class="top-actions">
+      <button class="ghost-btn" id="lock-btn">잠금</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="view-home">
+      <div class="home-heading">
+        <div class="home-eyebrow">4 DISCIPLINES ARCHIVED</div>
+        <div class="home-title">분야를 선택해 주세요</div>
+        <div class="home-desc">각 분야를 선택하면 전체 워크숍 일정표가 표시됩니다. 원하는 시간대를 클릭하면 해당 세션의 촬영 영상을 바로 확인할 수 있습니다.</div>
+      </div>
+      <div class="tile-grid" id="tile-grid"></div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section id="view-schedule" class="hidden">
+      <div class="view-header">
+        <button class="back-btn" id="back-from-schedule">←</button>
+        <div>
+          <div class="view-title" id="schedule-title"></div>
+        </div>
+      </div>
+      <div class="view-title-bar" id="schedule-bar"></div>
+      <div class="tc-ruler" id="schedule-ruler"></div>
+      <div id="schedule-body"></div>
+    </section>
+
+    <!-- SEARCH RESULTS -->
+    <section id="view-search" class="hidden">
+      <div class="view-header">
+        <button class="back-btn" id="back-from-search">←</button>
+        <div class="view-title">검색 결과</div>
+      </div>
+      <div id="search-body" style="margin-top:28px;"></div>
+    </section>
+  </main>
+</div>
+
+<!-- ================= VIDEO MODAL ================= -->
+<div id="video-modal" class="modal-backdrop hidden">
+  <div class="modal-panel">
+    <div class="modal-accent" id="modal-accent"></div>
+    <div class="modal-head">
+      <div>
+        <div class="modal-eyebrow" id="modal-field"></div>
+        <div class="modal-title" id="modal-class"></div>
+      </div>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <div class="video-frame" id="video-frame"></div>
+    <div class="modal-meta">
+      <div>날짜 · 시간<br><b id="modal-time"></b></div>
+      <div>지도교수<br><b id="modal-instructor"></b></div>
+      <div>장소<br><b id="modal-location"></b></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ICONS = {
+  dance: '<svg class="tile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="4" r="2"/><path d="M12 6v6l-4 8M12 12l5 8M7 11l5-2 5 2"/></svg>',
+  art: '<svg class="tile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a9 9 0 1 0 0 18c1.5 0 1.5-1.2.7-2-.6-.6-.4-1.6.5-1.8 3-.6 5.8-2.6 5.8-6.7C19 6.5 15.9 3 12 3Z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="9.5" cy="7" r="1"/><circle cx="14.5" cy="6.5" r="1"/></svg>',
+  music: '<svg class="tile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>',
+  traditional: '<svg class="tile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 18c3-6 13-6 16 0"/><path d="M12 4v10"/><path d="M8 8c2-2 6-2 8 0"/></svg>'
+};
+
+let DATA = null;
+let currentDiscipline = null;
+
+const gateScreen = document.getElementById('gate-screen');
+const appScreen = document.getElementById('app-screen');
+const codeInput = document.getElementById('code-input');
+const gateError = document.getElementById('gate-error');
+
+function fieldColor(id){
+  return {dance:'var(--dance)', art:'var(--art)', music:'var(--music)', traditional:'var(--trad)'}[id] || 'var(--gold)';
+}
+
+fetch('data.json').then(r => r.json()).then(json => {
+  DATA = json;
+  document.getElementById('brand-title').textContent = DATA.projectName || 'K예술영재 프로젝트';
+  if(sessionStorage.getItem('karts_auth') === '1'){
+    enterApp();
+  }
+}).catch(() => {
+  gateError.textContent = '데이터를 불러오지 못했습니다. data.json 파일 위치를 확인해 주세요.';
+});
+
+document.getElementById('gate-submit').addEventListener('click', tryEnter);
+codeInput.addEventListener('keydown', e => { if(e.key === 'Enter') tryEnter(); });
+
+function tryEnter(){
+  if(!DATA){ gateError.textContent = '데이터 로딩 중입니다. 잠시 후 다시 시도해 주세요.'; return; }
+  const val = codeInput.value.trim();
+  if(val.length === 0){ gateError.textContent = '접속 코드를 입력해 주세요.'; return; }
+  if(val.toUpperCase() === String(DATA.accessCode).toUpperCase()){
+    sessionStorage.setItem('karts_auth', '1');
+    enterApp();
+  } else {
+    gateError.textContent = '접속 코드가 올바르지 않습니다.';
+  }
+}
+
+function enterApp(){
+  gateScreen.classList.add('hidden');
+  appScreen.classList.remove('hidden');
+  renderHome();
+}
+
+document.getElementById('lock-btn').addEventListener('click', () => {
+  sessionStorage.removeItem('karts_auth');
+  appScreen.classList.add('hidden');
+  gateScreen.classList.remove('hidden');
+  codeInput.value = '';
+  gateError.textContent = '';
+});
+
+document.getElementById('brand-home').addEventListener('click', () => showView('home'));
+
+function showView(name){
+  ['home','schedule','search'].forEach(v => {
+    document.getElementById('view-' + v).classList.toggle('hidden', v !== name);
+  });
+}
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  const grid = document.getElementById('tile-grid');
+  grid.innerHTML = '';
+  DATA.disciplines.forEach(d => {
+    const sessionCount = d.schedule.length;
+    const videoCount = d.schedule.filter(s => s.vimeoId).length;
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+    tile.style.setProperty('--c', d.color);
+    tile.innerHTML = `
+      ${ICONS[d.id] || ''}
+      <div>
+        <div class="tile-eng">${d.englishLabel || ''}</div>
+        <div class="tile-name">${d.name}</div>
+      </div>
+      <div class="tile-meta">${sessionCount}개 세션 · 영상 ${videoCount}개 보유</div>
+    `;
+    tile.addEventListener('click', () => openDiscipline(d.id));
+    grid.appendChild(tile);
+  });
+  showView('home');
+}
+
+/* ---------- SCHEDULE ---------- */
+function openDiscipline(id){
+  currentDiscipline = DATA.disciplines.find(d => d.id === id);
+  if(!currentDiscipline) return;
+  document.getElementById('schedule-title').textContent = currentDiscipline.name + ' 워크숍 일정표';
+  document.getElementById('schedule-bar').style.background = currentDiscipline.color;
+
+  const ruler = document.getElementById('schedule-ruler');
+  ruler.innerHTML = Array.from({length:60}).map(() => '<i></i>').join('');
+
+  const byDate = {};
+  currentDiscipline.schedule.forEach(s => {
+    (byDate[s.date] = byDate[s.date] || []).push(s);
+  });
+  const dates = Object.keys(byDate).sort();
+
+  const body = document.getElementById('schedule-body');
+  body.innerHTML = '';
+  if(dates.length === 0){
+    body.innerHTML = `<div class="empty-state"><div class="big">등록된 일정이 없습니다</div>아직 이 분야의 워크숍 세션이 등록되지 않았습니다.</div>`;
+  }
+  dates.forEach((date, i) => {
+    const group = document.createElement('div');
+    group.className = 'day-group';
+    const dLabel = document.createElement('div');
+    dLabel.className = 'day-label';
+    dLabel.textContent = `DAY ${i+1} — ${date.replaceAll('-', '.')}`;
+    group.appendChild(dLabel);
+
+    byDate[date].sort((a,b) => a.time.localeCompare(b.time)).forEach(s => {
+      const row = document.createElement('div');
+      row.className = 'session-row';
+      const hasVideo = !!s.vimeoId;
+      row.innerHTML = `
+        <div class="session-time">${s.time}</div>
+        <div class="session-main">
+          <div class="session-class">${s.className}</div>
+          <div class="session-sub">${s.instructor} · ${s.location}</div>
+        </div>
+        <div class="session-video-state ${hasVideo ? 'state-ready' : 'state-pending'}">${hasVideo ? '● 시청 가능' : '영상 준비중'}</div>
+      `;
+      row.addEventListener('click', () => openVideoModal(s, currentDiscipline));
+      group.appendChild(row);
+    });
+    body.appendChild(group);
+  });
+
+  showView('schedule');
+}
+document.getElementById('back-from-schedule').addEventListener('click', () => showView('home'));
+
+/* ---------- SEARCH ---------- */
+const searchInput = document.getElementById('search-input');
+let searchTimer = null;
+searchInput.addEventListener('input', () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(runSearch, 250);
+});
+searchInput.addEventListener('keydown', e => { if(e.key === 'Enter'){ clearTimeout(searchTimer); runSearch(); } });
+
+function runSearch(){
+  const q = searchInput.value.trim();
+  if(q.length === 0) return;
+  const qLower = q.toLowerCase();
+
+  // matched student name -> array of {entry, discipline, matchedName}
+  const byStudent = {};
+  DATA.disciplines.forEach(d => {
+    d.schedule.forEach(s => {
+      (s.students || []).forEach(name => {
+        if(name.toLowerCase().includes(qLower)){
+          byStudent[name] = byStudent[name] || [];
+          byStudent[name].push({entry: s, discipline: d});
+        }
+      });
+    });
+  });
+
+  const body = document.getElementById('search-body');
+  body.innerHTML = '';
+  const names = Object.keys(byStudent).sort();
+
+  if(names.length === 0){
+    body.innerHTML = `<div class="empty-state"><div class="big">"${escapeHtml(q)}" 검색 결과가 없습니다</div>학생 이름을 다시 확인해 주세요.</div>`;
+  } else {
+    names.forEach(name => {
+      const block = document.createElement('div');
+      block.className = 'student-block';
+      const items = byStudent[name].sort((a,b) => (a.entry.date+a.entry.time).localeCompare(b.entry.date+b.entry.time));
+      block.innerHTML = `
+        <div class="student-name">${name} <span style="font-family:var(--font-mono); font-size:12px; color:var(--cream-dim); font-weight:400;">· 참여 클래스 ${items.length}건</span></div>
+        <div class="class-chip-list"></div>
+      `;
+      const list = block.querySelector('.class-chip-list');
+      items.forEach(({entry, discipline}) => {
+        const chip = document.createElement('div');
+        chip.className = 'class-chip';
+        chip.style.setProperty('--c', discipline.color);
+        chip.innerHTML = `
+          <div class="chip-field">${discipline.name}</div>
+          <div class="chip-class">${entry.className}</div>
+          <div class="chip-time">${entry.date.replaceAll('-','.')} · ${entry.time}</div>
+        `;
+        chip.addEventListener('click', () => openVideoModal(entry, discipline));
+        list.appendChild(chip);
+      });
+      body.appendChild(block);
+    });
+  }
+  showView('search');
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+document.getElementById('back-from-search').addEventListener('click', () => { showView('home'); searchInput.value=''; });
+
+/* ---------- VIDEO MODAL ---------- */
+const modal = document.getElementById('video-modal');
+function openVideoModal(entry, discipline){
+  document.getElementById('modal-accent').style.background = discipline.color;
+  document.getElementById('modal-field').textContent = discipline.name;
+  document.getElementById('modal-field').style.color = discipline.color;
+  document.getElementById('modal-class').textContent = entry.className;
+  document.getElementById('modal-time').textContent = `${entry.date.replaceAll('-','.')} · ${entry.time}`;
+  document.getElementById('modal-instructor').textContent = entry.instructor;
+  document.getElementById('modal-location').textContent = entry.location || '-';
+
+  const frame = document.getElementById('video-frame');
+  if(entry.vimeoId){
+    frame.innerHTML = `<iframe src="https://player.vimeo.com/video/${entry.vimeoId}?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+  } else {
+    frame.innerHTML = `<div class="video-empty">◌ REC PENDING<br><span style="font-family:var(--font-body); color:var(--cream-dim);">아직 업로드된 영상이 없습니다</span></div>`;
+  }
+  modal.classList.remove('hidden');
+}
+document.getElementById('modal-close').addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+function closeModal(){
+  modal.classList.add('hidden');
+  document.getElementById('video-frame').innerHTML = '';
+}
+</script>
+</body>
+</html>
