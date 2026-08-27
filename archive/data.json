@@ -1,12 +1,14 @@
 {
   "accessCode": "KARTS2026",
   "projectName": "K예술영재 프로젝트",
+  "heroPhoto": "https://images.unsplash.com/photo-1458639817867-2c9d4c5dcad4?fm=jpg&q=80&w=2400&auto=format&fit=crop",
   "disciplines": [
     {
       "id": "dance",
       "name": "무용",
       "englishLabel": "DANCE",
       "color": "#E1574C",
+      "photo": "https://images.unsplash.com/photo-1758671916868-b853bc18d031?fm=jpg&q=80&w=1600&auto=format&fit=crop",
       "schedule": [
         {
           "id": "dance-0720-1",
@@ -45,6 +47,7 @@
       "name": "미술",
       "englishLabel": "VISUAL ARTS",
       "color": "#2E86AB",
+      "photo": "https://images.unsplash.com/photo-1644375391931-0461cf201318?fm=jpg&q=80&w=1600&auto=format&fit=crop",
       "schedule": [
         {
           "id": "art-0722-1",
@@ -83,6 +86,7 @@
       "name": "음악",
       "englishLabel": "MUSIC",
       "color": "#8B5CF6",
+      "photo": "https://images.unsplash.com/photo-1519683109079-d5f539e1542f?fm=jpg&q=80&w=1600&auto=format&fit=crop",
       "schedule": [
         {
           "id": "music-0724-1",
@@ -111,6 +115,7 @@
       "name": "전통예술",
       "englishLabel": "TRADITIONAL ARTS",
       "color": "#B8853A",
+      "photo": "https://images.unsplash.com/photo-1757549250047-2deba67f9c70?fm=jpg&q=80&w=1600&auto=format&fit=crop",
       "schedule": [
         {
           "id": "trad-0725-1",
