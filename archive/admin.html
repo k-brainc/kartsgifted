@@ -8,9 +8,9 @@
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
 <style>
   :root{
-    --navy-950:#080D16; --navy-900:#0B1420; --navy-800:#12203A; --navy-700:#1B2C4D; --navy-600:#28406B;
-    --gold:#C9A227; --gold-light:#E8C766; --cream:#F6F3EC; --cream-dim:#9AA3B5;
-    --danger:#E1574C;
+    --navy-950:#08090A; --navy-900:#111214; --navy-800:#1A1B1E; --navy-700:#2A2C30; --navy-600:#3A3D42;
+    --gold:#C9A227; --gold-light:#D9BB63; --cream:#EEEBE3; --cream-dim:#9B978D;
+    --danger:#D9695E;
     --font-display:'Noto Serif KR', serif;
     --font-body:'Pretendard', sans-serif;
     --font-mono:'JetBrains Mono', monospace;
@@ -81,6 +81,16 @@
   </div>
 
   <div class="panel">
+    <h2>분야별 대표 사진</h2>
+    <div class="field">
+      <label>홈 화면 상단 배경 사진 URL</label>
+      <input id="hero-photo-input" placeholder="https://...">
+    </div>
+    <div id="discipline-photo-fields"></div>
+    <div class="students-hint">타일과 일정표 상단 배너에 쓰이는 사진입니다. 실제 촬영 사진으로 교체하려면 이미지 URL을 붙여넣고 아래 다운로드 버튼을 눌러주세요.</div>
+  </div>
+
+  <div class="panel">
     <h2>세션 등록 / 수정</h2>
     <div class="discipline-tabs" id="discipline-tabs"></div>
 
@@ -129,6 +139,8 @@ function loadData(){
   fetch('data.json?t=' + Date.now()).then(r => r.json()).then(json => {
     DATA = json;
     document.getElementById('access-code-input').value = DATA.accessCode || '';
+    document.getElementById('hero-photo-input').value = DATA.heroPhoto || '';
+    renderPhotoFields();
     if(!activeDiscipline && DATA.disciplines.length) activeDiscipline = DATA.disciplines[0].id;
     renderTabs();
     renderTable();
@@ -140,6 +152,17 @@ document.getElementById('reload-btn').addEventListener('click', loadData);
 
 function setStatus(msg){
   document.getElementById('status-msg').textContent = msg;
+}
+
+function renderPhotoFields(){
+  const wrap = document.getElementById('discipline-photo-fields');
+  wrap.innerHTML = '';
+  DATA.disciplines.forEach(d => {
+    const field = document.createElement('div');
+    field.className = 'field';
+    field.innerHTML = `<label>${d.name} 대표 사진 URL</label><input data-discipline-id="${d.id}" class="discipline-photo-input" value="${d.photo || ''}">`;
+    wrap.appendChild(field);
+  });
 }
 
 function renderTabs(){
@@ -246,6 +269,11 @@ function deleteSession(id){
 
 document.getElementById('download-btn').addEventListener('click', () => {
   DATA.accessCode = document.getElementById('access-code-input').value.trim() || DATA.accessCode;
+  DATA.heroPhoto = document.getElementById('hero-photo-input').value.trim() || DATA.heroPhoto;
+  document.querySelectorAll('.discipline-photo-input').forEach(input => {
+    const disc = DATA.disciplines.find(d => d.id === input.dataset.disciplineId);
+    if(disc) disc.photo = input.value.trim() || disc.photo;
+  });
   const blob = new Blob([JSON.stringify(DATA, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
