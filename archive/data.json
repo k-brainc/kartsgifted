@@ -8,7 +8,7 @@
       "name": "무용",
       "englishLabel": "DANCE",
       "color": "#E1574C",
-      "photo": "https://k-brainc.github.io/kartsgifted/bg_v.jpg",
+      "photo": "https://k-brainc.github.io/kartsgifted/archive/bg_v.jpg",
       "schedule": [
         {
           "id": "dance-0717-1",
@@ -119,7 +119,7 @@
       "name": "미술",
       "englishLabel": "VISUAL ARTS",
       "color": "#2E86AB",
-      "photo": "https://k-brainc.github.io/kartsgifted/bg_a.jpg",
+      "photo": "https://k-brainc.github.io/kartsgifted/archive/bg_a.jpg",
       "schedule": [
         {
           "id": "art-0722-1",
@@ -192,7 +192,7 @@
       "name": "음악",
       "englishLabel": "MUSIC",
       "color": "#8B5CF6",
-      "photo": "https://k-brainc.github.io/kartsgifted/bg_m.jpg",
+      "photo": "https://k-brainc.github.io/kartsgifted/archive/bg_m.jpg",
       "schedule": [
         {
           "id": "music-0807-1",
@@ -365,7 +365,7 @@
       "name": "전통예술",
       "englishLabel": "TRADITIONAL ARTS",
       "color": "#B8853A",
-      "photo": "https://k-brainc.github.io/kartsgifted/bg_t.jpg",
+      "photo": "https://k-brainc.github.io/kartsgifted/archive/bg_t.jpg",
       "schedule": [
         {
           "id": "trad-0729-1",
