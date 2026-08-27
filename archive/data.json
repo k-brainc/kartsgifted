@@ -6,9 +6,9 @@
     {
       "id": "dance",
       "name": "무용",
-      "englishLabel": "DANCE",
+      "englishLabel": "BALLET",
       "color": "#E1574C",
-      "photo": "https://k-brainc.github.io/kartsgifted/archive/bg_b.jpg",
+      "photo": "https://images.unsplash.com/photo-1758671916868-b853bc18d031?fm=jpg&q=80&w=1600&auto=format&fit=crop",
       "schedule": [
         {
           "id": "dance-0717-1",
@@ -117,9 +117,9 @@
     {
       "id": "art",
       "name": "미술",
-      "englishLabel": "VISUAL ARTS",
+      "englishLabel": "ARTS",
       "color": "#2E86AB",
-      "photo": "https://k-brainc.github.io/kartsgifted/archive/bg_a.jpg",
+      "photo": "https://images.unsplash.com/photo-1644375391931-0461cf201318?fm=jpg&q=80&w=1600&auto=format&fit=crop",
       "schedule": [
         {
           "id": "art-0722-1",
@@ -192,7 +192,7 @@
       "name": "음악",
       "englishLabel": "MUSIC",
       "color": "#8B5CF6",
-      "photo": "https://k-brainc.github.io/kartsgifted/archive/bg_m.jpg",
+      "photo": "https://images.unsplash.com/photo-1519683109079-d5f539e1542f?fm=jpg&q=80&w=1600&auto=format&fit=crop",
       "schedule": [
         {
           "id": "music-0807-1",
@@ -365,7 +365,7 @@
       "name": "전통예술",
       "englishLabel": "TRADITIONAL ARTS",
       "color": "#B8853A",
-      "photo": "https://k-brainc.github.io/kartsgifted/archive/bg_t.jpg",
+      "photo": "https://images.unsplash.com/photo-1757549250047-2deba67f9c70?fm=jpg&q=80&w=1600&auto=format&fit=crop",
       "schedule": [
         {
           "id": "trad-0729-1",
