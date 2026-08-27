@@ -97,14 +97,15 @@
     <div class="row3">
       <div class="field"><label>날짜</label><input type="date" id="f-date"></div>
       <div class="field"><label>시간 (예: 09:00–10:30)</label><input id="f-time" placeholder="09:00–10:30"></div>
-      <div class="field"><label>Vimeo 영상 ID</label><input id="f-vimeo" placeholder="예: 76979871 (비워두면 준비중 표시)"></div>
-    </div>
-    <div class="row">
       <div class="field"><label>클래스명</label><input id="f-class" placeholder="예: 발레 기초 워크숍"></div>
-      <div class="field"><label>지도교수</label><input id="f-instructor" placeholder="예: 김서연 교수"></div>
     </div>
     <div class="field">
-      <label>장소</label><input id="f-location" placeholder="예: 한국예술종합학교 무용동 1연습실">
+      <label>Vimeo 영상 목록 (한 줄에 하나, "라벨 = Vimeo ID" 형식 — 세션당 여러 개 등록 가능)</label>
+      <textarea id="f-videos" rows="3" placeholder="전체 샷 = 76979871&#10;클로즈업 = 76979872"></textarea>
+    </div>
+    <div class="row">
+      <div class="field"><label>지도교수</label><input id="f-instructor" placeholder="예: 김서연 교수"></div>
+      <div class="field"><label>장소</label><input id="f-location" placeholder="예: 한국예술종합학교 무용동 1연습실"></div>
     </div>
     <div class="field">
       <label>참여 학생 (쉼표로 구분)</label>
@@ -196,7 +197,7 @@ function renderTable(){
       <td>${s.className}</td>
       <td>${s.instructor || ''}</td>
       <td>${(s.students||[]).join(', ')}</td>
-      <td>${s.vimeoId ? '<span class="tag" style="background:rgba(201,162,39,.15); color:#E8C766;">보유</span>' : '<span class="tag" style="border:1px solid #28406B; color:#9AA3B5;">없음</span>'}</td>
+      <td>${(s.videos && s.videos.length) ? '<span class="tag" style="background:rgba(201,162,39,.15); color:#D9BB63;">영상 ' + s.videos.length + '개</span>' : '<span class="tag" style="border:1px solid #3A3D42; color:#9B978D;">없음</span>'}</td>
       <td class="actions-cell">
         <button class="btn btn-ghost edit-btn">수정</button>
         <button class="btn btn-danger del-btn">삭제</button>
@@ -212,7 +213,7 @@ function fillForm(s){
   document.getElementById('f-edit-id').value = s.id;
   document.getElementById('f-date').value = s.date;
   document.getElementById('f-time').value = s.time;
-  document.getElementById('f-vimeo').value = s.vimeoId || '';
+  document.getElementById('f-videos').value = (s.videos || []).map(v => `${v.label || ''} = ${v.vimeoId || ''}`).join('\n');
   document.getElementById('f-class').value = s.className;
   document.getElementById('f-instructor').value = s.instructor || '';
   document.getElementById('f-location').value = s.location || '';
@@ -222,7 +223,7 @@ function fillForm(s){
 
 function clearForm(){
   document.getElementById('f-edit-id').value = '';
-  ['f-date','f-time','f-vimeo','f-class','f-instructor','f-location','f-students'].forEach(id => document.getElementById(id).value = '');
+  ['f-date','f-time','f-videos','f-class','f-instructor','f-location','f-students'].forEach(id => document.getElementById(id).value = '');
   setStatus('');
 }
 document.getElementById('clear-form-btn').addEventListener('click', clearForm);
@@ -238,13 +239,26 @@ document.getElementById('save-session-btn').addEventListener('click', () => {
 
   const editId = document.getElementById('f-edit-id').value;
   const students = document.getElementById('f-students').value.split(',').map(s => s.trim()).filter(Boolean);
+  const entryId = editId || (disc.id + '-' + Date.now());
+  const videos = document.getElementById('f-videos').value.split('\n').map(s => s.trim()).filter(Boolean).map((line, i) => {
+    const eqIndex = line.indexOf('=');
+    let label, vimeoId;
+    if(eqIndex === -1){
+      label = '영상 ' + (i+1);
+      vimeoId = line.trim();
+    } else {
+      label = line.slice(0, eqIndex).trim() || ('영상 ' + (i+1));
+      vimeoId = line.slice(eqIndex+1).trim();
+    }
+    return { id: entryId + '-v' + (i+1), label, vimeoId };
+  });
 
   const entry = {
-    id: editId || (disc.id + '-' + Date.now()),
+    id: entryId,
     date, time, className,
     instructor: document.getElementById('f-instructor').value.trim(),
     location: document.getElementById('f-location').value.trim(),
-    vimeoId: document.getElementById('f-vimeo').value.trim(),
+    videos,
     students
   };
 
