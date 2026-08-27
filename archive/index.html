@@ -383,6 +383,7 @@
         <div>날짜 · 시간<br><b id="modal-time"></b></div>
         <div>지도교수<br><b id="modal-instructor"></b></div>
         <div>장소<br><b id="modal-location"></b></div>
+        <div id="modal-note-wrap" class="hidden">비고<br><b id="modal-note"></b></div>
       </div>
     </div>
     <div class="modal-sidebar">
@@ -514,7 +515,7 @@ function openDiscipline(id){
         <div class="session-time">${s.time}</div>
         <div class="session-main">
           <div class="session-class">${s.className}</div>
-          <div class="session-sub">${s.instructor} · ${s.location}</div>
+          <div class="session-sub">${s.instructor} · ${s.location}${s.note ? ' · ' + s.note : ''}</div>
         </div>
         <div class="session-video-state ${hasVideo ? 'state-ready' : ''}">${stateLabel}</div>
       `;
@@ -610,6 +611,13 @@ function openVideoModal(entry, discipline){
   document.getElementById('modal-time').textContent = `${entry.date.replaceAll('-','.')} · ${entry.time}`;
   document.getElementById('modal-instructor').textContent = entry.instructor;
   document.getElementById('modal-location').textContent = entry.location || '-';
+  const noteWrap = document.getElementById('modal-note-wrap');
+  if(entry.note){
+    document.getElementById('modal-note').textContent = entry.note;
+    noteWrap.classList.remove('hidden');
+  } else {
+    noteWrap.classList.add('hidden');
+  }
 
   currentVideos = entry.videos || [];
   currentVideoIndex = 0;
