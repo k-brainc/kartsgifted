@@ -106,6 +106,7 @@
     <div class="row">
       <div class="field"><label>지도교수</label><input id="f-instructor" placeholder="예: 김서연 교수"></div>
       <div class="field"><label>장소</label><input id="f-location" placeholder="예: 한국예술종합학교 무용동 1연습실"></div>
+    <div class="field"><label>비고 (선택 — 두 그룹 동시 진행 등)</label><input id="f-note" placeholder="예: 두 그룹 동시 진행"></div>
     </div>
     <div class="field">
       <label>참여 학생 (쉼표로 구분)</label>
@@ -217,13 +218,14 @@ function fillForm(s){
   document.getElementById('f-class').value = s.className;
   document.getElementById('f-instructor').value = s.instructor || '';
   document.getElementById('f-location').value = s.location || '';
+  document.getElementById('f-note').value = s.note || '';
   document.getElementById('f-students').value = (s.students||[]).join(', ');
   setStatus('세션을 수정 중입니다. 저장하면 반영됩니다.');
 }
 
 function clearForm(){
   document.getElementById('f-edit-id').value = '';
-  ['f-date','f-time','f-videos','f-class','f-instructor','f-location','f-students'].forEach(id => document.getElementById(id).value = '');
+  ['f-date','f-time','f-videos','f-class','f-instructor','f-location','f-note','f-students'].forEach(id => document.getElementById(id).value = '');
   setStatus('');
 }
 document.getElementById('clear-form-btn').addEventListener('click', clearForm);
@@ -261,6 +263,8 @@ document.getElementById('save-session-btn').addEventListener('click', () => {
     videos,
     students
   };
+  const noteVal = document.getElementById('f-note').value.trim();
+  if(noteVal) entry.note = noteVal;
 
   if(editId){
     const idx = disc.schedule.findIndex(s => s.id === editId);
