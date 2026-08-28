@@ -44,6 +44,11 @@
     --music:#2F6FB5;
     --trad:#B23A3A;
 
+    --navy-panel:#1F3746;
+    --navy-panel-deep:#14232E;
+    --on-navy:#F5EFE1;
+    --on-navy-dim:rgba(245,239,225,.72);
+
     --font:'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
@@ -95,19 +100,29 @@
   main{flex:1; width:100%;}
   .content-pad{max-width:1180px; margin:0 auto; padding:0 40px 90px;}
 
-  /* ---------- home layout (title left, tiles right) ---------- */
-  .home-layout{display:flex; align-items:flex-start; gap:56px; padding-top:56px; margin-bottom:56px;}
+  /* ---------- home hero : navy poster panel (리플렛 표지·설문지 인트로와 같은 톤) ---------- */
+  .hero-panel{
+    position:relative; overflow:hidden;
+    background:linear-gradient(160deg, var(--navy-panel) 0%, var(--navy-panel-deep) 100%);
+    border:1px solid var(--gold);
+    margin-top:32px;
+  }
+  .home-layout{display:flex; align-items:flex-start; gap:56px; padding:56px 48px;}
   .home-text{flex:0 0 300px;}
+  .hero-panel .hero-eyebrow{color:var(--gold-bright);}
+  .hero-panel .hero-title{color:var(--on-navy);}
+  .hero-panel .hero-desc{color:var(--on-navy-dim);}
   .hero-eyebrow{font-weight:600; font-size:11px; letter-spacing:.24em; color:var(--gold-soft); text-transform:uppercase; margin-bottom:12px;}
   .hero-title{font-size:clamp(28px, 3.2vw, 38px); font-weight:800; line-height:1.35; margin-bottom:14px;}
   .hero-desc{color:var(--cream-dim); font-size:15.5px; font-weight:400; line-height:1.75;}
 
-  /* ---------- discipline tiles (photo cards) ---------- */
+  /* ---------- discipline tiles (light cards floating on the navy panel) ---------- */
   .tile-grid{flex:1; display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; min-width:0;}
   .tile{
     position:relative; overflow:hidden; cursor:pointer;
     aspect-ratio:16/11; border:1px solid var(--line-soft);
     background:linear-gradient(155deg, var(--ink-800) 0%, var(--ink-900) 100%);
+    box-shadow:0 12px 28px rgba(15,20,25,.28);
   }
   .tile img{width:100%; height:100%; object-fit:cover; transition:transform .5s ease;
     background:var(--ink-950); filter:brightness(.62) saturate(.92) contrast(1.03);}
@@ -121,18 +136,21 @@
   .tile-name{font-size:clamp(24px,2.6vw,32px); font-weight:700; margin:8px 0 6px;}
   .tile-meta{font-weight:500; font-size:13px; color:var(--cream-dim); font-variant-numeric:tabular-nums;}
 
-  /* ---------- record list banner ---------- */
-  .list-banner{position:relative; height:180px; overflow:hidden; margin-bottom:36px;
-    background:linear-gradient(155deg, var(--ink-800) 0%, var(--ink-950) 100%);}
+  /* ---------- record list banner : same navy panel treatment ---------- */
+  .list-banner{
+    position:relative; height:180px; overflow:hidden; margin-bottom:36px;
+    background:linear-gradient(160deg, var(--navy-panel) 0%, var(--navy-panel-deep) 100%);
+    border:1px solid var(--gold);
+  }
   .list-banner-content{position:absolute; left:40px; right:40px; bottom:24px; display:flex; align-items:flex-end; gap:18px;}
   .back-btn{
-    background:rgba(20,18,14,.04); border:1px solid var(--line); color:var(--cream);
+    background:rgba(245,239,225,.08); border:1px solid rgba(245,239,225,.35); color:var(--on-navy);
     width:38px; height:38px; cursor:pointer; font-size:16px; flex:0 0 auto;
     display:flex; align-items:center; justify-content:center;
   }
-  .back-btn:hover{border-color:var(--gold); color:var(--gold-soft);}
-  .list-title-wrap .field-eng{font-weight:600; font-size:11px; letter-spacing:.22em; color:var(--gold-soft); text-transform:uppercase; margin-bottom:6px;}
-  .list-title{font-size:clamp(26px,3.2vw,36px); font-weight:800;}
+  .back-btn:hover{border-color:var(--gold-bright); color:var(--gold-bright);}
+  .list-title-wrap .field-eng{font-weight:600; font-size:11px; letter-spacing:.24em; color:var(--gold-bright); text-transform:uppercase; margin-bottom:6px;}
+  .list-title{font-size:clamp(26px,3.2vw,36px); font-weight:800; color:var(--on-navy);}
 
   /* ---------- day cards (tile-style grid) ---------- */
   .day-grid{
@@ -246,13 +264,19 @@
     <!-- HOME -->
     <section id="view-home">
       <div class="content-pad">
-        <div class="home-layout">
-          <div class="home-text">
-            <div class="hero-eyebrow">4 Disciplines</div>
-            <div class="hero-title">분야를 선택해 주세요</div>
-            <div class="hero-desc">분야별 교강사 회의 일차를 선택하면 해당 회차의 회의록과 녹취 파일을 확인할 수 있습니다.</div>
+        <div class="hero-panel">
+          <div class="corner corner-tl"></div>
+          <div class="corner corner-tr"></div>
+          <div class="corner corner-bl"></div>
+          <div class="corner corner-br"></div>
+          <div class="home-layout">
+            <div class="home-text">
+              <div class="hero-eyebrow">4 Disciplines</div>
+              <div class="hero-title">분야를 선택해 주세요</div>
+              <div class="hero-desc">분야별 교강사 회의 일차를 선택하면 해당 회차의 회의록과 녹취 파일을 확인할 수 있습니다.</div>
+            </div>
+            <div class="tile-grid" id="tile-grid"></div>
           </div>
-          <div class="tile-grid" id="tile-grid"></div>
         </div>
       </div>
     </section>
