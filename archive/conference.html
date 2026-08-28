@@ -24,22 +24,25 @@
 
 <style>
   :root{
-    --ink-950:#08090A;
-    --ink-900:#111214;
-    --ink-800:#1A1B1E;
-    --ink-700:#2A2C30;
-    --line:rgba(255,255,255,.12);
-    --line-soft:rgba(255,255,255,.07);
+    /* K예술영재 프로젝트 공식 브랜드 톤 — 리플렛에서 픽셀 추출한 네이비/골드와
+       공식 기획안의 분야별 색상(음악=블루/무용=핑크/전통예술=레드/미술=그린)을 반영. */
+    --ink-950:#FFFFFF;
+    --ink-900:#FFFFFF;
+    --ink-800:#F5F6F8;
+    --ink-700:#ECEEF1;
+    --line:#E4E7EB;
+    --line-soft:rgba(47,79,98,.08);
 
-    --gold:#C9A227;
-    --gold-soft:#D9BB63;
-    --cream:#EEEBE3;
-    --cream-dim:#9B978D;
+    --gold:#C9A24B;
+    --gold-bright:#EEC97A;
+    --gold-soft:#A9822F;
+    --cream:#1F3746;
+    --cream-dim:#5B6B78;
 
-    --dance:#D9695E;
-    --art:#4A9BC2;
-    --music:#9B7FD4;
-    --trad:#C79A4E;
+    --dance:#C15D89;
+    --art:#3E8B5C;
+    --music:#2F6FB5;
+    --trad:#B23A3A;
 
     --font:'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   }
@@ -55,19 +58,25 @@
     overflow-wrap:break-word;
     min-height:100vh;
   }
-  ::selection{background:var(--gold); color:var(--ink-950);}
+  ::selection{background:var(--gold); color:#fff;}
   button, input, a{font-family:inherit;}
   img{display:block;}
   .hidden{display:none !important;}
 
-  /* ---------- viewfinder corner-mark motif (signature element) ---------- */
-  .brackets{position:absolute; inset:16px; pointer-events:none; opacity:0; transition:opacity .2s ease;}
-  .brackets i{position:absolute; width:22px; height:22px; border-color:var(--gold);}
-  .brackets i:nth-child(1){top:0; left:0; border-top:2px solid; border-left:2px solid;}
-  .brackets i:nth-child(2){top:0; right:0; border-top:2px solid; border-right:2px solid;}
-  .brackets i:nth-child(3){bottom:0; left:0; border-bottom:2px solid; border-left:2px solid;}
-  .brackets i:nth-child(4){bottom:0; right:0; border-bottom:2px solid; border-right:2px solid;}
-  .tile:hover .brackets{opacity:1;}
+  /* ---------- 골드 쐐기 + 네이비 다이아몬드 코너 모티프 (K예술영재 리플렛 시그니처) ---------- */
+  .corner{
+    position:absolute; width:26px; height:26px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Cpath d='M0,0 L60,0 L0,60 Z' fill='%23EEC97A'/%3E%3Crect x='9' y='9' width='13' height='13' fill='none' stroke='%231F3746' stroke-width='2.2' transform='rotate(45 15.5 15.5)'/%3E%3C/svg%3E");
+    background-size:contain; background-repeat:no-repeat;
+    pointer-events:none;
+  }
+  .corner-tl{top:-1px; left:-1px;}
+  .corner-tr{top:-1px; right:-1px; transform:scaleX(-1);}
+  .corner-bl{bottom:-1px; left:-1px; transform:scaleY(-1);}
+  .corner-br{bottom:-1px; right:-1px; transform:scale(-1,-1);}
+  .corner.small{width:18px; height:18px;}
+  .tile .corner{opacity:0; transition:opacity .2s ease;}
+  .tile:hover .corner{opacity:1;}
 
   /* ---------- app shell ---------- */
   #app-screen{min-height:100vh; display:flex; flex-direction:column;}
@@ -117,7 +126,7 @@
     background:linear-gradient(155deg, var(--ink-800) 0%, var(--ink-950) 100%);}
   .list-banner-content{position:absolute; left:40px; right:40px; bottom:24px; display:flex; align-items:flex-end; gap:18px;}
   .back-btn{
-    background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--cream);
+    background:rgba(20,18,14,.04); border:1px solid var(--line); color:var(--cream);
     width:38px; height:38px; cursor:pointer; font-size:16px; flex:0 0 auto;
     display:flex; align-items:center; justify-content:center;
   }
@@ -251,7 +260,10 @@
     <!-- DAY LIST -->
     <section id="view-list" class="hidden">
       <div class="list-banner">
-        <div class="brackets"><i></i><i></i><i></i><i></i></div>
+        <div class="corner corner-tl"></div>
+        <div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div>
+        <div class="corner corner-br"></div>
         <div class="list-banner-content">
           <button class="back-btn" id="back-from-list">←</button>
           <div class="list-title-wrap">
@@ -407,7 +419,10 @@ function renderTiles(){
   tileGrid.innerHTML = CONFIG.FIELDS.map(f => `
     <div class="tile" data-key="${f.key}" style="--c:${f.color}">
       ${f.photo ? `<img src="${f.photo}" alt="${f.nameKr}"><div class="tile-scrim"></div>` : ''}
-      <div class="brackets"><i></i><i></i><i></i><i></i></div>
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-tr"></div>
+      <div class="corner corner-bl"></div>
+      <div class="corner corner-br"></div>
       <div class="tile-content">
         <div class="tile-eng">${f.nameEn}</div>
         <div class="tile-name">${f.nameKr}</div>
@@ -579,6 +594,8 @@ async function openField(key){
 
     return `
       <div class="day-card" data-idx="${i}" style="--c:${field.color}">
+        <div class="corner corner-tr small"></div>
+        <div class="corner corner-br small"></div>
         <div class="card-meta">
           ${primaryText ? `<div class="meta-primary">${primaryText}</div>` : ''}
           ${subParts.length ? `<div class="meta-sub">${subParts.join(' · ')}</div>` : ''}
