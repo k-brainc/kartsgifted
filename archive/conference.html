@@ -200,7 +200,7 @@
     position:relative; width:100%; background:var(--ink-900); border:1px solid var(--line);
     display:flex; flex-direction:column; overflow:hidden;
   }
-  .modal-panel.doc{ max-width:1400px; width:94vw; max-height:94vh; }
+  .modal-panel.doc{ max-width:1720px; width:96vw; max-height:95vh; }
   .modal-panel.audio{ max-width:480px; }
   .modal-head{
     display:flex; align-items:center; justify-content:space-between; gap:16px;
@@ -391,7 +391,7 @@ document.addEventListener('keydown', e => { if(e.key === 'Escape' && !viewerModa
 
 function openDocViewer(url, label){
   const id = extractDriveId(url);
-  const embedUrl = id ? `https://docs.google.com/document/d/${id}/preview` : url;
+  const embedUrl = id ? `https://docs.google.com/document/d/${id}/preview?rm=minimal` : url;
 
   viewerPanel.className = 'modal-panel doc';
   viewerTitle.textContent = label || '회의록';
