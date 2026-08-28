@@ -3,29 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K예술영재 프로젝트 | 교강사 회의록·녹취 아카이브</title>
+<title>K예술영재 프로젝트 — 교강사 회의록·녹취 아카이브</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
 
 <!--
   ════════════════════════════════════════════════════════════════
   설정 방법 (종현님 전용 안내)
   ════════════════════════════════════════════════════════════════
-  1) 구글 스프레드시트를 하나 만듭니다. (예: "K예술영재 프로젝트_교강사 회의록·녹취")
-  2) 시트 안에 탭(시트)을 4개 만들고, 이름을 정확히 아래와 같이 지정합니다.
-       무용 / 미술 / 음악 / 전통예술
-  3) 각 탭의 1행(헤더)에 아래 4개 컬럼명을 순서대로 입력합니다.
-       일차 | 날짜 | 회의록링크 | 녹취링크
-     예시)
-       1일차 | 2026-07-17(금) | https://docs.google.com/document/d/xxxx | https://drive.google.com/file/d/xxxx/view
-       2일차 | 2026-07-18(토) | https://docs.google.com/document/d/yyyy | https://drive.google.com/file/d/yyyy/view
-     ※ 링크가 아직 없는 회차는 칸을 비워두면 "준비중"으로 표시됩니다.
-  4) 스프레드시트 공유 설정을 "링크가 있는 모든 사용자 - 뷰어"로 변경합니다.
-     (구글 드라이브 녹취 파일도 각각 "링크가 있는 모든 사용자"로 공유되어야 열람 가능합니다.)
-  5) 주소창의 스프레드시트 ID를 복사해 아래 CONFIG.SHEET_ID 에 붙여넣습니다.
+  1) 구글 스프레드시트 한 탭(시트)에 아래 5개 컬럼을 순서대로 입력합니다.
+       분야 | 일차 | 날짜 | 회의록 링크 | 녹취 링크
+     예) 무용 | 1일차 | 2026-07-17(금) | https://docs.google.com/document/d/xxxx | https://drive.google.com/file/d/xxxx/view
+     ※ "분야" 값은 반드시 무용 / 미술 / 음악 / 전통예술 중 하나와 정확히 일치해야 합니다.
+     ※ 링크가 없는 회차는 칸을 비워두면 "준비중"으로 표시됩니다.
+  2) 스프레드시트와 각 구글 드라이브 녹취 파일을 "링크가 있는 모든 사용자 - 뷰어"로 공유합니다.
+  3) 종현님의 실제 스프레드시트("K예술영재 프로젝트 교강사 평가회의 목록")로 이미 CONFIG.SHEET_ID가
+     연결되어 있습니다. 다른 시트로 바꾸려면 주소창의 ID를 복사해 아래 값을 교체하세요.
      예: https://docs.google.com/spreadsheets/d/  1AbCDeFGhiJKLmnop_ExampleId  /edit
-                                                  └──────── 이 부분 ────────┘
-  6) (선택) 각 분야 타일에 실제 촬영 사진을 쓰고 싶다면 CONFIG.FIELDS의 photo 값에
-     이미지 URL을 넣으세요. 비워두면 지금처럼 그래픽 타일로 표시됩니다.
+     탭(시트) 이름이 "시트1"이 아니라면 CONFIG.SHEET_TAB 에 정확한 탭 이름을 입력하세요.
+  4) (선택) CONFIG.FIELDS[].photo 에 분야별 실사진 URL을 넣으면 워크숍 아카이브처럼
+     타일 배경 사진으로 표시됩니다. 비워두면 그래픽 타일로 표시됩니다.
   ════════════════════════════════════════════════════════════════
 -->
 
@@ -35,230 +31,194 @@
     --ink-900:#111214;
     --ink-800:#1A1B1E;
     --ink-700:#2A2C30;
-    --line: rgba(238,235,227,0.12);
+    --line:rgba(255,255,255,.12);
+    --line-soft:rgba(255,255,255,.07);
+
     --gold:#C9A227;
     --gold-soft:#D9BB63;
     --cream:#EEEBE3;
     --cream-dim:#9B978D;
+
+    --dance:#D9695E;
+    --art:#4A9BC2;
+    --music:#9B7FD4;
+    --trad:#C79A4E;
+
     --font:'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-  *{ box-sizing:border-box; margin:0; padding:0; }
-  html,body{ min-height:100vh; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
   body{
     background:var(--ink-950);
     color:var(--cream);
     font-family:var(--font);
+    font-weight:400;
     word-break:keep-all;
     overflow-wrap:break-word;
+    min-height:100vh;
   }
-  ::selection{ background:var(--gold); color:var(--ink-950); }
-  button, input, a{ font-family:inherit; }
-  img{ display:block; }
+  ::selection{background:var(--gold); color:var(--ink-950);}
+  button, input, a{font-family:inherit;}
+  img{display:block;}
+  .hidden{display:none !important;}
 
   /* ---------- viewfinder corner-mark motif (signature element) ---------- */
-  .brackets{ position:absolute; inset:14px; pointer-events:none; opacity:.9; }
-  .brackets i{ position:absolute; width:18px; height:18px; border-color:var(--gold); }
-  .brackets i:nth-child(1){ top:0; left:0; border-top:2px solid; border-left:2px solid; }
-  .brackets i:nth-child(2){ top:0; right:0; border-top:2px solid; border-right:2px solid; }
-  .brackets i:nth-child(3){ bottom:0; left:0; border-bottom:2px solid; border-left:2px solid; }
-  .brackets i:nth-child(4){ bottom:0; right:0; border-bottom:2px solid; border-right:2px solid; }
+  .brackets{position:absolute; inset:16px; pointer-events:none; opacity:0; transition:opacity .2s ease;}
+  .brackets i{position:absolute; width:22px; height:22px; border-color:var(--gold);}
+  .brackets i:nth-child(1){top:0; left:0; border-top:2px solid; border-left:2px solid;}
+  .brackets i:nth-child(2){top:0; right:0; border-top:2px solid; border-right:2px solid;}
+  .brackets i:nth-child(3){bottom:0; left:0; border-bottom:2px solid; border-left:2px solid;}
+  .brackets i:nth-child(4){bottom:0; right:0; border-bottom:2px solid; border-right:2px solid;}
+  .tile:hover .brackets{opacity:1;}
 
-  .app{ min-height:100vh; display:flex; flex-direction:column; }
+  /* ---------- app shell ---------- */
+  #app-screen{min-height:100vh; display:flex; flex-direction:column;}
 
-  /* ---------- top bar ---------- */
-  header.topbar{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:24px clamp(20px,5vw,64px);
-    border-bottom:1px solid var(--line);
+  header.top-bar{
+    position:sticky; top:0; z-index:30;
+    background:var(--ink-950);
+    border-bottom:1px solid var(--line-soft);
+    padding:20px 40px;
+    display:flex; align-items:center; gap:28px; flex-wrap:wrap;
   }
-  .brand-eyebrow{
-    font-size:11px; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
-    color:var(--gold-soft); margin-bottom:4px;
-  }
-  .brand-title{ font-size:16px; font-weight:700; letter-spacing:-.01em; }
-  .back-btn{
-    display:none; align-items:center; gap:8px;
-    background:transparent; border:1px solid var(--line); border-radius:2px;
-    color:var(--cream); font-size:12.5px; font-weight:600; letter-spacing:.03em;
-    padding:10px 16px 10px 12px; cursor:pointer;
-    transition:border-color .15s ease, color .15s ease;
-  }
-  .back-btn:hover{ border-color:var(--gold); color:var(--gold-soft); }
-  .back-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
-  .back-btn svg{ width:13px; height:13px; }
-  .back-btn.show{ display:inline-flex; }
+  .brand{display:flex; flex-direction:column; cursor:pointer;}
+  .brand-name{font-size:18px; font-weight:700;}
+  .brand-tag{font-weight:600; font-size:9px; letter-spacing:.2em; color:var(--gold-soft); text-transform:uppercase; margin-top:2px;}
 
-  main{ flex:1; display:flex; flex-direction:column; }
-  .screen{ display:none; flex:1; flex-direction:column; }
-  .screen.active{ display:flex; }
+  main{flex:1; width:100%;}
+  .content-pad{max-width:1180px; margin:0 auto; padding:0 40px 90px;}
 
-  /* ══════════════════════ SCREEN 1 : 분야 선택 (2단 레이아웃) ══════════════════════ */
-  #screen-home{ flex:1; display:flex; align-items:center; }
-  .home-layout{
-    width:100%; margin:0 auto; max-width:1180px;
-    padding: 40px clamp(20px,5vw,64px) 60px;
-    display:grid; grid-template-columns: 1fr; gap:36px;
-  }
-  @media (min-width:860px){
-    .home-layout{ grid-template-columns: 320px 1fr; align-items:center; gap:56px; }
-  }
+  /* ---------- home layout (title left, tiles right) ---------- */
+  .home-layout{display:flex; align-items:flex-start; gap:56px; padding-top:56px; margin-bottom:56px;}
+  .home-text{flex:0 0 300px;}
+  .hero-eyebrow{font-weight:600; font-size:11px; letter-spacing:.24em; color:var(--gold-soft); text-transform:uppercase; margin-bottom:12px;}
+  .hero-title{font-size:clamp(28px, 3.2vw, 38px); font-weight:800; line-height:1.35; margin-bottom:14px;}
+  .hero-desc{color:var(--cream-dim); font-size:14.5px; font-weight:400; line-height:1.75;}
 
-  .home-copy .kicker{
-    font-size:11px; font-weight:600; letter-spacing:.24em; text-transform:uppercase;
-    color:var(--gold-soft); margin-bottom:16px;
-  }
-  .home-copy h1{
-    font-size:clamp(28px,3.6vw,38px); font-weight:800; line-height:1.35; letter-spacing:-.01em;
-  }
-  .home-copy p{
-    margin-top:16px; font-size:13.5px; font-weight:400; line-height:1.75; color:var(--cream-dim);
-    max-width:320px;
-  }
-
-  .tile-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
-
+  /* ---------- discipline tiles (photo cards) ---------- */
+  .tile-grid{flex:1; display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; min-width:0;}
   .tile{
-    position:relative; overflow:hidden;
-    border:1px solid var(--line); border-radius:2px;
+    position:relative; overflow:hidden; cursor:pointer;
+    aspect-ratio:16/11; border:1px solid var(--line-soft);
     background:linear-gradient(155deg, var(--ink-800) 0%, var(--ink-900) 100%);
-    min-height:180px; padding:22px;
-    display:flex; flex-direction:column; justify-content:flex-end;
-    text-align:left; color:inherit; cursor:pointer;
-    transition:border-color .2s ease, transform .2s ease;
   }
-  .tile:hover{ border-color:var(--gold); transform:translateY(-2px); }
-  .tile:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
-  .tile img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(.55); }
+  .tile img{width:100%; height:100%; object-fit:cover; transition:transform .5s ease;
+    background:var(--ink-950); filter:brightness(.62) saturate(.92) contrast(1.03);}
+  .tile:hover img{transform:scale(1.045);}
   .tile-scrim{
     position:absolute; inset:0;
-    background:linear-gradient(180deg, rgba(8,9,10,0) 30%, rgba(8,9,10,.85) 100%);
+    background:linear-gradient(0deg, rgba(8,9,10,.96) 0%, rgba(8,9,10,.55) 45%, rgba(8,9,10,.18) 75%);
   }
-  .tile-ghost{
-    position:absolute; top:14px; right:16px; font-size:46px; font-weight:800; letter-spacing:-.02em;
-    color:rgba(238,235,227,0.05); line-height:1; pointer-events:none;
-    font-variant-numeric:tabular-nums;
-  }
-  .tile-content{ position:relative; z-index:1; }
-  .tile-eng{
-    font-size:10px; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
-    color:var(--gold-soft); margin-bottom:6px;
-  }
-  .tile-name{ font-size:clamp(20px,2.2vw,24px); font-weight:700; margin-bottom:6px; }
-  .tile-meta{ font-size:11.5px; font-weight:500; color:var(--cream-dim); font-variant-numeric:tabular-nums; }
+  .tile-content{position:absolute; left:28px; right:28px; bottom:24px;}
+  .tile-eng{font-weight:600; font-size:10px; letter-spacing:.22em; color:var(--gold-soft); text-transform:uppercase;}
+  .tile-name{font-size:clamp(24px,2.6vw,32px); font-weight:700; margin:8px 0 6px;}
+  .tile-meta{font-weight:500; font-size:12px; color:var(--cream-dim); font-variant-numeric:tabular-nums;}
 
-  /* ══════════════════════ SCREEN 2 : 일차 리스트 (매거진 스타일) ══════════════════════ */
-  #screen-list{ padding:36px clamp(20px,5vw,64px) 80px; }
-  .list-wrap{ width:100%; max-width:760px; margin:0 auto; }
+  /* ---------- record list banner ---------- */
+  .list-banner{position:relative; height:180px; overflow:hidden; margin-bottom:36px;
+    background:linear-gradient(155deg, var(--ink-800) 0%, var(--ink-950) 100%);}
+  .list-banner-content{position:absolute; left:40px; right:40px; bottom:24px; display:flex; align-items:flex-end; gap:18px;}
+  .back-btn{
+    background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--cream);
+    width:38px; height:38px; cursor:pointer; font-size:16px; flex:0 0 auto;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .back-btn:hover{border-color:var(--gold); color:var(--gold-soft);}
+  .list-title-wrap .field-eng{font-weight:600; font-size:11px; letter-spacing:.22em; color:var(--gold-soft); text-transform:uppercase; margin-bottom:6px;}
+  .list-title{font-size:clamp(26px,3.2vw,36px); font-weight:800;}
 
-  .list-head{ margin-bottom:8px; }
-  .list-head .field-eng{
-    font-size:11px; font-weight:600; letter-spacing:.24em; text-transform:uppercase;
-    color:var(--gold-soft);
-  }
-  .list-head h2{
-    font-size:clamp(24px,3vw,32px); font-weight:800; letter-spacing:-.01em; margin-top:8px;
-  }
-  .list-head-rule{
-    margin-top:20px; padding-top:0; border-top:1px solid var(--line);
-  }
-
-  .state-msg{
-    margin-top:36px; padding:32px 24px; border:1px dashed var(--line);
-    color:var(--cream-dim); font-size:13px; line-height:1.8; text-align:center;
-  }
-
+  /* ---------- day rows (magazine-style thin-divider list) ---------- */
   .day-row{
     display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
-    padding:22px 0; border-bottom:1px solid var(--line);
+    padding:20px 4px; border-bottom:1px solid var(--line-soft);
+    transition:padding-left .15s ease;
   }
-  .day-row:first-child{ padding-top:24px; }
+  .day-row:first-child{padding-top:0;}
+  .day-info{display:flex; align-items:center; gap:16px; min-width:180px;}
+  .day-bar{width:3px; height:34px; background:var(--c, var(--gold)); flex:0 0 auto;}
+  .day-idx{font-weight:600; font-size:11px; letter-spacing:.14em; color:var(--c, var(--gold-soft)); text-transform:uppercase; margin-bottom:4px;}
+  .day-date{font-size:15px; font-weight:600;}
 
-  .day-info{ display:flex; align-items:baseline; gap:16px; min-width:180px; }
-  .day-idx{
-    font-size:11px; font-weight:600; letter-spacing:.14em; color:var(--gold-soft);
-    text-transform:uppercase; white-space:nowrap;
-  }
-  .day-date{ font-size:15px; font-weight:700; }
-
-  .day-actions{ display:flex; align-items:center; gap:6px; }
-  .divider{ width:1px; height:14px; background:var(--line); }
+  .day-actions{display:flex; align-items:center; gap:6px;}
+  .divider{width:1px; height:14px; background:var(--line);}
 
   .link-btn{
     display:inline-flex; align-items:center; gap:7px;
     font-size:12.5px; font-weight:600; letter-spacing:.02em;
     color:var(--cream); text-decoration:none; padding:8px 12px;
-    border-radius:2px; transition:color .15s ease, background .15s ease;
+    transition:color .15s ease, background .15s ease;
   }
-  .link-btn svg{ width:14px; height:14px; flex-shrink:0; }
-  .link-btn:hover{ color:var(--gold-soft); background:rgba(201,162,39,0.08); }
-  .link-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+  .link-btn svg{width:14px; height:14px; flex-shrink:0;}
+  .link-btn:hover{color:var(--gold-soft); background:rgba(201,162,39,.08);}
+  .link-btn:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
+  .link-btn.rec .rec-dot{width:6px; height:6px; border-radius:50%; background:var(--gold); animation:pulse 1.8s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.3;}}
+  .link-btn.disabled{opacity:.35; pointer-events:none;}
 
-  .link-btn.rec .rec-dot{
-    width:6px; height:6px; border-radius:50%; background:var(--gold);
-    animation:pulse 1.8s ease-in-out infinite;
-  }
-  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.3; } }
-
-  .link-btn.disabled{ opacity:.35; pointer-events:none; }
+  .empty-state{text-align:center; padding:100px 20px; color:var(--cream-dim);}
+  .empty-state .big{font-size:22px; font-weight:700; color:var(--cream); margin-bottom:8px;}
 
   @media (prefers-reduced-motion: reduce){
-    .link-btn .rec-dot{ animation:none; }
-    .tile{ transition:none; }
+    .link-btn .rec-dot{animation:none;}
+    .tile img{transition:none;}
+    .day-row{transition:none;}
   }
 
-  footer.foot{
-    padding:18px clamp(20px,5vw,64px);
-    border-top:1px solid var(--line);
-    font-size:11px; font-weight:500; color:var(--cream-dim);
-    display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+  @media (max-width: 900px){
+    .home-layout{flex-direction:column; gap:32px;}
+    .home-text{flex:none; width:100%;}
+  }
+  @media (max-width: 720px){
+    header.top-bar{padding:16px 20px;}
+    .content-pad{padding:0 20px 60px;}
+    .list-banner-content{left:20px; right:20px;}
+    .tile-grid{grid-template-columns:1fr;}
   }
 </style>
 </head>
 <body>
 
-<div class="app">
-  <header class="topbar">
-    <div>
-      <div class="brand-eyebrow">K예술영재 프로젝트</div>
-      <div class="brand-title">교강사 회의록 · 녹취 아카이브</div>
+<div id="app-screen">
+  <header class="top-bar">
+    <div class="brand" id="brand-home">
+      <span class="brand-name">K예술영재 프로젝트</span>
+      <span class="brand-tag">Faculty Meeting Archive</span>
     </div>
-    <button class="back-btn" id="backBtn" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      분야 선택으로
-    </button>
   </header>
 
   <main>
-    <!-- SCREEN 1 : 분야 선택 -->
-    <section class="screen active" id="screen-home">
-      <div class="home-layout">
-        <div class="home-copy">
-          <div class="kicker">Faculty Meeting Archive</div>
-          <h1>분야를 선택해 주세요</h1>
-          <p>분야별 교강사 회의 일차를 선택하면 해당 회차의 회의록과 녹취 파일을 확인할 수 있습니다.</p>
+    <!-- HOME -->
+    <section id="view-home">
+      <div class="content-pad">
+        <div class="home-layout">
+          <div class="home-text">
+            <div class="hero-eyebrow">4 Disciplines</div>
+            <div class="hero-title">분야를 선택해 주세요</div>
+            <div class="hero-desc">분야별 교강사 회의 일차를 선택하면 해당 회차의 회의록과 녹취 파일을 확인할 수 있습니다.</div>
+          </div>
+          <div class="tile-grid" id="tile-grid"></div>
         </div>
-        <div class="tile-grid" id="tileGrid"></div>
       </div>
     </section>
 
-    <!-- SCREEN 2 : 일차별 리스트 -->
-    <section class="screen" id="screen-list">
-      <div class="list-wrap">
-        <div class="list-head">
-          <div class="field-eng" id="fieldEng">-</div>
-          <h2 id="fieldName">-</h2>
+    <!-- DAY LIST -->
+    <section id="view-list" class="hidden">
+      <div class="list-banner">
+        <div class="brackets"><i></i><i></i><i></i><i></i></div>
+        <div class="list-banner-content">
+          <button class="back-btn" id="back-from-list">←</button>
+          <div class="list-title-wrap">
+            <div class="field-eng" id="field-eng"></div>
+            <div class="list-title" id="field-name"></div>
+          </div>
         </div>
-        <div class="list-head-rule"></div>
-        <div id="listBody"></div>
+      </div>
+      <div class="content-pad">
+        <div id="list-body"></div>
       </div>
     </section>
   </main>
-
-  <footer class="foot">
-    <span>K예술영재 프로젝트 · 내부 공유용 페이지입니다</span>
-    <span id="syncNote">&nbsp;</span>
-  </footer>
 </div>
 
 <script>
@@ -266,17 +226,20 @@
    CONFIG — 종현님이 채워 넣는 부분
    ══════════════════════════════════════════════════════════════ */
 const CONFIG = {
-  SHEET_ID: "",
+  // "K예술영재 프로젝트 교강사 평가회의 목록" 스프레드시트
+  SHEET_ID: "1ICYwFiNNg7ZpUaadNPicHCBgSenxtmZ3NanzsmNkex8",
+  // 비워두면 첫 번째(기본) 탭을 읽습니다. 탭 이름이 바뀌면 여기에 정확히 입력하세요.
+  SHEET_TAB: "",
 
-  // photo: 실제 촬영 사진 URL을 넣으면 타일 배경에 사용됩니다. 비워두면 그래픽 타일로 표시.
   FIELDS: [
-    { key:"dance", nameKr:"무용",     nameEn:"BALLET",            sheetTab:"무용",     photo:"" },
-    { key:"art",   nameKr:"미술",     nameEn:"ARTS",               sheetTab:"미술",     photo:"" },
-    { key:"music", nameKr:"음악",     nameEn:"MUSIC",              sheetTab:"음악",     photo:"" },
-    { key:"trad",  nameKr:"전통예술", nameEn:"TRADITIONAL ARTS",   sheetTab:"전통예술", photo:"" },
+    { key:"dance", nameKr:"무용",     nameEn:"BALLET",           color:"var(--dance)", photo:"" },
+    { key:"art",   nameKr:"미술",     nameEn:"ARTS",              color:"var(--art)",   photo:"" },
+    { key:"music", nameKr:"음악",     nameEn:"MUSIC",             color:"var(--music)", photo:"" },
+    { key:"trad",  nameKr:"전통예술", nameEn:"TRADITIONAL ARTS",  color:"var(--trad)",  photo:"" },
   ],
 
   HEADER_ALIASES: {
+    field: ["분야"],
     day:   ["일차", "회차"],
     date:  ["날짜", "일시"],
     docs:  ["회의록링크", "회의록", "회의록 링크"],
@@ -287,16 +250,14 @@ const CONFIG = {
 /* ══════════════════════════════════════════════════════════════
    내부 로직 — 수정할 필요 없음
    ══════════════════════════════════════════════════════════════ */
-const tileGrid  = document.getElementById('tileGrid');
-const listBody  = document.getElementById('listBody');
-const screenHome= document.getElementById('screen-home');
-const screenList= document.getElementById('screen-list');
-const backBtn   = document.getElementById('backBtn');
-const fieldName = document.getElementById('fieldName');
-const fieldEng  = document.getElementById('fieldEng');
-const syncNote  = document.getElementById('syncNote');
+const tileGrid = document.getElementById('tile-grid');
+const listBody = document.getElementById('list-body');
+const viewHome = document.getElementById('view-home');
+const viewList = document.getElementById('view-list');
+const fieldEng = document.getElementById('field-eng');
+const fieldName= document.getElementById('field-name');
 
-const cache = {};
+let allRowsPromise = null;
 
 function iconDoc(){
   return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6M9 9h1"/></svg>';
@@ -305,26 +266,30 @@ function iconMic(){
   return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>';
 }
 
+function showView(name){
+  viewHome.classList.toggle('hidden', name !== 'home');
+  viewList.classList.toggle('hidden', name !== 'list');
+}
+
 function renderTiles(){
-  tileGrid.innerHTML = CONFIG.FIELDS.map((f,i) => `
-    <button class="tile" data-key="${f.key}">
+  tileGrid.innerHTML = CONFIG.FIELDS.map(f => `
+    <div class="tile" data-key="${f.key}" style="--c:${f.color}">
       ${f.photo ? `<img src="${f.photo}" alt="${f.nameKr}"><div class="tile-scrim"></div>` : ''}
       <div class="brackets"><i></i><i></i><i></i><i></i></div>
-      <div class="tile-ghost">${String(i+1).padStart(2,'0')}</div>
       <div class="tile-content">
         <div class="tile-eng">${f.nameEn}</div>
         <div class="tile-name">${f.nameKr}</div>
-        <div class="tile-meta" id="status-${f.key}">회차 확인 중…</div>
+        <div class="tile-meta" id="status-${f.key}">${CONFIG.SHEET_ID ? '회차 확인 중…' : '시트 미연동'}</div>
       </div>
-    </button>
+    </div>
   `).join('');
 
-  tileGrid.querySelectorAll('.tile').forEach(btn=>{
-    btn.addEventListener('click', ()=> openField(btn.dataset.key));
+  tileGrid.querySelectorAll('.tile').forEach(el=>{
+    el.addEventListener('click', ()=> openField(el.dataset.key));
   });
 
   CONFIG.FIELDS.forEach(f => {
-    fetchField(f).then(rows=>{
+    getRowsForField(f).then(rows=>{
       const el = document.getElementById('status-'+f.key);
       if(!el) return;
       el.textContent = rows === null ? '연결 대기' : `${rows.length}개 회차`;
@@ -342,83 +307,85 @@ function matchHeaderIndex(headerRow, aliasList){
   return -1;
 }
 
-async function fetchField(field){
-  if(!CONFIG.SHEET_ID){ return null; }
-  if(cache[field.key]) return cache[field.key];
+function fetchAllRows(){
+  if(!CONFIG.SHEET_ID){ return Promise.resolve(null); }
+  if(allRowsPromise) return allRowsPromise;
 
-  const url = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(field.sheetTab)}`;
+  const sheetParam = CONFIG.SHEET_TAB ? `&sheet=${encodeURIComponent(CONFIG.SHEET_TAB)}` : '';
+  const url = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/gviz/tq?tqx=out:json${sheetParam}`;
 
-  try{
-    const res = await fetch(url);
-    const text = await res.text();
-    const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}')+1));
-    const table = json.table;
-    if(!table || !table.rows || table.rows.length === 0) return [];
+  allRowsPromise = (async ()=>{
+    try{
+      const res = await fetch(url);
+      const text = await res.text();
+      const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}')+1));
+      const table = json.table;
+      if(!table || !table.rows || table.rows.length === 0) return [];
 
-    let headerRowIdx = -1, idx = { day:0, date:1, docs:2, audio:3 };
-    for(let r=0; r<Math.min(3, table.rows.length); r++){
-      const cells = table.rows[r].c.map(c => c ? (c.f || c.v) : '');
-      const dIdx = matchHeaderIndex(cells, CONFIG.HEADER_ALIASES.day);
-      if(dIdx !== -1){
-        headerRowIdx = r;
-        idx = {
-          day:   dIdx,
-          date:  matchHeaderIndex(cells, CONFIG.HEADER_ALIASES.date),
-          docs:  matchHeaderIndex(cells, CONFIG.HEADER_ALIASES.docs),
-          audio: matchHeaderIndex(cells, CONFIG.HEADER_ALIASES.audio),
-        };
-        break;
+      // 시트 맨 위에 제목행이 있을 수 있으므로, "분야" 헤더가 보이는 행을 최대 3행까지 탐색
+      let headerRowIdx = -1, idx = { field:0, day:1, date:2, docs:3, audio:4 };
+      for(let r=0; r<Math.min(3, table.rows.length); r++){
+        const cells = table.rows[r].c.map(c => c ? (c.f || c.v) : '');
+        const fIdx = matchHeaderIndex(cells, CONFIG.HEADER_ALIASES.field);
+        if(fIdx !== -1){
+          headerRowIdx = r;
+          idx = {
+            field: fIdx,
+            day:   matchHeaderIndex(cells, CONFIG.HEADER_ALIASES.day),
+            date:  matchHeaderIndex(cells, CONFIG.HEADER_ALIASES.date),
+            docs:  matchHeaderIndex(cells, CONFIG.HEADER_ALIASES.docs),
+            audio: matchHeaderIndex(cells, CONFIG.HEADER_ALIASES.audio),
+          };
+          break;
+        }
       }
+
+      const dataRows = table.rows.slice(headerRowIdx === -1 ? 1 : headerRowIdx + 1);
+      return dataRows.map(row=>{
+        const c = row.c || [];
+        const get = (i) => (i===-1 || !c[i]) ? '' : normalize(c[i].f || c[i].v);
+        return {
+          field: get(idx.field) || '',
+          day:   get(idx.day)   || '',
+          date:  get(idx.date)  || '',
+          docs:  get(idx.docs)  || '',
+          audio: get(idx.audio) || '',
+        };
+      }).filter(r => r.field && (r.day || r.date));
+    }catch(err){
+      console.error('시트 로딩 실패:', err);
+      return [];
     }
+  })();
 
-    const dataRows = table.rows.slice(headerRowIdx === -1 ? 1 : headerRowIdx + 1);
-    const rows = dataRows.map(row=>{
-      const c = row.c || [];
-      const get = (i) => (i===-1 || !c[i]) ? '' : normalize(c[i].f || c[i].v);
-      return {
-        day:   get(idx.day)   || '',
-        date:  get(idx.date)  || '',
-        docs:  get(idx.docs)  || '',
-        audio: get(idx.audio) || '',
-      };
-    }).filter(r => r.day || r.date);
+  return allRowsPromise;
+}
 
-    cache[field.key] = rows;
-    return rows;
-  }catch(err){
-    console.error('시트 로딩 실패:', field.sheetTab, err);
-    return [];
-  }
+async function getRowsForField(field){
+  const rows = await fetchAllRows();
+  if(rows === null) return null;
+  return rows.filter(r => normalize(r.field) === field.nameKr);
 }
 
 async function openField(key){
   const field = CONFIG.FIELDS.find(f=>f.key===key);
   if(!field) return;
 
-  fieldName.textContent = field.nameKr;
   fieldEng.textContent = field.nameEn;
+  fieldName.textContent = field.nameKr + ' 교강사 회의록·녹취';
+  document.querySelector('.list-banner').style.setProperty('--c', field.color);
 
-  screenHome.classList.remove('active');
-  screenList.classList.add('active');
-  backBtn.classList.add('show');
+  showView('list');
+  listBody.innerHTML = `<div class="empty-state"><div class="big">불러오는 중입니다…</div></div>`;
 
-  listBody.innerHTML = `<div class="state-msg">불러오는 중입니다…</div>`;
-
-  const rows = await fetchField(field);
+  const rows = await getRowsForField(field);
 
   if(rows === null){
-    listBody.innerHTML = `<div class="state-msg">
-      아직 구글 스프레드시트가 연결되지 않았습니다.<br>
-      파일 상단의 CONFIG.SHEET_ID 값을 채워 넣으면 이 화면에 회차별 회의록·녹취 링크가 표시됩니다.
-    </div>`;
+    listBody.innerHTML = `<div class="empty-state"><div class="big">시트가 아직 연결되지 않았습니다</div>파일 상단의 CONFIG.SHEET_ID 값을 채워 넣으면 회차별 링크가 표시됩니다.</div>`;
     return;
   }
-
   if(rows.length === 0){
-    listBody.innerHTML = `<div class="state-msg">
-      "${field.sheetTab}" 탭에 등록된 회차가 아직 없습니다.<br>
-      스프레드시트에 일차·날짜·회의록링크·녹취링크를 입력해 주세요.
-    </div>`;
+    listBody.innerHTML = `<div class="empty-state"><div class="big">등록된 회차가 없습니다</div>스프레드시트의 "분야" 열에 "${field.nameKr}"으로 표시된 행에 일차·날짜·회의록 링크·녹취 링크를 입력해 주세요.</div>`;
     return;
   }
 
@@ -426,10 +393,13 @@ async function openField(key){
     const hasDocs = !!r.docs;
     const hasAudio = !!r.audio;
     return `
-      <div class="day-row">
+      <div class="day-row" style="--c:${field.color}">
         <div class="day-info">
-          <span class="day-idx">${r.day || ''}</span>
-          <span class="day-date">${r.date || ''}</span>
+          <div class="day-bar"></div>
+          <div>
+            <div class="day-idx">${r.day || ''}</div>
+            <div class="day-date">${r.date || ''}</div>
+          </div>
         </div>
         <div class="day-actions">
           <a class="link-btn ${hasDocs?'':'disabled'}" ${hasDocs?`href="${r.docs}" target="_blank" rel="noopener"`:''}>
@@ -445,13 +415,9 @@ async function openField(key){
   }).join('');
 }
 
-backBtn.addEventListener('click', ()=>{
-  screenList.classList.remove('active');
-  screenHome.classList.add('active');
-  backBtn.classList.remove('show');
-});
+document.getElementById('back-from-list').addEventListener('click', ()=> showView('home'));
+document.getElementById('brand-home').addEventListener('click', ()=> showView('home'));
 
-syncNote.textContent = CONFIG.SHEET_ID ? '' : '⚠ 시트 미연결 상태';
 renderTiles();
 </script>
 </body>
