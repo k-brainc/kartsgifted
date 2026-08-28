@@ -91,7 +91,7 @@
   .home-text{flex:0 0 300px;}
   .hero-eyebrow{font-weight:600; font-size:11px; letter-spacing:.24em; color:var(--gold-soft); text-transform:uppercase; margin-bottom:12px;}
   .hero-title{font-size:clamp(28px, 3.2vw, 38px); font-weight:800; line-height:1.35; margin-bottom:14px;}
-  .hero-desc{color:var(--cream-dim); font-size:14.5px; font-weight:400; line-height:1.75;}
+  .hero-desc{color:var(--cream-dim); font-size:15.5px; font-weight:400; line-height:1.75;}
 
   /* ---------- discipline tiles (photo cards) ---------- */
   .tile-grid{flex:1; display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; min-width:0;}
@@ -110,7 +110,7 @@
   .tile-content{position:absolute; left:28px; right:28px; bottom:24px;}
   .tile-eng{font-weight:600; font-size:10px; letter-spacing:.22em; color:var(--gold-soft); text-transform:uppercase;}
   .tile-name{font-size:clamp(24px,2.6vw,32px); font-weight:700; margin:8px 0 6px;}
-  .tile-meta{font-weight:500; font-size:12px; color:var(--cream-dim); font-variant-numeric:tabular-nums;}
+  .tile-meta{font-weight:500; font-size:13px; color:var(--cream-dim); font-variant-numeric:tabular-nums;}
 
   /* ---------- record list banner ---------- */
   .list-banner{position:relative; height:180px; overflow:hidden; margin-bottom:36px;
@@ -125,32 +125,39 @@
   .list-title-wrap .field-eng{font-weight:600; font-size:11px; letter-spacing:.22em; color:var(--gold-soft); text-transform:uppercase; margin-bottom:6px;}
   .list-title{font-size:clamp(26px,3.2vw,36px); font-weight:800;}
 
-  /* ---------- day rows (magazine-style thin-divider list) ---------- */
-  .day-row{
-    display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
-    padding:20px 4px; border-bottom:1px solid var(--line-soft);
-    transition:padding-left .15s ease;
+  /* ---------- day cards (tile-style grid) ---------- */
+  .day-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr));
+    gap:16px; margin-top:28px;
   }
-  .day-row:first-child{padding-top:0;}
-  .day-info{display:flex; align-items:center; gap:16px; min-width:180px;}
-  .day-bar{width:3px; height:34px; background:var(--c, var(--gold)); flex:0 0 auto;}
-  .day-meta{display:flex; flex-direction:column; gap:4px;}
-  .meta-primary{font-size:15px; font-weight:600;}
-  .meta-sub{font-size:11.5px; font-weight:500; letter-spacing:.02em; color:var(--c, var(--gold-soft)); text-transform:uppercase;}
+  .day-card{
+    position:relative; overflow:hidden;
+    border:1px solid var(--line-soft); border-left:3px solid var(--c, var(--gold));
+    background:linear-gradient(155deg, var(--ink-800) 0%, var(--ink-900) 100%);
+    padding:26px 28px; display:flex; flex-direction:column; gap:20px;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .day-card:hover{ border-color:var(--c, var(--gold)); transform:translateY(-2px); }
 
-  .day-actions{display:flex; align-items:center; gap:6px;}
-  .divider{width:1px; height:14px; background:var(--line);}
+  .card-meta{display:flex; flex-direction:column; gap:8px;}
+  .meta-primary{font-size:22px; font-weight:800; letter-spacing:-.01em; line-height:1.3;}
+  .meta-sub{font-size:14px; font-weight:500; color:var(--cream-dim); line-height:1.6;}
+
+  .card-actions{display:flex; gap:10px; flex-wrap:wrap;}
 
   .link-btn{
-    display:inline-flex; align-items:center; gap:7px;
-    font-size:12.5px; font-weight:600; letter-spacing:.02em;
-    color:var(--cream); text-decoration:none; padding:8px 12px;
-    transition:color .15s ease, background .15s ease;
+    appearance:none; -webkit-appearance:none;
+    flex:1 1 140px; justify-content:center;
+    display:inline-flex; align-items:center; gap:8px;
+    background:transparent; border:1px solid var(--line); margin:0;
+    font-family:inherit; font-size:14px; font-weight:700; letter-spacing:.01em;
+    color:var(--cream); text-decoration:none; padding:13px 16px; cursor:pointer;
+    transition:color .15s ease, background .15s ease, border-color .15s ease;
   }
-  .link-btn svg{width:14px; height:14px; flex-shrink:0;}
-  .link-btn:hover{color:var(--gold-soft); background:rgba(201,162,39,.08);}
+  .link-btn svg{width:16px; height:16px; flex-shrink:0;}
+  .link-btn:hover{color:var(--gold-soft); border-color:var(--gold); background:rgba(201,162,39,.08);}
   .link-btn:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
-  .link-btn.rec .rec-dot{width:6px; height:6px; border-radius:50%; background:var(--gold); animation:pulse 1.8s ease-in-out infinite;}
+  .link-btn.rec .rec-dot{width:7px; height:7px; border-radius:50%; background:var(--gold); animation:pulse 1.8s ease-in-out infinite;}
   @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.3;}}
   .link-btn.disabled{opacity:.35; pointer-events:none;}
 
@@ -201,7 +208,7 @@
   @media (prefers-reduced-motion: reduce){
     .link-btn .rec-dot{animation:none;}
     .tile img{transition:none;}
-    .day-row{transition:none;}
+    .day-card{transition:none;}
   }
 
   @media (max-width: 900px){
@@ -433,6 +440,37 @@ function matchHeaderRole(header, aliasList){
   return aliasList.some(a => h.includes(a.replace(/\s/g,'')));
 }
 
+/* Apps Script(getValues)가 날짜 셀을 ISO 문자열(UTC)로 내려주는 경우,
+   한국 시간(Asia/Seoul) 기준 날짜로 다시 계산해 "YYYY.MM.DD(요일)"로 표시한다. */
+function formatMaybeDate(value){
+  if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(value)) return value;
+  const d = new Date(value);
+  if(isNaN(d.getTime())) return value;
+  return d.toLocaleDateString('ko-KR', {
+    timeZone:'Asia/Seoul', year:'numeric', month:'2-digit', day:'2-digit', weekday:'short'
+  }).replace(/\s/g,'');
+}
+
+function extractNum(v){
+  const m = String(v).match(/\d+/);
+  return m ? parseInt(m[0], 10) : null;
+}
+
+/* display 필드들 중 일차/차시/날짜에 해당하는 항목을 찾아 분리하고,
+   나머지(순번/회의명 등)는 그대로 other에 남긴다. */
+function classifyDisplay(display){
+  let day=null, session=null, date=null;
+  const other=[];
+  display.forEach(d=>{
+    const l = d.label.replace(/\s/g,'');
+    if(!day && l.includes('일차')){ day=d; return; }
+    if(!session && (l.includes('차시') || l.includes('회차'))){ session=d; return; }
+    if(!date && (l.includes('날짜') || l.includes('일시'))){ date=d; return; }
+    other.push(d);
+  });
+  return { day, session, date, other };
+}
+
 function fetchAllRows(){
   if(!CONFIG.SCRIPT_URL){ return Promise.resolve(null); }
   if(allRowsPromise) return allRowsPromise;
@@ -461,7 +499,7 @@ function fetchAllRows(){
         docs:  normalize(row[docsKey]),
         audio: normalize(row[audioKey]),
         display: displayKeys
-          .map(k => ({ label: k, value: normalize(row[k]) }))
+          .map(k => ({ label: k, value: formatMaybeDate(normalize(row[k])) }))
           .filter(d => d.value !== ''),
       }));
 
@@ -486,7 +524,21 @@ async function getRowsForField(field){
   const rows = await fetchAllRows();
   if(rows === null) return null;
   const target = normalizeFieldValue(field.nameKr);
-  return rows.filter(r => normalizeFieldValue(r.field) === target);
+  const filtered = rows.filter(r => normalizeFieldValue(r.field) === target);
+
+  // 일차 → 차시 순으로 오름차순 정렬 (숫자 추출 기반; 못 찾으면 원래 순서 유지)
+  filtered.sort((a, b)=>{
+    const ca = classifyDisplay(a.display), cb = classifyDisplay(b.display);
+    const da = ca.day ? extractNum(ca.day.value) : null;
+    const db = cb.day ? extractNum(cb.day.value) : null;
+    if(da !== null && db !== null && da !== db) return da - db;
+    const sa = ca.session ? extractNum(ca.session.value) : null;
+    const sb = cb.session ? extractNum(cb.session.value) : null;
+    if(sa !== null && sb !== null && sa !== sb) return sa - sb;
+    return 0;
+  });
+
+  return filtered;
 }
 
 async function openField(key){
@@ -511,35 +563,45 @@ async function openField(key){
     return;
   }
 
-  listBody.innerHTML = rows.map((r, i)=>{
+  listBody.innerHTML = `<div class="day-grid">${rows.map((r, i)=>{
     const hasDocs = !!r.docs;
     const hasAudio = !!r.audio;
-    const [primary, ...rest] = r.display;
+    const c = classifyDisplay(r.display);
+
+    let primaryText;
+    if(c.day && c.session) primaryText = `${c.day.value}일차 · ${c.session.value}차시`;
+    else if(c.day) primaryText = `${c.day.value}일차`;
+    else primaryText = r.display[0] ? r.display[0].value : '';
+
+    const subParts = [];
+    if(c.date) subParts.push(c.date.value);
+    c.other.forEach(d => subParts.push(`${d.label} ${d.value}`));
+
     return `
-      <div class="day-row" data-idx="${i}" style="--c:${field.color}">
-        <div class="day-info">
-          <div class="day-bar"></div>
-          <div class="day-meta">
-            ${primary ? `<div class="meta-primary">${primary.value}</div>` : ''}
-            ${rest.length ? `<div class="meta-sub">${rest.map(d=>`${d.label} ${d.value}`).join(' · ')}</div>` : ''}
-          </div>
+      <div class="day-card" data-idx="${i}" style="--c:${field.color}">
+        <div class="card-meta">
+          ${primaryText ? `<div class="meta-primary">${primaryText}</div>` : ''}
+          ${subParts.length ? `<div class="meta-sub">${subParts.join(' · ')}</div>` : ''}
         </div>
-        <div class="day-actions">
+        <div class="card-actions">
           <button type="button" class="link-btn doc ${hasDocs?'':'disabled'}">
             ${iconDoc()} ${hasDocs ? '회의록 보기' : '회의록 준비중'}
           </button>
-          <span class="divider"></span>
           <button type="button" class="link-btn rec ${hasAudio?'':'disabled'}">
             ${hasAudio ? '<span class="rec-dot"></span>' : iconMic()} ${hasAudio ? '녹취 듣기' : '녹취 준비중'}
           </button>
         </div>
       </div>
     `;
-  }).join('');
+  }).join('')}</div>`;
 
-  listBody.querySelectorAll('.day-row').forEach(rowEl=>{
+  listBody.querySelectorAll('.day-card').forEach(rowEl=>{
     const r = rows[Number(rowEl.dataset.idx)];
-    const label = `${field.nameKr}${r.display[0] ? ' · ' + r.display[0].value : ''}`;
+    const c = classifyDisplay(r.display);
+    const labelParts = [field.nameKr];
+    if(c.day) labelParts.push(`${c.day.value}일차`);
+    if(c.session) labelParts.push(`${c.session.value}차시`);
+    const label = labelParts.join(' · ');
     const docBtn = rowEl.querySelector('.link-btn.doc');
     const audioBtn = rowEl.querySelector('.link-btn.rec');
     if(r.docs && docBtn) docBtn.addEventListener('click', ()=> openDocViewer(r.docs, label));
