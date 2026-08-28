@@ -10,16 +10,12 @@
   ════════════════════════════════════════════════════════════════
   설정 방법 (종현님 전용 안내)
   ════════════════════════════════════════════════════════════════
-  1) 구글 스프레드시트 한 탭(시트)에 아래 5개 컬럼을 순서대로 입력합니다.
-       분야 | 일차 | 날짜 | 회의록 링크 | 녹취 링크
-     예) 무용 | 1일차 | 2026-07-17(금) | https://docs.google.com/document/d/xxxx | https://drive.google.com/file/d/xxxx/view
-     ※ "분야" 값은 반드시 무용 / 미술 / 음악 / 전통예술 중 하나와 정확히 일치해야 합니다.
-     ※ 링크가 없는 회차는 칸을 비워두면 "준비중"으로 표시됩니다.
-  2) 스프레드시트와 각 구글 드라이브 녹취 파일을 "링크가 있는 모든 사용자 - 뷰어"로 공유합니다.
-  3) 종현님의 실제 스프레드시트("K예술영재 프로젝트 교강사 평가회의 목록")로 이미 CONFIG.SHEET_ID가
-     연결되어 있습니다. 다른 시트로 바꾸려면 주소창의 ID를 복사해 아래 값을 교체하세요.
-     예: https://docs.google.com/spreadsheets/d/  1AbCDeFGhiJKLmnop_ExampleId  /edit
-     탭(시트) 이름이 "시트1"이 아니라면 CONFIG.SHEET_TAB 에 정확한 탭 이름을 입력하세요.
+  1) 구글 시트의 헤더(1행)에는 어떤 컬럼이 있어도 됩니다 (순번/회의명/분야/일차/차시/날짜 등 자유롭게).
+     단, "분야" 컬럼 값은 반드시 무용/미술/음악/전통예술 중 하나와 정확히 일치해야 하고,
+     회의록·녹취 링크가 들어갈 컬럼명에는 "회의록", "녹취"라는 단어가 포함되어 있어야 합니다.
+  2) 시트에 Apps Script(Code.gs)를 붙여 웹 앱으로 배포한 뒤, 그 실행 URL을 아래
+     CONFIG.SCRIPT_URL 에 넣습니다. (이미 종현님의 배포 URL이 연결되어 있습니다)
+  3) 구글 드라이브 녹취 파일은 각각 "링크가 있는 모든 사용자 - 뷰어"로 공유합니다.
   4) (선택) CONFIG.FIELDS[].photo 에 분야별 실사진 URL을 넣으면 워크숍 아카이브처럼
      타일 배경 사진으로 표시됩니다. 비워두면 그래픽 타일로 표시됩니다.
   ════════════════════════════════════════════════════════════════
@@ -137,8 +133,9 @@
   .day-row:first-child{padding-top:0;}
   .day-info{display:flex; align-items:center; gap:16px; min-width:180px;}
   .day-bar{width:3px; height:34px; background:var(--c, var(--gold)); flex:0 0 auto;}
-  .day-idx{font-weight:600; font-size:11px; letter-spacing:.14em; color:var(--c, var(--gold-soft)); text-transform:uppercase; margin-bottom:4px;}
-  .day-date{font-size:15px; font-weight:600;}
+  .day-meta{display:flex; flex-direction:column; gap:4px;}
+  .meta-primary{font-size:15px; font-weight:600;}
+  .meta-sub{font-size:11.5px; font-weight:500; letter-spacing:.02em; color:var(--c, var(--gold-soft)); text-transform:uppercase;}
 
   .day-actions{display:flex; align-items:center; gap:6px;}
   .divider{width:1px; height:14px; background:var(--line);}
@@ -226,10 +223,8 @@
    CONFIG — 종현님이 채워 넣는 부분
    ══════════════════════════════════════════════════════════════ */
 const CONFIG = {
-  // "K예술영재 프로젝트 교강사 평가회의 목록" 스프레드시트
-  SHEET_ID: "1ICYwFiNNg7ZpUaadNPicHCBgSenxtmZ3NanzsmNkex8",
-  // 비워두면 첫 번째(기본) 탭을 읽습니다. 탭 이름이 바뀌면 여기에 정확히 입력하세요.
-  SHEET_TAB: "",
+  // Apps Script 웹 앱 실행 URL ({headers:[...], rows:[{...}]} 형태의 JSON을 반환)
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbw5AOe2TgmO5yuM2FE_LLUD9cTw02L1G27yOxp9s3njtPSJrOU6ratBacWO5L7juqWEtQ/exec",
 
   FIELDS: [
     { key:"dance", nameKr:"무용",     nameEn:"BALLET",           color:"var(--dance)", photo:"" },
@@ -238,12 +233,12 @@ const CONFIG = {
     { key:"trad",  nameKr:"전통예술", nameEn:"TRADITIONAL ARTS",  color:"var(--trad)",  photo:"" },
   ],
 
+  // 시트 헤더 중 어떤 컬럼이 분야/회의록링크/녹취링크 역할을 하는지 이름으로 자동 인식.
+  // 여기 해당하지 않는 나머지 모든 컬럼(순번/회의명/일차/차시/날짜 등)은 그대로 화면에 표시됩니다.
   HEADER_ALIASES: {
     field: ["분야"],
-    day:   ["일차", "회차"],
-    date:  ["날짜", "일시"],
-    docs:  ["회의록링크", "회의록", "회의록 링크"],
-    audio: ["녹취링크", "녹취", "녹취 링크", "녹취파일"],
+    docs:  ["회의록"],
+    audio: ["녹취"],
   }
 };
 
@@ -279,7 +274,7 @@ function renderTiles(){
       <div class="tile-content">
         <div class="tile-eng">${f.nameEn}</div>
         <div class="tile-name">${f.nameKr}</div>
-        <div class="tile-meta" id="status-${f.key}">${CONFIG.SHEET_ID ? '회차 확인 중…' : '시트 미연동'}</div>
+        <div class="tile-meta" id="status-${f.key}">${CONFIG.SCRIPT_URL ? '회차 확인 중…' : '시트 미연동'}</div>
       </div>
     </div>
   `).join('');
@@ -299,61 +294,57 @@ function renderTiles(){
 
 function normalize(s){ return (s||'').toString().trim(); }
 
-function matchHeaderIndex(headerRow, aliasList){
-  for(let i=0;i<headerRow.length;i++){
-    const h = normalize(headerRow[i]).replace(/\s/g,'');
-    if(aliasList.some(a => h === a.replace(/\s/g,''))) return i;
-  }
-  return -1;
+function normalizeFieldValue(s){
+  return normalize(s).normalize('NFC').replace(/\s+/g,'');
+}
+
+function matchHeaderRole(header, aliasList){
+  const h = normalize(header).replace(/\s/g,'');
+  return aliasList.some(a => h.includes(a.replace(/\s/g,'')));
 }
 
 function fetchAllRows(){
-  if(!CONFIG.SHEET_ID){ return Promise.resolve(null); }
+  if(!CONFIG.SCRIPT_URL){ return Promise.resolve(null); }
   if(allRowsPromise) return allRowsPromise;
-
-  const sheetParam = CONFIG.SHEET_TAB ? `&sheet=${encodeURIComponent(CONFIG.SHEET_TAB)}` : '';
-  const url = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/gviz/tq?tqx=out:json${sheetParam}`;
 
   allRowsPromise = (async ()=>{
     try{
-      const res = await fetch(url);
-      const text = await res.text();
-      const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}')+1));
-      const table = json.table;
-      if(!table || !table.rows || table.rows.length === 0) return [];
+      const res = await fetch(CONFIG.SCRIPT_URL);
+      const json = await res.json();
+      if(json.error){ console.error('Apps Script 오류:', json.error); return []; }
 
-      // 시트 맨 위에 제목행이 있을 수 있으므로, "분야" 헤더가 보이는 행을 최대 3행까지 탐색
-      let headerRowIdx = -1, idx = { field:0, day:1, date:2, docs:3, audio:4 };
-      for(let r=0; r<Math.min(3, table.rows.length); r++){
-        const cells = table.rows[r].c.map(c => c ? (c.f || c.v) : '');
-        const fIdx = matchHeaderIndex(cells, CONFIG.HEADER_ALIASES.field);
-        if(fIdx !== -1){
-          headerRowIdx = r;
-          idx = {
-            field: fIdx,
-            day:   matchHeaderIndex(cells, CONFIG.HEADER_ALIASES.day),
-            date:  matchHeaderIndex(cells, CONFIG.HEADER_ALIASES.date),
-            docs:  matchHeaderIndex(cells, CONFIG.HEADER_ALIASES.docs),
-            audio: matchHeaderIndex(cells, CONFIG.HEADER_ALIASES.audio),
-          };
-          break;
-        }
-      }
+      const headers = json.headers || [];
+      if(headers.length === 0) return [];
 
-      const dataRows = table.rows.slice(headerRowIdx === -1 ? 1 : headerRowIdx + 1);
-      return dataRows.map(row=>{
-        const c = row.c || [];
-        const get = (i) => (i===-1 || !c[i]) ? '' : normalize(c[i].f || c[i].v);
-        return {
-          field: get(idx.field) || '',
-          day:   get(idx.day)   || '',
-          date:  get(idx.date)  || '',
-          docs:  get(idx.docs)  || '',
-          audio: get(idx.audio) || '',
-        };
-      }).filter(r => r.field && (r.day || r.date));
+      // 헤더 이름으로 역할 자동 분류: 분야 / 회의록 링크 / 녹취 링크 / 그 외(표시용)
+      let fieldKey = null, docsKey = null, audioKey = null;
+      const displayKeys = [];
+      headers.forEach(h=>{
+        if(matchHeaderRole(h, CONFIG.HEADER_ALIASES.field) && !fieldKey){ fieldKey = h; return; }
+        if(matchHeaderRole(h, CONFIG.HEADER_ALIASES.docs) && !docsKey){ docsKey = h; return; }
+        if(matchHeaderRole(h, CONFIG.HEADER_ALIASES.audio) && !audioKey){ audioKey = h; return; }
+        displayKeys.push(h);
+      });
+
+      const rawRows = (json.rows || []).map(row => ({
+        field: normalize(row[fieldKey]),
+        docs:  normalize(row[docsKey]),
+        audio: normalize(row[audioKey]),
+        display: displayKeys
+          .map(k => ({ label: k, value: normalize(row[k]) }))
+          .filter(d => d.value !== ''),
+      }));
+
+      // "분야" 셀을 병합해서 첫 행에만 값을 넣은 경우, 병합된 나머지 행은 빈 값으로
+      // 내려오므로 바로 위 행의 분야 값을 이어받는다.
+      let lastField = '';
+      rawRows.forEach(r => {
+        if(r.field){ lastField = r.field; } else { r.field = lastField; }
+      });
+
+      return rawRows.filter(r => r.field && r.display.length > 0);
     }catch(err){
-      console.error('시트 로딩 실패:', err);
+      console.error('Apps Script 로딩 실패:', err);
       return [];
     }
   })();
@@ -364,7 +355,8 @@ function fetchAllRows(){
 async function getRowsForField(field){
   const rows = await fetchAllRows();
   if(rows === null) return null;
-  return rows.filter(r => normalize(r.field) === field.nameKr);
+  const target = normalizeFieldValue(field.nameKr);
+  return rows.filter(r => normalizeFieldValue(r.field) === target);
 }
 
 async function openField(key){
@@ -381,24 +373,25 @@ async function openField(key){
   const rows = await getRowsForField(field);
 
   if(rows === null){
-    listBody.innerHTML = `<div class="empty-state"><div class="big">시트가 아직 연결되지 않았습니다</div>파일 상단의 CONFIG.SHEET_ID 값을 채워 넣으면 회차별 링크가 표시됩니다.</div>`;
+    listBody.innerHTML = `<div class="empty-state"><div class="big">시트가 아직 연결되지 않았습니다</div>파일 상단의 CONFIG.SCRIPT_URL 값을 채워 넣으면 회차별 링크가 표시됩니다.</div>`;
     return;
   }
   if(rows.length === 0){
-    listBody.innerHTML = `<div class="empty-state"><div class="big">등록된 회차가 없습니다</div>스프레드시트의 "분야" 열에 "${field.nameKr}"으로 표시된 행에 일차·날짜·회의록 링크·녹취 링크를 입력해 주세요.</div>`;
+    listBody.innerHTML = `<div class="empty-state"><div class="big">등록된 회차가 없습니다</div>스프레드시트의 "분야" 열에 "${field.nameKr}"으로 표시된 행에 내용을 입력해 주세요.</div>`;
     return;
   }
 
   listBody.innerHTML = rows.map(r=>{
     const hasDocs = !!r.docs;
     const hasAudio = !!r.audio;
+    const [primary, ...rest] = r.display;
     return `
       <div class="day-row" style="--c:${field.color}">
         <div class="day-info">
           <div class="day-bar"></div>
-          <div>
-            <div class="day-idx">${r.day || ''}</div>
-            <div class="day-date">${r.date || ''}</div>
+          <div class="day-meta">
+            ${primary ? `<div class="meta-primary">${primary.value}</div>` : ''}
+            ${rest.length ? `<div class="meta-sub">${rest.map(d=>`${d.label} ${d.value}`).join(' · ')}</div>` : ''}
           </div>
         </div>
         <div class="day-actions">
